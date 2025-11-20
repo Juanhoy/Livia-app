@@ -903,15 +903,39 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
   const [uploading, setUploading] = useState(false);
   const colors = THEMES[theme];
 
-  // Global Space Key Listener
+  // Global Key & Wheel Listeners
   useEffect(() => {
     const handleKeyDown = (e) => { if (e.code === 'Space' && !e.repeat) setIsSpacePressed(true); };
     const handleKeyUp = (e) => { if (e.code === 'Space') { setIsSpacePressed(false); setIsPanning(false); } };
+
+    // Non-passive wheel listener to prevent browser zoom
+    const handleWheel = (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const scaleAmount = -e.deltaY * 0.001;
+        setTransform(prev => {
+          const newScale = Math.max(0.1, Math.min(5, prev.scale + scaleAmount));
+          // Zoom towards mouse pointer
+          const rect = containerRef.current.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+          const scaleRatio = newScale / prev.scale;
+          const newX = mouseX - (mouseX - prev.x) * scaleRatio;
+          const newY = mouseY - (mouseY - prev.y) * scaleRatio;
+          return { x: newX, y: newY, scale: newScale };
+        });
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    const container = containerRef.current;
+    if (container) container.addEventListener('wheel', handleWheel, { passive: false });
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      if (container) container.removeEventListener('wheel', handleWheel);
     };
   }, []);
 
@@ -942,24 +966,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
 
   const handleMouseUp = () => { setIsPanning(false); setDraggingImage(null); };
 
-  const handleWheel = (e) => {
-    if (e.ctrlKey) {
-      e.preventDefault();
-      const scaleAmount = -e.deltaY * 0.001;
-      const newScale = Math.max(0.1, Math.min(5, transform.scale + scaleAmount));
 
-      // Zoom towards mouse pointer
-      const rect = containerRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      const scaleRatio = newScale / transform.scale;
-      const newX = mouseX - (mouseX - transform.x) * scaleRatio;
-      const newY = mouseY - (mouseY - transform.y) * scaleRatio;
-
-      setTransform({ x: newX, y: newY, scale: newScale });
-    }
-  };
 
   const handleImageUpload = async (e) => {
     if (isGuest) { alert("Uploads disabled in Guest Mode"); return; }
@@ -1015,7 +1022,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
         {axes.map((a, i) => (
           <g key={i}>
             <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
-            <text x={a.x} y={a.y} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="60" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+            <text x={a.x} y={a.y} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
           </g>
         ))}
         <circle cx={center} cy={center} r={10} fill={theme === 'dark' ? '#fff' : '#000'} />
@@ -1044,7 +1051,6 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onWheel={handleWheel}
       >
         <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className="relative bg-[radial-gradient(#333_1px,transparent_1px)] bg-[length:50px_50px]">
 
