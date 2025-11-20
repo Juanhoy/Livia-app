@@ -247,6 +247,17 @@ const DEFAULT_DATA = {
       { key: "professional", name: "Professional", icon: "Briefcase" },
       { key: "student", name: "Student", icon: "GraduationCap" },
       { key: "athlete", name: "Athlete", icon: "Dumbbell" },
+      { key: "athlete", name: "Athlete", icon: "Dumbbell" },
+    ],
+    dimensionConfig: [
+      { key: "health", name: "Health", max: 50, color: "#4caf50", weight: 15 },
+      { key: "family", name: "Family", max: 12, color: "#2196f3", weight: 15 },
+      { key: "freedom", name: "Freedom", max: 5, color: "#00bcd4", weight: 10 },
+      { key: "community", name: "Community", max: 8, color: "#9c27b0", weight: 10 },
+      { key: "management", name: "Management", max: 10, color: "#ff9800", weight: 15 },
+      { key: "learning", name: "Learning", max: 5, color: "#795548", weight: 10 },
+      { key: "creation", name: "Creation", max: 5, color: "#e91e63", weight: 15 },
+      { key: "fun", name: "Fun", max: 5, color: "#ffeb3b", weight: 10 }
     ]
   },
   dimensions: generateInitialData(),
@@ -881,24 +892,40 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
 
 // --- Pages (Theme Aware) ---
 
-const VisualizationPage = ({ images, setImages, theme, isGuest }) => {
-  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) => {
+  const [transform, setTransform] = useState({ x: -2000, y: -2000, scale: 1 }); // Start somewhat centered
   const [selectedId, setSelectedId] = useState(null);
   const containerRef = useRef(null);
   const [isPanning, setIsPanning] = useState(false);
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [draggingImage, setDraggingImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const colors = THEMES[theme];
 
+  // Global Space Key Listener
+  useEffect(() => {
+    const handleKeyDown = (e) => { if (e.code === 'Space' && !e.repeat) setIsSpacePressed(true); };
+    const handleKeyUp = (e) => { if (e.code === 'Space') { setIsSpacePressed(false); setIsPanning(false); } };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
   const handleMouseDown = (e) => {
-    if (e.button !== 0) return;
-    if (e.target === containerRef.current || e.code === 'Space' || e.shiftKey) {
+    if (isSpacePressed || e.button === 1) { // Middle click or Space+Left
       setIsPanning(true);
       setPanStart({ x: e.clientX - transform.x, y: e.clientY - transform.y });
-      return;
+      e.preventDefault();
+    } else {
+      // Deselect if clicking empty space
+      if (e.target === containerRef.current) setSelectedId(null);
     }
   };
+
   const handleMouseMove = (e) => {
     if (isPanning) {
       setTransform(prev => ({ ...prev, x: e.clientX - panStart.x, y: e.clientY - panStart.y }));
@@ -912,42 +939,161 @@ const VisualizationPage = ({ images, setImages, theme, isGuest }) => {
       ));
     }
   };
+
   const handleMouseUp = () => { setIsPanning(false); setDraggingImage(null); };
+
   const handleWheel = (e) => {
     if (e.ctrlKey) {
       e.preventDefault();
       const scaleAmount = -e.deltaY * 0.001;
-      setTransform(prev => ({ ...prev, scale: Math.max(0.1, Math.min(5, prev.scale + scaleAmount)) }));
+      const newScale = Math.max(0.1, Math.min(5, transform.scale + scaleAmount));
+
+      // Zoom towards mouse pointer
+      const rect = containerRef.current.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const scaleRatio = newScale / transform.scale;
+      const newX = mouseX - (mouseX - transform.x) * scaleRatio;
+      const newY = mouseY - (mouseY - transform.y) * scaleRatio;
+
+      setTransform({ x: newX, y: newY, scale: newScale });
     }
   };
 
   const handleImageUpload = async (e) => {
-    if (isGuest) {
-      alert("Uploads disabled in Guest Mode");
-      return;
-    }
+    if (isGuest) { alert("Uploads disabled in Guest Mode"); return; }
     const file = e.target.files[0];
     if (file) {
       setUploading(true);
       const url = await uploadToCloudinary(file);
-      setImages(prev => [...prev, { id: Date.now(), src: url, x: 100, y: 100, width: 200 }]);
+      // Add to center of current view
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = (-transform.x + rect.width / 2) / transform.scale;
+      const centerY = (-transform.y + rect.height / 2) / transform.scale;
+
+      setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
       setUploading(false);
     }
   };
 
+  const updateImage = (id, updates) => {
+    setImages(prev => prev.map(img => img.id === id ? { ...img, ...updates } : img));
+  };
+
+  const deleteImage = (id) => {
+    if (window.confirm("Delete this image?")) setImages(prev => prev.filter(img => img.id !== id));
+  };
+
+  // Radial Chart Background Generator
+  const renderRadialGuide = () => {
+    const size = 5000;
+    const center = size / 2;
+    const radius = 1500; // Large radius for the guide
+    const dims = dimensions || [];
+    if (dims.length < 3) return null;
+
+    const angleStep = (Math.PI * 2) / dims.length;
+    const axes = dims.map((dim, i) => {
+      const angle = i * angleStep - Math.PI / 2;
+      const x = center + Math.cos(angle) * radius;
+      const y = center + Math.sin(angle) * radius;
+      return { x, y, name: dim.name };
+    });
+
+    return (
+      <svg width={size} height={size} className="absolute top-0 left-0 pointer-events-none opacity-20">
+        {/* Webs */}
+        {[0.2, 0.4, 0.6, 0.8, 1].map(r => (
+          <polygon key={r} points={axes.map(a => {
+            const x = center + (a.x - center) * r;
+            const y = center + (a.y - center) * r;
+            return `${x},${y}`;
+          }).join(' ')} fill="none" stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
+        ))}
+        {/* Axes */}
+        {axes.map((a, i) => (
+          <g key={i}>
+            <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
+            <text x={a.x} y={a.y} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="60" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+          </g>
+        ))}
+        <circle cx={center} cy={center} r={10} fill={theme === 'dark' ? '#fff' : '#000'} />
+      </svg>
+    );
+  };
+
   return (
     <div className={`flex flex-col h-full ${colors.bg} ${colors.text} overflow-hidden relative`}>
-      <div className={`absolute top-4 left-4 z-20 ${colors.bgTertiary} p-2 rounded-lg shadow-xl border ${colors.border}`}>
-        <label className={`flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded cursor-pointer text-sm text-white ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-          <Upload size={16} /> {uploading ? 'Uploading...' : 'Upload'}
+      <div className={`absolute top-4 left-4 z-20 flex gap-2`}>
+        <label className={`flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded cursor-pointer text-sm text-white shadow-lg ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+          <Upload size={16} /> {uploading ? 'Uploading...' : 'Add Image'}
           <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
         </label>
+        <div className={`${colors.bgTertiary} px-4 py-2 rounded text-xs ${colors.textSecondary} border ${colors.border} shadow-lg flex items-center gap-2`}>
+          <span className={isSpacePressed ? "text-blue-400 font-bold" : ""}>[Space] + Drag to Pan</span>
+          <span>|</span>
+          <span>[Ctrl] + Scroll to Zoom</span>
+        </div>
       </div>
-      <div ref={containerRef} className={`w-full h-full overflow-hidden bg-[radial-gradient(#888_1px,transparent_1px)] bg-[length:20px_20px]`} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onWheel={handleWheel}>
-        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '100%', height: '100%' }}>
+
+      <div
+        ref={containerRef}
+        className={`w-full h-full overflow-hidden bg-[#1a1a1a] cursor-${isSpacePressed ? 'grab' : 'default'}`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onWheel={handleWheel}
+      >
+        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className="relative bg-[radial-gradient(#333_1px,transparent_1px)] bg-[length:50px_50px]">
+
+          {renderRadialGuide()}
+
           {images.map(img => (
-            <div key={img.id} className={`absolute ${selectedId === img.id ? 'ring-2 ring-blue-500' : ''}`} style={{ left: img.x, top: img.y, width: img.width }} onMouseDown={(e) => { e.stopPropagation(); setSelectedId(img.id); setDraggingImage({ id: img.id, startX: e.clientX, startY: e.clientY, originalX: img.x, originalY: img.y }); }}>
-              <img src={img.src} className="w-full h-auto rounded shadow-2xl pointer-events-none select-none" />
+            <div
+              key={img.id}
+              className={`absolute group ${selectedId === img.id ? 'z-50' : 'z-10'}`}
+              style={{ left: img.x, top: img.y, width: img.width }}
+              onMouseDown={(e) => {
+                if (isSpacePressed) return;
+                e.stopPropagation();
+                setSelectedId(img.id);
+                setDraggingImage({ id: img.id, startX: e.clientX, startY: e.clientY, originalX: img.x, originalY: img.y });
+              }}
+            >
+              <img src={img.src} className={`w-full h-auto rounded shadow-2xl select-none ${selectedId === img.id ? 'ring-4 ring-blue-500' : 'hover:ring-2 hover:ring-white/50'}`} />
+
+              {selectedId === img.id && (
+                <>
+                  {/* Resize Handle (Simple width adjustment) */}
+                  <div
+                    className="absolute -bottom-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-se-resize shadow-lg z-50"
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      const startX = e.clientX;
+                      const startWidth = img.width;
+                      const handleResize = (moveEvent) => {
+                        const newWidth = Math.max(50, startWidth + (moveEvent.clientX - startX) / transform.scale);
+                        updateImage(img.id, { width: newWidth });
+                      };
+                      const stopResize = () => {
+                        window.removeEventListener('mousemove', handleResize);
+                        window.removeEventListener('mouseup', stopResize);
+                      };
+                      window.addEventListener('mousemove', handleResize);
+                      window.addEventListener('mouseup', stopResize);
+                    }}
+                  />
+                  {/* Delete Button */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); deleteImage(img.id); }}
+                    className="absolute -top-3 -right-3 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 z-50"
+                  >
+                    <X size={12} />
+                  </button>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -957,20 +1103,31 @@ const VisualizationPage = ({ images, setImages, theme, isGuest }) => {
 };
 
 const LifeBalancePage = ({ data, setData, theme, isGuest }) => {
-  const [activeDimension, setActiveDimension] = useState("Health");
+  const [activeDimension, setActiveDimension] = useState(data.appSettings.dimensionConfig?.[0]?.name || "Health");
   const [activeLibTab, setActiveLibTab] = useState("challenges");
   const [editingItem, setEditingItem] = useState(null);
   const [editType, setEditType] = useState(null);
   const [editFreq, setEditFreq] = useState(null);
+  const [isEditingDims, setIsEditingDims] = useState(false);
   const colors = THEMES[theme];
+
+  // Ensure dimensionConfig exists (migration for old data)
+  const dimensions = data.appSettings.dimensionConfig || DIMENSIONS.map(d => ({ ...d, weight: 12.5 }));
 
   // ... calculations same as before ...
   const calculatedDimensions = useMemo(() => {
-    return DIMENSIONS.map(dim => {
+    return dimensions.map(dim => {
       const rawScore = calculateDimensionScore(data.dimensions[dim.name]);
       return { ...dim, score: rawScore };
     });
-  }, [data.dimensions]);
+  }, [data.dimensions, dimensions]);
+
+  const overallScore = useMemo(() => {
+    const totalWeight = dimensions.reduce((acc, dim) => acc + (dim.weight || 0), 0);
+    if (totalWeight === 0) return 0;
+    const weightedSum = calculatedDimensions.reduce((acc, dim) => acc + (dim.score * (dim.weight || 0)), 0);
+    return Math.round(weightedSum / totalWeight);
+  }, [calculatedDimensions, dimensions]);
 
   const chartData = calculatedDimensions.map(dim => ({ subject: dim.name, A: dim.score, fullMark: 100 }));
   const currentDimData = data.dimensions[activeDimension] || {};
@@ -983,6 +1140,10 @@ const LifeBalancePage = ({ data, setData, theme, isGuest }) => {
       const updatedList = type === 'routine' ? { ...dimData.routines, daily: [...dimData.routines.daily, newItem] } : [...dimData[type], newItem];
       return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type === 'routine' ? 'routines' : type]: updatedList } } };
     });
+    // Auto-open modal
+    setEditingItem(newItem);
+    setEditType(type === 'routine' ? 'routines' : type);
+    if (type === 'routine') setEditFreq('daily'); // Default to daily for quick add
   };
 
   const saveItem = (updatedItem) => {
@@ -1029,8 +1190,77 @@ const LifeBalancePage = ({ data, setData, theme, isGuest }) => {
   return (
     <div className={`flex h-full ${colors.bg} overflow-hidden`}>
       <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveItem} theme={theme} isGuest={isGuest} />
+
+      {/* Edit Dimensions Modal */}
+      <Modal isOpen={isEditingDims} onClose={() => setIsEditingDims(false)} title="Edit Life Dimensions" theme={theme}>
+        <div className="space-y-4">
+          <p className={`text-sm ${colors.textSecondary}`}>Customize your life pillars and their importance. Weights should sum to 100%.</p>
+          {dimensions.map((dim, idx) => (
+            <div key={idx} className={`flex gap-2 items-center ${colors.bgSecondary} p-2 rounded`}>
+              <input
+                value={dim.name}
+                onChange={(e) => {
+                  const newName = e.target.value;
+                  setData(prev => {
+                    const newDims = [...prev.appSettings.dimensionConfig];
+                    newDims[idx] = { ...newDims[idx], name: newName };
+                    // Also rename the key in data.dimensions if it exists
+                    const oldName = dim.name;
+                    const newDimensionsData = { ...prev.dimensions };
+                    if (oldName !== newName && newDimensionsData[oldName]) {
+                      newDimensionsData[newName] = newDimensionsData[oldName];
+                      delete newDimensionsData[oldName];
+                    }
+                    return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims }, dimensions: newDimensionsData };
+                  });
+                }}
+                className={`flex-1 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm`}
+              />
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-gray-500">Weight:</span>
+                <input
+                  type="number"
+                  value={dim.weight || 0}
+                  onChange={(e) => {
+                    const newWeight = parseInt(e.target.value) || 0;
+                    setData(prev => {
+                      const newDims = [...prev.appSettings.dimensionConfig];
+                      newDims[idx] = { ...newDims[idx], weight: newWeight };
+                      return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims } };
+                    });
+                  }}
+                  className={`w-16 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm text-right`}
+                />
+                <span className="text-xs">%</span>
+              </div>
+            </div>
+          ))}
+          <div className={`flex justify-between items-center pt-4 border-t ${colors.border}`}>
+            <span className={`font-bold ${dimensions.reduce((a, b) => a + (b.weight || 0), 0) === 100 ? 'text-green-400' : 'text-orange-400'}`}>
+              Total Weight: {dimensions.reduce((a, b) => a + (b.weight || 0), 0)}%
+            </span>
+            <button onClick={() => setIsEditingDims(false)} className="bg-blue-600 text-white px-4 py-2 rounded">Done</button>
+          </div>
+        </div>
+      </Modal>
+
       <div className={`w-1/3 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar`}>
-        <h2 className={`text-2xl font-bold ${colors.text} mb-4`}>Life Quality</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className={`text-2xl font-bold ${colors.text}`}>Life Quality</h2>
+          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:${colors.bgQuaternary} rounded text-blue-400`}><Settings size={16} /></button>
+        </div>
+
+        {/* Overall Score Card */}
+        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 flex items-center justify-between`}>
+          <div>
+            <div className="text-xs text-blue-300 font-bold uppercase tracking-wider">Overall Score</div>
+            <div className="text-3xl font-bold text-white">{overallScore}%</div>
+          </div>
+          <div className="h-12 w-12 rounded-full border-4 border-blue-500 flex items-center justify-center text-xs font-bold text-blue-300">
+            {overallScore}
+          </div>
+        </div>
+
         <div className="h-64 w-full"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke={theme === 'dark' ? "#444" : "#ddd"} /><PolarAngleAxis dataKey="subject" tick={{ fill: theme === 'dark' ? '#999' : '#666', fontSize: 10 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.4} /></RadarChart></ResponsiveContainer></div>
         <div className="mt-4 space-y-2">
           {calculatedDimensions.map(dim => (
@@ -2018,7 +2248,7 @@ export default function LiviaApp() {
         </header>
 
         <div className="flex-1 overflow-hidden relative">
-          {activeTab === 'visualization' && <VisualizationPage images={data.visualizationImages} setImages={(val) => setData(prev => ({ ...prev, visualizationImages: typeof val === 'function' ? val(prev.visualizationImages) : val }))} theme={theme} isGuest={isGuest} />}
+          {activeTab === 'visualization' && <VisualizationPage images={data.visualizationImages} setImages={(val) => setData(prev => ({ ...prev, visualizationImages: typeof val === 'function' ? val(prev.visualizationImages) : val }))} theme={theme} isGuest={isGuest} dimensions={data.appSettings.dimensionConfig || DIMENSIONS} />}
           {activeTab === 'dashboard' && <LifeBalancePage data={data} setData={setData} theme={theme} isGuest={isGuest} />}
           {activeTab === 'roles' && <RolesPage data={data} setData={setData} onSelectRole={handleRoleSelect} theme={theme} />}
           {/* Placeholder for others to save space, logic exists in memory if needed */}
