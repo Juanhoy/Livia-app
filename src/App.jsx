@@ -1281,17 +1281,17 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
   };
 
   const LibraryItemCard = ({ item, onDelete, onClick }) => (
-    <div onClick={onClick} className={`${colors.bgQuaternary} p-4 rounded-lg mb-3 border border-transparent hover:border-blue-500/50 transition-all cursor-pointer group relative shadow-sm`}>
+    <div onClick={onClick} className={`bg-[#1a1a1a] p-4 rounded-xl mb-3 border border-gray-800 hover:border-gray-700 transition-all cursor-pointer group relative shadow-sm`}>
       <div className="flex justify-between items-start mb-2">
-        <h4 className={`font-bold ${colors.text} pr-8`}>{item.name}</h4>
-        <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`${colors.textSecondary} hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
+        <h4 className={`font-bold text-gray-200 pr-8 text-lg`}>{item.name}</h4>
+        <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
       </div>
-      <div className={`flex items-center gap-3 text-xs ${colors.textSecondary} mb-3 flex-wrap`}>
-        <span className={`px-2 py-0.5 rounded font-medium ${item.importance === 'High' ? 'bg-red-900/40 text-red-400' : 'bg-gray-500/20 text-gray-400'}`}>{item.importance}</span>
-        {item.dueDate && <span className="flex items-center gap-1 text-orange-400"><Calendar size={12} /> {item.dueDate}</span>}
+      <div className={`flex items-center gap-3 text-xs mb-4`}>
+        <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] ${item.importance === 'High' ? 'bg-red-900/30 text-red-500' : item.importance === 'Medium' ? 'bg-blue-900/30 text-blue-500' : 'bg-gray-800 text-gray-400'}`}>{item.importance || 'Medium'}</span>
+        {item.dueDate && <span className="flex items-center gap-1 text-gray-400"><Calendar size={12} /> {item.dueDate}</span>}
       </div>
-      <div className="w-full h-1.5 bg-gray-500/20 rounded-full overflow-hidden relative">
-        <div className={`h-full rounded-full ${item.status >= 100 ? 'bg-emerald-500' : 'bg-blue-500'}`} style={{ width: `${item.status}%` }}></div>
+      <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden relative">
+        <div className={`h-full rounded-full ${item.status >= 100 ? 'bg-emerald-500' : 'bg-blue-600'}`} style={{ width: `${item.status || 0}%` }}></div>
       </div>
     </div>
   );
@@ -1313,7 +1313,6 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
                   setData(prev => {
                     const newDims = [...prev.appSettings.dimensionConfig];
                     newDims[idx] = { ...newDims[idx], name: newName };
-                    // Also rename the key in data.dimensions if it exists
                     const oldName = dim.name;
                     const newDimensionsData = { ...prev.dimensions };
                     if (oldName !== newName && newDimensionsData[oldName]) {
@@ -1353,57 +1352,93 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         </div>
       </Modal>
 
-      <div className={`w-1/3 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar`}>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className={`text-2xl font-bold ${colors.text}`}>{t('lifeBalance')}</h2>
-          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:${colors.bgQuaternary} rounded text-blue-400`}><Settings size={16} /></button>
+      {/* Left Sidebar */}
+      <div className={`w-80 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar flex flex-col bg-[#0f0f0f]`}>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className={`text-xl font-bold text-white`}>{t('lifeBalance')}</h2>
+          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:bg-gray-800 rounded text-gray-400 hover:text-white transition-colors`}><Settings size={18} /></button>
         </div>
 
         {/* Overall Score Card */}
-        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 flex items-center justify-between`}>
+        <div className={`mb-8 p-5 rounded-2xl bg-[#141414] border border-blue-900/30 flex items-center justify-between shadow-lg`}>
           <div>
-            <div className="text-xs text-blue-300 font-bold uppercase tracking-wider">{t('overallScore')}</div>
-            <div className="text-3xl font-bold mt-1 text-white">{overallScore}%</div>
+            <div className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">{t('overallScore')}</div>
+            <div className="text-4xl font-bold text-white">{overallScore}%</div>
           </div>
-          <div className="h-12 w-12 rounded-full border-4 border-blue-500 flex items-center justify-center text-xs font-bold text-blue-300">
+          <div className="h-14 w-14 rounded-full border-4 border-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_15px_rgba(37,99,235,0.3)]">
             {overallScore}
           </div>
         </div>
 
-        <div className="h-64 w-full"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke={theme === 'dark' ? "#444" : "#ddd"} /><PolarAngleAxis dataKey="subject" tick={{ fill: theme === 'dark' ? '#999' : '#666', fontSize: 10 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.4} /></RadarChart></ResponsiveContainer></div>
-        <div className="mt-4 space-y-2">
+        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.3} /></RadarChart></ResponsiveContainer></div>
+
+        <div className="space-y-4 flex-1">
           {calculatedDimensions.map(dim => (
-            <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`flex justify-between p-2 rounded cursor-pointer ${activeDimension === dim.name ? colors.bgQuaternary : ''}`}>
-              <span className={colors.text}>{dim.name}</span><span className="font-bold text-blue-400">{dim.score}%</span>
+            <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`group cursor-pointer`}>
+              <div className="flex justify-between items-end mb-1">
+                <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>{dim.name}</span>
+                <span className={`text-xs font-bold ${activeDimension === dim.name ? 'text-yellow-500' : 'text-gray-600'}`}>{dim.score}%</span>
+              </div>
+              <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.3)]' : 'bg-gray-700 group-hover:bg-gray-600'}`}
+                  style={{ width: `${dim.score}%` }}
+                ></div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <div className={`flex-1 p-6 flex flex-col ${colors.bgSecondary}`}>
-        <h2 className={`text-3xl font-bold ${colors.text} mb-4`}>{t(activeDimension.toLowerCase()) || activeDimension}</h2>
-        <div className={`flex gap-6 text-sm font-medium ${colors.textSecondary} border-b ${colors.border} mb-4`}>
-          {['challenges', 'goals', 'projects', 'routines'].map(tab => (
-            <button key={tab} onClick={() => setActiveLibTab(tab)} className={`pb-3 capitalize border-b-2 ${activeLibTab === tab ? 'text-blue-400 border-blue-400' : 'border-transparent'}`}>{t(tab)}</button>
+
+      {/* Main Content */}
+      <div className={`flex-1 p-8 flex flex-col bg-[#0a0a0a]`}>
+        <h2 className={`text-3xl font-bold text-white mb-8`}>{t(activeDimension.toLowerCase()) || activeDimension}</h2>
+
+        {/* Tabs */}
+        <div className={`flex gap-4 mb-8`}>
+          {[
+            { id: 'challenges', color: 'red', label: t('challenges') },
+            { id: 'goals', color: 'purple', label: t('goals') },
+            { id: 'projects', color: 'green', label: t('projects') },
+            { id: 'routines', color: 'yellow', label: t('routines') }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveLibTab(tab.id)}
+              className={`flex-1 py-4 rounded-xl border-2 transition-all duration-300 font-bold text-sm uppercase tracking-wider ${activeLibTab === tab.id
+                  ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 text-white shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
+                  : `border-${tab.color}-900/30 bg-[#111] text-gray-500 hover:border-${tab.color}-800 hover:bg-[#151515]`
+                }`}
+            >
+              {tab.label}
+            </button>
           ))}
         </div>
-        <div className="flex-1 overflow-y-auto">
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
           {activeLibTab === 'routines' ? (
             ['daily', 'weekly', 'monthly'].map(freq => (
-              <div key={freq} className="mb-6">
-                <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase mb-2`}>{t(freq)}</h4>
-                {currentDimData.routines?.[freq]?.map(item => (
-                  <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem('routines', item.id, freq)} onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }} />
-                ))}
-                <AddItemInput onAdd={(v) => addItem('routine', v)} placeholder={`${t('add')} ${t(freq)} ${t('routine')}...`} theme={theme} />
+              <div key={freq} className="mb-8">
+                <h4 className={`text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 pl-1`}>{t(freq)}</h4>
+                <div className="space-y-3">
+                  {currentDimData.routines?.[freq]?.map(item => (
+                    <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem('routines', item.id, freq)} onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }} />
+                  ))}
+                </div>
+                <div className="mt-3">
+                  <AddItemInput onAdd={(v) => addItem('routine', v)} placeholder={`${t('add')} ${t(freq)} ${t('routine')}...`} theme={theme} />
+                </div>
               </div>
             ))
           ) : (
-            <>
+            <div className="space-y-3">
               {currentDimData[activeLibTab]?.map(item => (
                 <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem(activeLibTab, item.id)} onClick={() => { setEditingItem(item); setEditType(activeLibTab); }} />
               ))}
-              <AddItemInput onAdd={(v) => addItem(activeLibTab, v)} placeholder={`${t('add')} ${t(activeLibTab)}...`} theme={theme} />
-            </>
+              <div className="mt-4">
+                <AddItemInput onAdd={(v) => addItem(activeLibTab, v)} placeholder={`${t('add')} ${t(activeLibTab)}...`} theme={theme} />
+              </div>
+            </div>
           )}
         </div>
       </div>
