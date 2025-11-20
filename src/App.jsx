@@ -1523,7 +1523,26 @@ const ResourcesPage = ({ data, setData, theme, isGuest }) => {
     return (
       <div className={`h-full p-8 overflow-y-auto custom-scrollbar ${colors.bg}`}>
         <h2 className={`text-3xl font-bold ${colors.text} mb-8 flex items-center gap-2`}><Briefcase size={32} className="text-blue-400" /> Life Resources</h2>
-        <div className="grid grid-cols-4 gap-6 mb-10"><div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border}`}><div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Net Worth</div><div className={`text-3xl font-bold mt-1 ${financials.netWorth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div></div></div>
+
+        {/* Financial Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
+            <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Net Worth</div>
+            <div className={`text-3xl font-bold mt-1 ${financials.netWorth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div>
+            <div className={`text-xs ${colors.textSecondary} mt-2`}>Assets - Debts</div>
+          </div>
+          <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
+            <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Monthly Income</div>
+            <div className="text-3xl font-bold mt-1 text-emerald-400">+${financials.income.toLocaleString()}</div>
+            <div className={`text-xs ${colors.textSecondary} mt-2`}>Fixed & Passive</div>
+          </div>
+          <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
+            <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Monthly Expenses</div>
+            <div className="text-3xl font-bold mt-1 text-red-400">-${financials.expenses.toLocaleString()}</div>
+            <div className={`text-xs ${colors.textSecondary} mt-2`}>Fixed & Recurring</div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {RESOURCE_CATEGORIES.map(cat => <div key={cat.id} onClick={() => { setActiveCat(cat); setView('category'); }} className={`${colors.bgSecondary} p-6 rounded-2xl border ${colors.border} hover:border-blue-500 hover:${colors.bgQuaternary} transition-all cursor-pointer flex flex-col items-center justify-center gap-4 group aspect-square relative overflow-hidden shadow-lg`}><div className={`${cat.color} group-hover:scale-110 transition-transform p-4 bg-gray-800/50 rounded-full`}>{cat.icon}</div><div className={`text-lg font-bold ${colors.text}`}>{cat.label}</div></div>)}
         </div>
@@ -1543,8 +1562,33 @@ const ResourcesPage = ({ data, setData, theme, isGuest }) => {
       {activeCat.id === 'money' ? (
         <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4"><h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Liquid Assets</h3>{activeItems.filter(i => i.type === 'Asset').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div></div>)}<AddItemInput onAdd={(v) => addItem(v, 'Asset')} placeholder="Add Asset..." theme={theme} /></div>
-            <div className="space-y-4"><h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Liabilities</h3>{activeItems.filter(i => i.type === 'Liability').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}<AddItemInput onAdd={(v) => addItem(v, 'Liability')} placeholder="Add Liability..." theme={theme} /></div>
+            {/* Assets & Liabilities */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Liquid Assets</h3>
+                {activeItems.filter(i => i.type === 'Asset').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div></div>)}
+                <AddItemInput onAdd={(v) => addItem(v, 'Asset')} placeholder="Add Asset..." theme={theme} />
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Liabilities (Debts)</h3>
+                {activeItems.filter(i => i.type === 'Liability').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}
+                <AddItemInput onAdd={(v) => addItem(v, 'Liability')} placeholder="Add Liability..." theme={theme} />
+              </div>
+            </div>
+
+            {/* Income & Expenses */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Monthly Income</h3>
+                {activeItems.filter(i => i.type === 'Income').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">+${parseFloat(item.value).toLocaleString()}</div></div>)}
+                <AddItemInput onAdd={(v) => addItem(v, 'Income')} placeholder="Add Income Source..." theme={theme} />
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Monthly Expenses</h3>
+                {activeItems.filter(i => i.type === 'Expense').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}
+                <AddItemInput onAdd={(v) => addItem(v, 'Expense')} placeholder="Add Expense..." theme={theme} />
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -1929,6 +1973,7 @@ export default function LiviaApp() {
   };
 
   const handleGuest = () => {
+    setData(JSON.parse(JSON.stringify(DEFAULT_DATA))); // Deep copy to reset
     setIsGuest(true);
     setIsAuthenticated(true);
   };

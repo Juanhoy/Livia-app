@@ -9,7 +9,7 @@ git add .
 
 echo.
 echo 2. Committing changes...
-git commit -m "Update Livia App with functional pages (Skills, Resources, My Time)"
+git commit -m "Update Livia App: Guest Mode Fix & Financial Overview"
 
 echo.
 echo 3. Pushing to GitHub...
