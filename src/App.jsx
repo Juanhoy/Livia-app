@@ -2231,50 +2231,52 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
           </div>
         </div>
 
-        <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
-          <div className="flex justify-between items-center mb-6">
-            <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Calendar size={32} className="text-blue-400" /> {t('myTime')}</h2>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() - 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
-              <div className={`text-lg font-bold ${colors.text} w-32 text-center`}>{selectedDate.toLocaleDateString()}</div>
-              <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() + 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronRight size={20} /></button>
+      </div>
+
+      <div className={`flex-1 h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Calendar size={32} className="text-blue-400" /> {t('myTime')}</h2>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() - 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
+            <div className={`text-lg font-bold ${colors.text} w-32 text-center`}>{selectedDate.toLocaleDateString()}</div>
+            <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() + 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronRight size={20} /></button>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Weekly Section */}
+          <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+            <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">{t('focusWeek')}</h3>
+            <div className="space-y-3">
+              {weeklyItems.map((item, idx) => <TaskItem key={`w-${idx}`} item={item} />)}
+              {weeklyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noWeeklyRoutines')}</div>}
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Weekly Section */}
-            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
-              <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">{t('focusWeek')}</h3>
-              <div className="space-y-3">
-                {weeklyItems.map((item, idx) => <TaskItem key={`w-${idx}`} item={item} />)}
-                {weeklyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noWeeklyRoutines')}</div>}
-              </div>
+          {/* Monthly Section */}
+          <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+            <h3 className="text-xl font-bold text-indigo-400 mb-4 flex items-center gap-2">{t('focusMonth')}</h3>
+            <div className="space-y-3">
+              {monthlyItems.map((item, idx) => <TaskItem key={`m-${idx}`} item={item} />)}
+              {monthlyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noMonthlyRoutines')}</div>}
             </div>
+          </div>
 
-            {/* Monthly Section */}
-            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
-              <h3 className="text-xl font-bold text-indigo-400 mb-4 flex items-center gap-2">{t('focusMonth')}</h3>
-              <div className="space-y-3">
-                {monthlyItems.map((item, idx) => <TaskItem key={`m-${idx}`} item={item} />)}
-                {monthlyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noMonthlyRoutines')}</div>}
-              </div>
+          {/* Daily Section */}
+          <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+            <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center gap-2">{t('focusToday')}</h3>
+            <div className="space-y-3">
+              {dailyItems.map((item, idx) => <TaskItem key={`d-${idx}`} item={item} />)}
+              {dailyItems.length === 0 && <div className={`flex flex-col items-center justify-center h-32 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}><Smile size={32} className="mb-2 opacity-20" /><p>{t('noDailyTasks')}</p></div>}
             </div>
-
-            {/* Daily Section */}
-            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
-              <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center gap-2">{t('focusToday')}</h3>
-              <div className="space-y-3">
-                {dailyItems.map((item, idx) => <TaskItem key={`d-${idx}`} item={item} />)}
-                {dailyItems.length === 0 && <div className={`flex flex-col items-center justify-center h-32 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}><Smile size={32} className="mb-2 opacity-20" /><p>{t('noDailyTasks')}</p></div>}
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-700/50">
-                <AddItemInput onAdd={addTask} placeholder={`${t('addTask')}...`} theme={theme} />
-              </div>
+            <div className="mt-4 pt-4 border-t border-gray-700/50">
+              <AddItemInput onAdd={addTask} placeholder={`${t('addTask')}...`} theme={theme} />
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 
