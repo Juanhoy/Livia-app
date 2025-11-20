@@ -1098,22 +1098,667 @@ const RolesPage = ({ data, setData, onSelectRole, theme }) => {
 };
 
 const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest }) => {
-  // ... role logic ...
+  const [editingItem, setEditingItem] = useState(null);
+  const [editType, setEditType] = useState(null);
   const colors = THEMES[theme];
-  // Placeholder for brevity - assumes logic from previous version but using 'colors'
-  // For fully functional app, replicate RoleDetailPage logic here and replace hardcoded colors
+
+  const roleItems = useMemo(() => {
+    const items = { goals: [], projects: [], challenges: [], routines: [], skills: [], resources: [], wishlist: [] };
+    Object.values(data.dimensions).forEach(dim => {
+      ['goals', 'projects', 'challenges'].forEach(type => { dim[type]?.forEach(i => { if (i.roleKey === role.key) items[type].push(i); }); });
+      ['daily', 'weekly', 'monthly'].forEach(freq => { dim.routines?.[freq]?.forEach(i => { if (i.roleKey === role.key) items.routines.push({ ...i, freq }); }); });
+    });
+    items.skills = data.skills.filter(s => s.roleKey === role.key || s.source?.toLowerCase().includes(role.name.toLowerCase()));
+    items.resources = data.resources.filter(r => r.roleKey === role.key);
+    items.wishlist = data.wishlist.filter(r => r.roleKey === role.key);
+    return items;
+  }, [data, role]);
+
+  const xp = calculateRoleXP(role.key, data);
+  const level = Math.floor(xp / 100) + 1;
+
+  const handleSaveItem = (updatedItem) => {
+    if (editType === 'skills') {
+      if (!data.skills.find(s => s.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, skills: [...prev.skills, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedItem.id ? updatedItem : s) }));
+      }
+    } else if (editType === 'resources') {
+      if (!data.resources.find(r => r.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, resources: [...prev.resources, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === updatedItem.id ? updatedItem : r) }));
+      }
+    } else if (editType === 'wishlist') {
+      if (!data.wishlist.find(r => r.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, wishlist: [...prev.wishlist, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, wishlist: prev.wishlist.map(r => r.id === updatedItem.id ? updatedItem : r) }));
+      }
+    } else if (['goals', 'projects', 'challenges'].includes(editType)) {
+      setData(prev => {
+        const newData = { ...prev };
+        Object.keys(newData.dimensions).forEach(dimKey => {
+          const dim = newData.dimensions[dimKey];
+          if (dim[editType]) {
+            dim[editType] = dim[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
+          }
+        });
+        return newData;
+      });
+    }
+    setEditingItem(null);
+  };
+
+  const createItem = (type) => {
+    const baseItem = { id: Date.now(), name: '', roleKey: role.key };
+    if (type === 'skills') baseItem.level = 0;
+    if (type === 'resources' || type === 'wishlist') {
+      baseItem.category = type === 'wishlist' ? 'wishlist' : 'electronics';
+      baseItem.value = 0;
+    }
+    if (['goals', 'projects', 'challenges'].includes(type)) {
+      baseItem.status = 0;
+      baseItem.importance = 'Medium';
+    }
+    setEditingItem(baseItem);
+    setEditType(type);
+  };
+
+  const deleteItem = (type, id) => {
+    if (!window.confirm("Remove this item?")) return;
+    if (type === 'skills') {
+      setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
+    } else if (type === 'resources') {
+      setData(prev => ({ ...prev, resources: prev.resources.filter(s => s.id !== id) }));
+    } else if (type === 'wishlist') {
+      setData(prev => ({ ...prev, wishlist: prev.wishlist.filter(s => s.id !== id) }));
+    }
+  };
+
   return (
     <div className={`h-full flex flex-col ${colors.bg}`}>
+      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={handleSaveItem} theme={theme} isGuest={isGuest} />
+
       <div className="h-48 bg-gradient-to-r from-blue-900 to-purple-900 p-8 flex items-end relative">
         <button onClick={onBack} className="absolute top-6 left-6 text-white/70 hover:text-white flex items-center gap-2"><ArrowLeft /> Back to Roles</button>
-        <h1 className="text-4xl font-bold text-white mb-2">{role.name}</h1>
+        <div className="flex items-center gap-6 w-full">
+          <div className="w-24 h-24 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-xl"><span className="text-4xl font-bold">{role.name[0]}</span></div>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-white mb-2">{role.name}</h1>
+            <div className="flex items-center gap-4 text-sm text-blue-200 font-mono"><span className="bg-white/10 px-3 py-1 rounded">Level {level}</span><span>{xp} XP</span></div>
+          </div>
+        </div>
       </div>
-      <div className={`flex-1 p-8 ${colors.text}`}>
-        <p>Role details view... (Use sidebar to navigate for now)</p>
+      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Column 1: Active Missions */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> Active Missions</h3>
+            <div className="space-y-3">
+              {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
+                <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
+                  <div className="flex justify-between items-start mb-2"><span className={`font-bold ${colors.text}`}>{item.name}</span><span className={`text-xs px-2 py-0.5 rounded ${item.importance === 'High' ? 'bg-red-900/50 text-red-400' : 'bg-gray-700 text-gray-400'}`}>{item.importance}</span></div>
+                  <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className="h-full bg-blue-500" style={{ width: `${item.status}%` }}></div></div>
+                </div>
+              ))}
+              {roleItems.goals.length === 0 && roleItems.projects.length === 0 && roleItems.challenges.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No active missions linked to this role.</div>}
+            </div>
+          </div>
+
+          {/* Column 2: Mastery & Habits */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><BookOpen size={16} /> Mastery & Habits</h3>
+
+            {/* Skills Section */}
+            <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className={`text-sm font-bold ${colors.text}`}>Skills</h4>
+                <button onClick={() => createItem('skills')} className="text-blue-400 hover:text-white text-xs flex items-center gap-1"><Plus size={12} /> Add</button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {roleItems.skills.map(s => {
+                  const dynamicLevel = calculateSkillLevel(s, data);
+                  return (
+                    <span key={s.id} onClick={() => { setEditingItem(s); setEditType('skills'); }} className={`${colors.bgSecondary} border ${colors.border} px-3 py-1 rounded-full text-xs ${colors.textSecondary} flex items-center gap-2 cursor-pointer hover:border-blue-500 hover:${colors.text} group`}>
+                      {s.name} <span className="text-blue-400">{dynamicLevel}%</span>
+                      <button onClick={(e) => { e.stopPropagation(); deleteItem('skills', s.id); }} className="hidden group-hover:block text-red-400"><X size={12} /></button>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Routines Section */}
+            <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
+              <h4 className={`text-sm font-bold ${colors.text} mb-3`}>Routines</h4>
+              <div className="space-y-2">{roleItems.routines.map(r => <div key={r.id} className={`flex items-center justify-between text-sm ${colors.textSecondary} border-b ${colors.border} pb-2 last:border-0`}><span>{r.name}</span><span className={`text-xs ${colors.bgQuaternary} px-2 rounded text-blue-400 capitalize`}>{r.freq}</span></div>)}</div>
+            </div>
+          </div>
+
+          {/* Column 3: Inventory & Needs */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Briefcase size={16} /> Role Resources</h3>
+
+            {/* Have */}
+            <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
+              <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
+                <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wide">Inventory (Have)</h4>
+                <button onClick={() => createItem('resources')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
+              </div>
+              <div className="space-y-3">
+                {roleItems.resources.map(item => (
+                  <div key={item.id} onClick={() => { setEditingItem(item); setEditType('resources'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
+                    <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><ImageIcon size={14} /></div>}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
+                      <div className="text-emerald-400 font-mono text-xs">${parseFloat(item.value || 0).toLocaleString()}</div>
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); deleteItem('resources', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
+                  </div>
+                ))}
+                {roleItems.resources.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>No resources linked.</div>}
+              </div>
+            </div>
+
+            {/* Need */}
+            <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
+              <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
+                <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wide">Needs (Wishlist)</h4>
+                <button onClick={() => createItem('wishlist')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
+              </div>
+              <div className="space-y-3">
+                {roleItems.wishlist.map(item => (
+                  <div key={item.id} onClick={() => { setEditingItem(item); setEditType('wishlist'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
+                    <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden border border-yellow-400/20`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><Star size={14} className="text-yellow-400/50" /></div>}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
+                      <div className="text-yellow-400 font-mono text-xs">${parseFloat(item.value || 0).toLocaleString()}</div>
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); deleteItem('wishlist', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
+                  </div>
+                ))}
+                {roleItems.wishlist.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>No items needed.</div>}
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+const SkillsPage = ({ data, setData, theme, isGuest }) => {
+  const [newSkill, setNewSkill] = useState("");
+  const [editingSkill, setEditingSkill] = useState(null);
+  const colors = THEMES[theme];
+
+  const addSkill = () => {
+    if (!newSkill.trim()) return;
+    setData(prev => ({
+      ...prev, skills: [...prev.skills, { id: Date.now(), name: newSkill, level: 0, source: 'Manual' }]
+    }));
+    setNewSkill("");
+  };
+
+  const saveEditedSkill = (updatedSkill) => {
+    setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedSkill.id ? updatedSkill : s) }));
+    setEditingSkill(null);
+  };
+
+  const deleteSkill = (id) => {
+    if (window.confirm("Delete skill?")) setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
+  };
+
+  return (
+    <div className={`h-full p-8 ${colors.bg} overflow-y-auto custom-scrollbar`}>
+      <ItemDetailModal isOpen={!!editingSkill} onClose={() => setEditingSkill(null)} item={editingSkill} type="skills" roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveEditedSkill} theme={theme} isGuest={isGuest} />
+      <div className="max-w-5xl mx-auto">
+        <h2 className={`text-2xl font-bold ${colors.text} mb-6 flex items-center gap-2`}><BookOpen size={24} className="text-blue-400" /> Life Skills Matrix</h2>
+        <div className="flex gap-4 mb-8">
+          <input value={newSkill} onChange={(e) => setNewSkill(e.target.value)} className={`flex-1 ${colors.bgSecondary} border ${colors.border} rounded-lg px-4 py-3 ${colors.text} focus:border-blue-500 focus:outline-none`} placeholder="Add skill..." onKeyDown={(e) => e.key === 'Enter' && addSkill()} />
+          <button onClick={addSkill} className="bg-blue-600 px-6 rounded-lg font-bold text-white hover:bg-blue-500">Add</button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {data.skills.map(skill => {
+            const dynamicLevel = calculateSkillLevel(skill, data);
+            return (
+              <div key={skill.id} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500/50 transition-all group relative`}>
+                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={() => setEditingSkill(skill)} className="p-1.5 bg-gray-700 hover:bg-blue-600 rounded text-white"><Edit2 size={14} /></button>
+                  <button onClick={() => deleteSkill(skill.id)} className="p-1.5 bg-gray-700 hover:bg-red-600 rounded text-white"><Trash2 size={14} /></button>
+                </div>
+                <div className="flex justify-between items-start mb-2 pr-12">
+                  <h3 className={`font-bold text-lg ${colors.text} truncate`}>{skill.name}</h3>
+                  <span className={`text-xs ${colors.bgQuaternary} px-2 py-1 rounded ${colors.textSecondary}`}>{skill.source || 'General'}</span>
+                </div>
+                <div className={`w-full ${colors.bgQuaternary} h-2 rounded-full mb-2`}><div className="bg-blue-500 h-full rounded-full" style={{ width: `${dynamicLevel}%` }}></div></div>
+                <div className={`flex justify-between text-xs ${colors.textSecondary}`}><span>Lvl {Math.floor(dynamicLevel / 10) + 1}</span><span>{dynamicLevel}%</span></div>
+              </div>
+            );
+          })}
+          {data.skills.length === 0 && <div className={`col-span-3 text-center ${colors.textSecondary} py-8`}>No skills added yet.</div>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ResourcesPage = ({ data, setData, theme, isGuest }) => {
+  const [view, setView] = useState('grid');
+  const [activeCat, setActiveCat] = useState(null);
+  const [editingItem, setEditingItem] = useState(null);
+  const colors = THEMES[theme];
+
+  const financials = useMemo(() => {
+    const moneyItems = data.resources.filter(r => r.category === 'money');
+    let liquidAssets = 0, liabilities = 0, income = 0, expenses = 0;
+    moneyItems.forEach(item => {
+      const val = parseFloat(item.value) || 0;
+      if (item.type === 'Asset') liquidAssets += val;
+      if (item.type === 'Liability') liabilities += val;
+      if (item.type === 'Income') income += val;
+      if (item.type === 'Expense') expenses += val;
+    });
+    let inventoryAssets = 0;
+    data.resources.forEach(item => {
+      if (item.category !== 'money' && item.category !== 'wishlist') inventoryAssets += (parseFloat(item.value) || 0);
+    });
+    return { liquidAssets, inventoryAssets, liabilities, income, expenses, netWorth: (liquidAssets + inventoryAssets) - liabilities };
+  }, [data.resources]);
+
+  const addItem = (val, type) => {
+    if (!val) return;
+    const newItem = { id: Date.now(), name: val, category: activeCat.id, value: '0', type: type || 'Asset', image: null, condition: 'Good' };
+    if (activeCat.id === 'wishlist') setData(prev => ({ ...prev, wishlist: [...prev.wishlist, newItem] }));
+    else setData(prev => ({ ...prev, resources: [...prev.resources, newItem] }));
+  };
+
+  const saveItem = (updated) => {
+    const listName = updated.category === 'wishlist' ? 'wishlist' : 'resources';
+    setData(prev => ({ ...prev, [listName]: prev[listName].map(i => i.id === updated.id ? updated : i) }));
+    setEditingItem(null);
+  };
+
+  const deleteItem = (id) => {
+    const listName = activeCat.id === 'wishlist' ? 'wishlist' : 'resources';
+    setData(prev => ({ ...prev, [listName]: prev[listName].filter(i => i.id !== id) }));
+  };
+
+  if (view === 'grid') {
+    return (
+      <div className={`h-full p-8 overflow-y-auto custom-scrollbar ${colors.bg}`}>
+        <h2 className={`text-3xl font-bold ${colors.text} mb-8 flex items-center gap-2`}><Briefcase size={32} className="text-blue-400" /> Life Resources</h2>
+        <div className="grid grid-cols-4 gap-6 mb-10"><div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border}`}><div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Net Worth</div><div className={`text-3xl font-bold mt-1 ${financials.netWorth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div></div></div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {RESOURCE_CATEGORIES.map(cat => <div key={cat.id} onClick={() => { setActiveCat(cat); setView('category'); }} className={`${colors.bgSecondary} p-6 rounded-2xl border ${colors.border} hover:border-blue-500 hover:${colors.bgQuaternary} transition-all cursor-pointer flex flex-col items-center justify-center gap-4 group aspect-square relative overflow-hidden shadow-lg`}><div className={`${cat.color} group-hover:scale-110 transition-transform p-4 bg-gray-800/50 rounded-full`}>{cat.icon}</div><div className={`text-lg font-bold ${colors.text}`}>{cat.label}</div></div>)}
+        </div>
+      </div>
+    );
+  }
+
+  const activeItems = activeCat.id === 'wishlist' ? data.wishlist : data.resources.filter(r => r.category === activeCat.id);
+  const totalValue = activeItems.reduce((acc, item) => acc + (parseFloat(item.value) || 0), 0);
+
+  return (
+    <div className={`h-full flex flex-col ${colors.bg}`}>
+      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={activeCat?.id} roles={data.appSettings.userRoles} onSave={saveItem} theme={theme} isGuest={isGuest} />
+      <div className={`p-6 border-b ${colors.border} flex items-center justify-between ${colors.bgTertiary}`}>
+        <div className="flex items-center gap-4"><button onClick={() => setView('grid')} className={`p-2 hover:${colors.bgQuaternary} rounded-full ${colors.textSecondary} hover:${colors.text}`}><ArrowLeft size={20} /></button><div className={`${activeCat.color}`}>{activeCat.icon}</div><div><h2 className={`text-2xl font-bold ${colors.text}`}>{activeCat.label}</h2><p className={`text-xs ${colors.textSecondary}`}>Total: <span className="text-emerald-400 font-mono">${totalValue.toLocaleString()}</span></p></div></div>
+      </div>
+      {activeCat.id === 'money' ? (
+        <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4"><h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Liquid Assets</h3>{activeItems.filter(i => i.type === 'Asset').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div></div>)}<AddItemInput onAdd={(v) => addItem(v, 'Asset')} placeholder="Add Asset..." theme={theme} /></div>
+            <div className="space-y-4"><h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Liabilities</h3>{activeItems.filter(i => i.type === 'Liability').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}<AddItemInput onAdd={(v) => addItem(v, 'Liability')} placeholder="Add Liability..." theme={theme} /></div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {activeItems.map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} rounded-xl border ${colors.border} overflow-hidden hover:border-blue-500 transition-all cursor-pointer group flex flex-col`}><div className={`h-40 ${colors.bgQuaternary} w-full relative`}>{item.image ? <img src={item.image} alt={item.name} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><ImageIcon size={32} /></div>}<div className="absolute top-2 right-2 bg-black/60 px-2 py-1 rounded text-xs text-white backdrop-blur">${parseFloat(item.value || 0).toLocaleString()}</div></div><div className="p-4 flex-1 flex flex-col"><div className={`font-bold ${colors.text} mb-1 truncate`}>{item.name}</div><div className={`mt-auto flex justify-between items-center pt-2 border-t ${colors.border}`}><span className={`text-[10px] ${colors.textSecondary} uppercase`}>Edit</span><button onClick={(e) => { e.stopPropagation(); deleteItem(item.id); }} className={`text-gray-600 hover:text-red-400`}><Trash2 size={14} /></button></div></div></div>)}
+            <div className={`${colors.bgTertiary} rounded-xl border-2 border-dashed ${colors.border} flex flex-col items-center justify-center h-64 cursor-pointer hover:border-blue-500 hover:text-blue-400 ${colors.textSecondary} transition-colors p-4`}><AddItemInput onAdd={addItem} placeholder={`Add ${activeCat.label}...`} theme={theme} /></div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const TodayPage = ({ data, setData, theme, isGuest }) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [newTask, setNewTask] = useState("");
+  const colors = THEMES[theme];
+
+  // Helper for date ranges
+  const getWeekBounds = (date) => {
+    const start = new Date(date);
+    start.setDate(date.getDate() - date.getDay()); // Sunday
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  };
+
+  const checkWeekCompletion = (history, date) => {
+    if (!history) return false;
+    const { start, end } = getWeekBounds(date);
+    return history.some(hDate => {
+      const d = new Date(hDate);
+      return d >= start && d <= end;
+    });
+  };
+
+  const checkMonthCompletion = (history, date) => {
+    if (!history) return false;
+    const m = date.getMonth();
+    const y = date.getFullYear();
+    return history.some(hDate => {
+      const d = new Date(hDate);
+      return d.getMonth() === m && d.getFullYear() === y;
+    });
+  };
+
+  const { dailyItems, weeklyItems, monthlyItems } = useMemo(() => {
+    const daily = [];
+    const weekly = [];
+    const monthly = [];
+    const dateStr = selectedDate.toISOString().split('T')[0];
+
+    Object.entries(data.dimensions).forEach(([dimKey, dim]) => {
+      // Daily Routines
+      dim.routines?.daily?.forEach(r => {
+        const isCompleted = (r.completionHistory || []).includes(dateStr);
+        daily.push({
+          ...r,
+          type: 'Routine',
+          source: 'Daily',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'daily',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
+        });
+      });
+
+      // Weekly Routines
+      dim.routines?.weekly?.forEach(r => {
+        const isCompleted = checkWeekCompletion(r.completionHistory, selectedDate);
+        weekly.push({
+          ...r,
+          type: 'Routine',
+          source: 'Weekly',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'weekly',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
+        });
+      });
+
+      // Monthly Routines
+      dim.routines?.monthly?.forEach(r => {
+        const isCompleted = checkMonthCompletion(r.completionHistory, selectedDate);
+        monthly.push({
+          ...r,
+          type: 'Routine',
+          source: 'Monthly',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'monthly',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
+        });
+      });
+
+      // Process One-off Items
+      ['goals', 'projects', 'challenges'].forEach(cat => {
+        dim[cat]?.forEach(item => {
+          if (item.dueDate === dateStr) daily.push({
+            ...item,
+            type: cat.slice(0, -1),
+            source: 'Due',
+            dimKey: dimKey,
+            category: cat,
+            isCompleted: item.status === 100
+          });
+        });
+      });
+    });
+    return { dailyItems: daily, weeklyItems: weekly, monthlyItems: monthly };
+  }, [data, selectedDate]);
+
+  // Calculate Adherence for Today, Week, Month
+  const adherenceData = useMemo(() => {
+    // All Daily Routines defined in the system (not just for today)
+    let allDailyRoutines = [];
+    Object.values(data.dimensions).forEach(dim => {
+      if (dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
+    });
+
+    const totalRoutines = allDailyRoutines.length;
+    if (totalRoutines === 0) return { today: 0, week: 0, month: 0 };
+
+    // 1. Today
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    const completedToday = allDailyRoutines.filter(r => (r.completionHistory || []).includes(dateStr)).length;
+    const todayPct = Math.round((completedToday / totalRoutines) * 100);
+
+    // 2. This Week (Sunday to Saturday of selectedDate)
+    const startOfWeek = new Date(selectedDate);
+    startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay()); // Go to Sunday
+
+    let weeklyCompletions = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startOfWeek);
+      d.setDate(startOfWeek.getDate() + i);
+      const dStr = d.toISOString().split('T')[0];
+      weeklyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
+    }
+    const weekPct = Math.round((weeklyCompletions / (totalRoutines * 7)) * 100);
+
+    // 3. This Month
+    const startOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    const daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+
+    let monthlyCompletions = 0;
+    for (let i = 1; i <= daysInMonth; i++) {
+      const d = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+      const dStr = d.toISOString().split('T')[0];
+      monthlyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
+    }
+    const monthPct = Math.round((monthlyCompletions / (totalRoutines * daysInMonth)) * 100);
+
+    return { today: todayPct, week: weekPct, month: monthPct };
+  }, [data, selectedDate]);
+
+  const toggleComplete = (item) => {
+    setData(prev => {
+      const newData = { ...prev };
+      const dim = newData.dimensions[item.dimKey];
+      const dateStr = selectedDate.toISOString().split('T')[0];
+
+      if (item.category === 'routines') {
+        const routines = dim.routines[item.subCategory];
+        const targetRoutine = routines.find(r => r.id === item.id);
+
+        if (targetRoutine) {
+          let history = targetRoutine.completionHistory || [];
+
+          if (item.subCategory === 'daily') {
+            if (history.includes(dateStr)) {
+              history = history.filter(h => h !== dateStr);
+              targetRoutine.status = 0;
+            } else {
+              history.push(dateStr);
+              targetRoutine.status = 100;
+            }
+          } else if (item.subCategory === 'weekly') {
+            const { start, end } = getWeekBounds(selectedDate);
+            // Remove any completion in this week range if exists
+            const hasCompletion = history.some(hDate => {
+              const d = new Date(hDate);
+              return d >= start && d <= end;
+            });
+
+            if (hasCompletion) {
+              // Remove all completions for this week
+              history = history.filter(hDate => {
+                const d = new Date(hDate);
+                return d < start || d > end;
+              });
+              targetRoutine.status = 0;
+            } else {
+              // Add today as the completion date for this week
+              history.push(dateStr);
+              targetRoutine.status = 100;
+            }
+          } else if (item.subCategory === 'monthly') {
+            const m = selectedDate.getMonth();
+            const y = selectedDate.getFullYear();
+            // Remove any completion in this month if exists
+            const hasCompletion = history.some(hDate => {
+              const d = new Date(hDate);
+              return d.getMonth() === m && d.getFullYear() === y;
+            });
+
+            if (hasCompletion) {
+              history = history.filter(hDate => {
+                const d = new Date(hDate);
+                return d.getMonth() !== m || d.getFullYear() !== y;
+              });
+              targetRoutine.status = 0;
+            } else {
+              history.push(dateStr);
+              targetRoutine.status = 100;
+            }
+          }
+
+          targetRoutine.completionHistory = history;
+        }
+      } else {
+        // Handle standard one-off items
+        const targetList = dim[item.category];
+        const targetItem = targetList.find(i => i.id === item.id);
+        if (targetItem) {
+          targetItem.status = targetItem.status === 100 ? 0 : 100;
+        }
+      }
+
+      return newData;
+    });
+  };
+
+  const AdherenceBar = ({ label, pct, color }) => (
+    <div className="mb-3">
+      <div className="flex justify-between text-xs mb-1">
+        <span className={`${colors.textSecondary} font-medium`}>{label}</span>
+        <span className={`font-bold ${color}`}>{pct}%</span>
+      </div>
+      <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}>
+        <div className={`h-full rounded-full transition-all duration-500 ${pct >= 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-blue-500' : 'bg-gray-600'}`} style={{ width: `${pct}%` }}></div>
+      </div>
+    </div>
+  );
+
+  const TaskItem = ({ item }) => (
+    <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} flex items-center gap-4 group hover:border-gray-600 transition-all`}>
+      <div
+        onClick={() => toggleComplete(item)}
+        className={`w-6 h-6 rounded-full border-2 cursor-pointer flex items-center justify-center transition-all duration-200 ${item.isCompleted ? 'bg-green-500 border-green-500 scale-110' : `border-gray-600 hover:border-green-500 hover:bg-green-500/10`}`}
+      >
+        {item.isCompleted && <Check size={14} className="text-black font-bold" />}
+      </div>
+      <div className="flex-1">
+        <div className={`font-medium ${colors.text} transition-all ${item.isCompleted ? `line-through ${colors.textSecondary}` : ''}`}>{item.name}</div>
+        <div className={`text-xs ${colors.textSecondary} flex gap-2 mt-1`}>
+          <span className={`${colors.bgQuaternary} px-2 py-0.5 rounded text-blue-300`}>{item.type}</span>
+          {item.source === 'Due' && <span className="text-orange-400">Due Today</span>}
+          {item.subCategory === 'weekly' && <span className="text-purple-400">Weekly Goal</span>}
+          {item.subCategory === 'monthly' && <span className="text-indigo-400">Monthly Goal</span>}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`h-full p-6 overflow-y-auto custom-scrollbar ${colors.bg} flex gap-6`}>
+      <div className="w-80 flex-shrink-0">
+        <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border}`}>
+          <div className="flex justify-between items-center mb-4">
+            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight className="rotate-180" /></button>
+            <h3 className={`font-bold ${colors.text}`}>{selectedDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h3>
+            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight /></button>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center text-sm">
+            {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className={`${colors.textSecondary} py-1`}>{d}</div>)}
+            {Array.from({ length: new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map(d => (
+              <div key={d} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d))} className={`py-2 rounded cursor-pointer hover:${colors.bgQuaternary} ${d === selectedDate.getDate() ? 'bg-blue-600 text-white font-bold' : colors.textSecondary}`}>{d}</div>
+            ))}
+          </div>
+        </div>
+
+        <div className={`mt-4 ${colors.bgTertiary} p-4 rounded-xl border ${colors.border}`}>
+          <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase`}>Quick Stats</h4>
+          <div className={`mt-2 text-sm ${colors.text}`}>Tasks: {dailyItems.length + weeklyItems.length + monthlyItems.length}</div>
+        </div>
+
+        {/* Routine Adherence Widget */}
+        <div className={`mt-4 ${colors.bgTertiary} p-5 rounded-xl border ${colors.border}`}>
+          <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase mb-4 flex items-center gap-2`}>
+            <BarChart3 size={14} /> Daily Habit Consistency
+          </h4>
+
+          <AdherenceBar label="Today" pct={adherenceData.today} color="text-blue-400" />
+          <AdherenceBar label="This Week" pct={adherenceData.week} color="text-purple-400" />
+          <AdherenceBar label="This Month" pct={adherenceData.month} color="text-orange-400" />
+
+          <div className={`mt-3 pt-3 border-t ${colors.border} text-[10px] ${colors.textSecondary} italic text-center`}>
+            Tracking daily routines consistency
+          </div>
+        </div>
+      </div>
+      <div className="flex-1">
+        <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3 mb-6`}><Calendar size={32} className="text-blue-400" /> My Time</h2>
+
+        <div className="space-y-8">
+
+          {/* Weekly Section */}
+          <div>
+            <h3 className="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">Focus for This Week</h3>
+            <div className="space-y-3">
+              {weeklyItems.map((item, idx) => <TaskItem key={`w-${idx}`} item={item} />)}
+              {weeklyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No weekly routines set.</div>}
+            </div>
+          </div>
+
+          {/* Monthly Section */}
+          <div>
+            <h3 className="text-xl font-bold text-indigo-400 mb-3 flex items-center gap-2">Focus for This Month</h3>
+            <div className="space-y-3">
+              {monthlyItems.map((item, idx) => <TaskItem key={`m-${idx}`} item={item} />)}
+              {monthlyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No monthly routines set.</div>}
+            </div>
+          </div>
+
+          {/* Daily Section */}
+          <div>
+            <h3 className="text-xl font-bold text-blue-400 mb-3 flex items-center gap-2">Focus for {selectedDate.toLocaleDateString()}</h3>
+            <div className="space-y-3">
+              {dailyItems.map((item, idx) => <TaskItem key={`d-${idx}`} item={item} />)}
+              {dailyItems.length === 0 && <div className={`flex flex-col items-center justify-center h-32 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}><Smile size={32} className="mb-2 opacity-20" /><p>No daily tasks scheduled.</p></div>}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // --- Main App Layout ---
 
@@ -1201,9 +1846,9 @@ export default function LiviaApp() {
           {activeTab === 'dashboard' && <LifeBalancePage data={data} setData={setData} theme={theme} isGuest={isGuest} />}
           {activeTab === 'roles' && <RolesPage data={data} setData={setData} onSelectRole={handleRoleSelect} theme={theme} />}
           {/* Placeholder for others to save space, logic exists in memory if needed */}
-          {activeTab === 'resources' && <div className="p-8">Resources Page (Mock)</div>}
-          {activeTab === 'skills' && <div className="p-8">Skills Page (Mock)</div>}
-          {activeTab === 'today' && <div className="p-8">My Time Page (Mock)</div>}
+          {activeTab === 'resources' && <ResourcesPage data={data} setData={setData} theme={theme} isGuest={isGuest} />}
+          {activeTab === 'skills' && <SkillsPage data={data} setData={setData} theme={theme} isGuest={isGuest} />}
+          {activeTab === 'today' && <TodayPage data={data} setData={setData} theme={theme} isGuest={isGuest} />}
 
           {activeTab === 'role_detail' && selectedRole && (
             <RoleDetailPage role={selectedRole} data={data} setData={setData} onBack={() => setActiveTab('roles')} theme={theme} isGuest={isGuest} />
