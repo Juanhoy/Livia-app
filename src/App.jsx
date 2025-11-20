@@ -489,6 +489,7 @@ const calculateRoleXP = (roleKey, allData) => {
 
 const calculateSkillLevel = (skill, allData) => {
   if (skill.manualMode) return skill.level || 0;
+  if (!allData?.dimensions) return 0; // Safety check
 
   let totalStatus = 0;
   let count = 0;
@@ -1406,8 +1407,8 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
               key={tab.id}
               onClick={() => setActiveLibTab(tab.id)}
               className={`flex-1 py-4 rounded-xl border-2 transition-all duration-300 font-bold text-sm uppercase tracking-wider ${activeLibTab === tab.id
-                  ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 text-white shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
-                  : `border-${tab.color}-900/30 bg-[#111] text-gray-500 hover:border-${tab.color}-800 hover:bg-[#151515]`
+                ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 text-white shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
+                : `border-${tab.color}-900/30 bg-[#111] text-gray-500 hover:border-${tab.color}-800 hover:bg-[#151515]`
                 }`}
             >
               {tab.label}
@@ -1866,16 +1867,8 @@ const SkillsPage = ({ data, setData, theme, isGuest, t }) => {
 
 const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
   const [activeCategory, setActiveCategory] = useState('money');
-  const [isAdding, setIsAdding] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
   const colors = THEMES[theme];
-
-  const categories = [
-    { id: 'money', icon: <DollarSign size={18} />, label: t('money') },
-    { id: 'tools', icon: <Wrench size={18} />, label: t('tools') },
-    { id: 'knowledge', icon: <BookOpen size={18} />, label: t('knowledge') },
-    { id: 'people', icon: <Users size={18} />, label: t('people') },
-    { id: 'energy', icon: <Zap size={18} />, label: t('energy') }
-  ];
 
   const financials = useMemo(() => {
     const moneyItems = (data.resources || []).filter(r => r.category === 'money');
@@ -1886,11 +1879,13 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
     return { netWorth: assets + liabilities, income, expenses };
   }, [data.resources]);
 
-  const addResource = (val) => {
-    if (!val) return;
-    const newItem = { id: Date.now(), name: val, category: activeCategory, value: 0, monthlyValue: 0, type: 'asset' };
-    setData(prev => ({ ...prev, resources: [...prev.resources, newItem] }));
-    setIsAdding(false);
+  const handleSaveItem = (updatedItem) => {
+    if (!data.resources.find(r => r.id === updatedItem.id)) {
+      setData(prev => ({ ...prev, resources: [...prev.resources, updatedItem] }));
+    } else {
+      setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === updatedItem.id ? updatedItem : r) }));
+    }
+    setEditingItem(null);
   };
 
   const deleteResource = (id) => {
@@ -1899,11 +1894,36 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
     }
   };
 
+  const createResource = () => {
+    setEditingItem({
+      id: Date.now(),
+      name: '',
+      category: activeCategory,
+      value: 0,
+      image: null,
+      condition: 'Good',
+      description: ''
+    });
+  };
+
   return (
     <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
+      <ItemDetailModal
+        isOpen={!!editingItem}
+        onClose={() => setEditingItem(null)}
+        item={editingItem}
+        type="resources"
+        roles={data.appSettings.userRoles}
+        skills={data.skills}
+        data={data}
+        onSave={handleSaveItem}
+        theme={theme}
+        isGuest={isGuest}
+      />
+
       <div className="flex justify-between items-center mb-6">
         <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Briefcase size={32} className="text-blue-400" /> {t('lifeResources')}</h2>
-        <button onClick={() => setIsAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+        <button onClick={createResource} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
           <Plus size={18} /> {t('addResource')}
         </button>
       </div>
@@ -1926,53 +1946,48 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
         </div>
       )}
 
-      <div className={`flex gap-4 border-b ${colors.border} mb-4`}>
-        {categories.map(cat => (
+      <div className={`flex gap-4 border-b ${colors.border} mb-4 overflow-x-auto pb-2 custom-scrollbar`}>
+        {RESOURCE_CATEGORIES.map(cat => (
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${activeCategory === cat.id ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
           >
-            {cat.icon} {cat.label}
+            {React.cloneElement(cat.icon, { size: 18 })} {cat.label}
           </button>
         ))}
       </div>
 
       <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
         {(data.resources || []).filter(r => r.category === activeCategory).map(item => (
-          <div key={item.id} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative`}>
-            <button onClick={() => deleteResource(item.id)} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><X size={14} /></button>
-            <div className="flex items-center gap-3 mb-2">
-              <div className={`p-2 rounded-lg ${colors.bgQuaternary} text-blue-400`}>
-                {categories.find(c => c.id === item.category)?.icon}
+          <div key={item.id} onClick={() => setEditingItem(item)} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative cursor-pointer transition-all`}>
+            <button onClick={(e) => { e.stopPropagation(); deleteResource(item.id); }} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity z-10"><X size={14} /></button>
+
+            <div className="flex gap-4">
+              <div className={`w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 ${colors.bgQuaternary} flex items-center justify-center`}>
+                {item.image ? (
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className={RESOURCE_CATEGORIES.find(c => c.id === item.category)?.color || 'text-gray-400'}>
+                    {React.cloneElement(RESOURCE_CATEGORIES.find(c => c.id === item.category)?.icon || <Briefcase />, { size: 24 })}
+                  </div>
+                )}
               </div>
-              <div className={`font-bold ${colors.text}`}>{item.name}</div>
+
+              <div className="flex-1 min-w-0">
+                <div className={`font-bold ${colors.text} truncate mb-1`}>{item.name}</div>
+                <div className={`text-sm font-mono ${item.value >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  ${(item.value || 0).toLocaleString()}
+                </div>
+                {item.condition && <div className={`text-xs ${colors.textSecondary} mt-1`}>{t(item.condition.toLowerCase()) || item.condition}</div>}
+              </div>
             </div>
-            {activeCategory === 'money' && (
-              <div className="flex items-center gap-2 mt-2">
-                <input
-                  type="number"
-                  className={`w-24 bg-black/20 border border-gray-700 rounded px-2 py-1 text-sm ${colors.text}`}
-                  value={item.value}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value) || 0;
-                    setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === item.id ? { ...r, value: val } : r) }));
-                  }}
-                />
-                <span className={`text-xs ${colors.textSecondary}`}>{t('value')}</span>
-              </div>
-            )}
           </div>
         ))}
-        {isAdding && (
-          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} border-dashed flex items-center justify-center`}>
-            <input
-              autoFocus
-              placeholder={`${t('newItem')}...`}
-              className="bg-transparent border-none text-white placeholder-gray-500 focus:outline-none text-center w-full"
-              onKeyDown={(e) => { if (e.key === 'Enter') addResource(e.target.value); }}
-              onBlur={() => setIsAdding(false)}
-            />
+        {(data.resources || []).filter(r => r.category === activeCategory).length === 0 && (
+          <div className={`col-span-full text-center py-12 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}>
+            <p>{t('noResourcesLinked')}</p>
+            <button onClick={createResource} className="text-blue-400 hover:text-blue-300 text-sm mt-2">{t('addResource')}</button>
           </div>
         )}
       </div>
