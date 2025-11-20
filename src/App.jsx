@@ -240,7 +240,28 @@ const TRANSLATIONS = {
     liquidAssets: "Liquid Assets", liabilities: "Liabilities",
     daily: "Daily", weekly: "Weekly", monthly: "Monthly",
     overallScore: "Overall Score", totalWeight: "Total Weight",
-    health: "Health", family: "Family", freedom: "Freedom", community: "Community", management: "Management", learning: "Learning", creation: "Creation", fun: "Fun"
+    health: "Health", family: "Family", freedom: "Freedom", community: "Community", management: "Management", learning: "Learning", creation: "Creation", fun: "Fun",
+    savingToLocal: "Saving to Local", notSaving: "Not Saving", uploadsDisabledGuest: "Uploads disabled in Guest Mode", deleteImageConfirm: "Delete this image?",
+    exportDisabledGuest: "Export disabled in Guest Mode", exportFailed: "Failed to export visualization.", uploading: "Uploading...", addImage: "Add Image",
+    panInstruction: "[Space] + Drag to Pan", zoomInstruction: "[Ctrl] + Scroll to Zoom", noRolesAdded: "You haven't added any roles yet.", openLibrary: "Open Library",
+    removeItemConfirm: "Remove this item?", backToRoles: "Back to Roles", level: "Level", activeMissions: "Active Missions", noActiveMissions: "No active missions linked to this role.",
+    masteryHabits: "Mastery & Habits", skills: "Skills", routines: "Routines", inventoryHave: "Inventory (Have)", noResourcesLinked: "No resources linked.",
+    needsWishlist: "Needs (Wishlist)", noItemsNeeded: "No items needed.", roleResources: "Role Resources", item: "Item", saveChanges: "Save Changes",
+    uploadPhoto: "Upload Photo", disabledGuest: "Disabled in Guest Mode", changePhoto: "Change Photo", name: "Name", categoryWidget: "Category (Widget)",
+    masteryMode: "Mastery Mode", auto: "Auto", manual: "Manual", manualSet: "Manual Set", autoCalculated: "Auto-Calculated",
+    levelLinked: "Level is linked to the completion status of connected missions.", importance: "Importance", low: "Low", medium: "Medium", high: "High",
+    status: "Status", dueDate: "Due Date", value: "Value", condition: "Condition", new: "New", likeNew: "Like New", good: "Good", fair: "Fair", poor: "Poor",
+    weight: "Weight", settingsNotSavedGuest: "Settings cannot be saved in Guest Mode.", theme: "Theme", dark: "Dark", light: "Light", language: "Language",
+    userName: "User Name", yourNamePlaceholder: "Your Name", email: "Email", password: "Password", createAccount: "Create Account", needAccount: "Need an account? Sign Up",
+    haveAccount: "Already have an account? Login", editDimensions: "Edit Dimensions", editDimensionsDesc: "Adjust the names and weights of your life dimensions.",
+    deleteRoleConfirm: "Are you sure you want to delete this role?", deleteSkillConfirm: "Delete this skill?", deleteResourceConfirm: "Delete this resource?",
+    general: "General", noSkills: "No skills tracked yet.", addSkillPrompt: "Add skills to track your growth.", addSkill: "Add Skill", addResource: "Add Resource",
+    newItem: "New Item", focusWeek: "Focus for This Week", focusMonth: "Focus for This Month", focusToday: "Focus for Today",
+    noWeeklyRoutines: "No weekly routines set.", noMonthlyRoutines: "No monthly routines set.", noDailyTasks: "No daily tasks scheduled.", addTask: "Add new task",
+    done: "Done", yourRoles: "Your Roles", roleLibrary: "Role Library", createCustom: "Create Custom", level1: "Level 1", xp: "XP",
+    roleLibraryTitle: "Role Library", allRolesActive: "All available roles are currently active.", createCustomRoleTitle: "Create Custom Role",
+    roleName: "Role Name", roleNamePlaceholder: "e.g. Musician, Gamer, Chef...", createRole: "Create Role", dueToday: "Due Today",
+    weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -252,7 +273,12 @@ const TRANSLATIONS = {
     liquidAssets: "Activos Líquidos", liabilities: "Pasivos",
     daily: "Diario", weekly: "Semanal", monthly: "Mensual",
     overallScore: "Puntaje General", totalWeight: "Peso Total",
-    health: "Salud", family: "Familia", freedom: "Libertad", community: "Comunidad", management: "Gestión", learning: "Aprendizaje", creation: "Creación", fun: "Diversión"
+    health: "Salud", family: "Familia", freedom: "Libertad", community: "Comunidad", management: "Gestión", learning: "Aprendizaje", creation: "Creación", fun: "Diversión",
+    done: "Hecho", yourRoles: "Tus Roles", roleLibrary: "Biblioteca de Roles", createCustom: "Crear Personalizado", level1: "Nivel 1", xp: "XP",
+    roleLibraryTitle: "Biblioteca de Roles", allRolesActive: "Todos los roles disponibles están activos.", createCustomRoleTitle: "Crear Rol Personalizado",
+    roleName: "Nombre del Rol", roleNamePlaceholder: "ej. Músico, Gamer, Chef...", createRole: "Crear Rol", dueToday: "Vence Hoy",
+    weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensual", money: "Dinero", tools: "Herramientas", knowledge: "Conocimiento", people: "Personas", energy: "Energía",
+    newItem: "Nuevo Ítem", addTask: "Añadir nueva tarea"
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -264,7 +290,12 @@ const TRANSLATIONS = {
     liquidAssets: "Actifs Liquides", liabilities: "Passifs",
     daily: "Quotidien", weekly: "Hebdomadaire", monthly: "Mensuel",
     overallScore: "Score Global", totalWeight: "Poids Total",
-    health: "Santé", family: "Famille", freedom: "Liberté", community: "Communauté", management: "Gestion", learning: "Apprentissage", creation: "Création", fun: "Plaisir"
+    health: "Santé", family: "Famille", freedom: "Liberté", community: "Communauté", management: "Gestion", learning: "Apprentissage", creation: "Création", fun: "Plaisir",
+    done: "Terminé", yourRoles: "Vos Rôles", roleLibrary: "Bibliothèque de Rôles", createCustom: "Créer Personnalisé", level1: "Niveau 1", xp: "XP",
+    roleLibraryTitle: "Bibliothèque de Rôles", allRolesActive: "Tous les rôles disponibles sont actifs.", createCustomRoleTitle: "Créer un Rôle Personnalisé",
+    roleName: "Nom du Rôle", roleNamePlaceholder: "ex. Musicien, Gamer, Chef...", createRole: "Créer Rôle", dueToday: "Pour Aujourd'hui",
+    weeklyGoal: "Objectif Hebdo", monthlyGoal: "Objectif Mensuel", money: "Argent", tools: "Outils", knowledge: "Savoir", people: "Gens", energy: "Énergie",
+    newItem: "Nouvel Élément", addTask: "Ajouter une tâche"
   },
   de: {
     dashboard: "Armaturenbrett", lifeBalance: "Lebensbalance", lifeRoles: "Lebensrollen", lifeSkills: "Lebenskompetenzen", lifeResources: "Lebensressourcen", myTime: "Meine Zeit", visualization: "Visualisierung",
@@ -276,7 +307,12 @@ const TRANSLATIONS = {
     liquidAssets: "Flüssige Mittel", liabilities: "Verbindlichkeiten",
     daily: "Täglich", weekly: "Wöchentlich", monthly: "Monatlich",
     overallScore: "Gesamtpunktzahl", totalWeight: "Gesamtgewicht",
-    health: "Gesundheit", family: "Familie", freedom: "Freiheit", community: "Gemeinschaft", management: "Management", learning: "Lernen", creation: "Schöpfung", fun: "Spaß"
+    health: "Gesundheit", family: "Familie", freedom: "Freiheit", community: "Gemeinschaft", management: "Management", learning: "Lernen", creation: "Schöpfung", fun: "Spaß",
+    done: "Fertig", yourRoles: "Deine Rollen", roleLibrary: "Rollenbibliothek", createCustom: "Benutzerdefiniert", level1: "Level 1", xp: "XP",
+    roleLibraryTitle: "Rollenbibliothek", allRolesActive: "Alle verfügbaren Rollen sind aktiv.", createCustomRoleTitle: "Benutzerdefinierte Rolle erstellen",
+    roleName: "Rollenname", roleNamePlaceholder: "z.B. Musiker, Gamer, Koch...", createRole: "Rolle erstellen", dueToday: "Heute fällig",
+    weeklyGoal: "Wochenziel", monthlyGoal: "Monatsziel", money: "Geld", tools: "Werkzeuge", knowledge: "Wissen", people: "Menschen", energy: "Energie",
+    newItem: "Neues Element", addTask: "Neue Aufgabe hinzufügen"
   },
   pt: {
     dashboard: "Painel", lifeBalance: "Equilíbrio de Vida", lifeRoles: "Papéis de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Meu Tempo", visualization: "Visualização",
@@ -288,7 +324,12 @@ const TRANSLATIONS = {
     liquidAssets: "Ativos Líquidos", liabilities: "Passivos",
     daily: "Diário", weekly: "Semanal", monthly: "Mensal",
     overallScore: "Pontuação Geral", totalWeight: "Peso Total",
-    health: "Saúde", family: "Família", freedom: "Liberdade", community: "Comunidade", management: "Gestão", learning: "Aprendizado", creation: "Criação", fun: "Diversão"
+    health: "Saúde", family: "Família", freedom: "Liberdade", community: "Comunidade", management: "Gestão", learning: "Aprendizado", creation: "Criação", fun: "Diversão",
+    done: "Concluído", yourRoles: "Seus Papéis", roleLibrary: "Biblioteca de Papéis", createCustom: "Criar Personalizado", level1: "Nível 1", xp: "XP",
+    roleLibraryTitle: "Biblioteca de Papéis", allRolesActive: "Todos os papéis disponíveis estão ativos.", createCustomRoleTitle: "Criar Papel Personalizado",
+    roleName: "Nome do Papel", roleNamePlaceholder: "ex. Músico, Gamer, Chef...", createRole: "Criar Papel", dueToday: "Vence Hoje",
+    weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensal", money: "Dinheiro", tools: "Ferramentas", knowledge: "Conhecimento", people: "Pessoas", energy: "Energia",
+    newItem: "Novo Item", addTask: "Adicionar nova tarefa"
   },
   zh: {
     dashboard: "仪表板", lifeBalance: "生活平衡", lifeRoles: "生活角色", lifeSkills: "生活技能", lifeResources: "生活资源", myTime: "我的时间", visualization: "愿景板",
@@ -300,7 +341,12 @@ const TRANSLATIONS = {
     liquidAssets: "流动资产", liabilities: "负债",
     daily: "每日", weekly: "每周", monthly: "每月",
     overallScore: "总分", totalWeight: "总权重",
-    health: "健康", family: "家庭", freedom: "自由", community: "社区", management: "管理", learning: "学习", creation: "创造", fun: "娱乐"
+    health: "健康", family: "家庭", freedom: "自由", community: "社区", management: "管理", learning: "学习", creation: "创造", fun: "娱乐",
+    done: "完成", yourRoles: "你的角色", roleLibrary: "角色库", createCustom: "创建自定义", level1: "等级 1", xp: "XP",
+    roleLibraryTitle: "角色库", allRolesActive: "所有可用角色均已激活。", createCustomRoleTitle: "创建自定义角色",
+    roleName: "角色名称", roleNamePlaceholder: "例如：音乐家、游戏玩家、厨师...", createRole: "创建角色", dueToday: "今天到期",
+    weeklyGoal: "每周目标", monthlyGoal: "每月目标", money: "金钱", tools: "工具", knowledge: "知识", people: "人脉", energy: "精力",
+    newItem: "新项目", addTask: "添加新任务"
   },
   ja: {
     dashboard: "ダッシュボード", lifeBalance: "ライフバランス", lifeRoles: "ライフロール", lifeSkills: "ライフスキル", lifeResources: "ライフリソース", myTime: "マイタイム", visualization: "ビジュアライゼーション",
@@ -312,7 +358,12 @@ const TRANSLATIONS = {
     liquidAssets: "流動資産", liabilities: "負債",
     daily: "毎日", weekly: "毎週", monthly: "毎月",
     overallScore: "総合スコア", totalWeight: "総重量",
-    health: "健康", family: "家族", freedom: "自由", community: "コミュニティ", management: "管理", learning: "学習", creation: "創造", fun: "楽しみ"
+    health: "健康", family: "家族", freedom: "自由", community: "コミュニティ", management: "管理", learning: "学習", creation: "創造", fun: "楽しみ",
+    done: "完了", yourRoles: "あなたの役割", roleLibrary: "役割ライブラリ", createCustom: "カスタム作成", level1: "レベル 1", xp: "XP",
+    roleLibraryTitle: "役割ライブラリ", allRolesActive: "利用可能なすべての役割がアクティブです。", createCustomRoleTitle: "カスタム役割を作成",
+    roleName: "役割名", roleNamePlaceholder: "例：ミュージシャン、ゲーマー、シェフ...", createRole: "役割を作成", dueToday: "今日期限",
+    weeklyGoal: "週の目標", monthlyGoal: "月の目標", money: "お金", tools: "ツール", knowledge: "知識", people: "人々", energy: "エネルギー",
+    newItem: "新しいアイテム", addTask: "新しいタスクを追加"
   }
 };
 
@@ -429,99 +480,84 @@ const calculateSkillLevel = (skill, allData) => {
 
 // --- Components ---
 
-const LandingPage = ({ onLogin, onGuest }) => {
-  const [isSignup, setIsSignup] = useState(false);
+const LandingPage = ({ onLogin, onGuest, t }) => {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock successful login
     onLogin({ name: name || "User", email });
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] flex flex-col items-center justify-center p-4 font-sans text-white relative overflow-hidden">
-      {/* Cinematic Background Effects */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] bg-[length:30px_30px] opacity-20 pointer-events-none"></div>
+    <div className="h-screen w-screen bg-[#0a0a0a] text-white flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000_100%)]"></div>
+      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#333 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
-      <div className="z-10 w-full max-w-md space-y-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <div className="space-y-2">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-700 shadow-lg shadow-blue-900/30 mb-4 border border-white/10">
-            <span className="text-3xl font-bold text-white">L</span>
+      <div className="relative z-10 w-full max-w-md p-8">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-2xl shadow-blue-900/50">
+            <span className="text-3xl font-bold">L</span>
           </div>
-          <h1 className="text-5xl font-bold tracking-tighter text-white">livia</h1>
-          <p className="text-gray-400 text-lg">Design your life. Master your reality.</p>
+          <h1 className="text-4xl font-bold mb-2">Livia</h1>
+          <p className="text-gray-400">{t('welcome')}</p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-[#1e1e1e]/80 backdrop-blur-xl p-8 rounded-2xl border border-gray-700/50 shadow-2xl">
+        <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-2xl border border-gray-800">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {isSignup && (
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="w-full p-3.5 bg-[#121212] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required={isSignup}
-              />
+            {!isLogin && (
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('name')}</label>
+                <input
+                  type="text"
+                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
+                  placeholder={t('yourNamePlaceholder')}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
             )}
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-3.5 bg-[#121212] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-3.5 bg-[#121212] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div>
+              <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('email')}</label>
+              <input
+                type="email"
+                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('password')}</label>
+              <input
+                type="password"
+                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg py-3 rounded-lg transition-all shadow-lg shadow-blue-900/20"
-            >
-              {isSignup ? "Create Account" : "Log In"}
+            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-900/20">
+              {isLogin ? t('login') : t('createAccount')}
             </button>
           </form>
 
-          <div className="my-6 flex items-center gap-4 text-xs text-gray-500">
-            <div className="h-px bg-gray-700 flex-1"></div>
-            <span>OR</span>
-            <div className="h-px bg-gray-700 flex-1"></div>
+          <div className="mt-6 pt-6 border-t border-gray-700/50">
+            <button onClick={onGuest} className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors py-2 rounded-lg hover:bg-gray-800">
+              <UserX size={18} />
+              {t('continueGuest')}
+            </button>
           </div>
 
-          <div className="space-y-3">
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              className="w-full bg-[#2a2a2a] hover:bg-[#333] border border-gray-700 text-gray-300 font-medium py-3 rounded-lg transition-colors"
-            >
-              {isSignup ? "Already have an account? Log In" : "Sign Up"}
-            </button>
-
-            <button
-              onClick={onGuest}
-              className="w-full text-gray-500 hover:text-white text-sm py-2 transition-colors flex items-center justify-center gap-2"
-            >
-              Continue as Guest <ArrowLeft size={14} className="rotate-180" />
+          <div className="mt-4 text-center">
+            <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-blue-400 hover:text-blue-300">
+              {isLogin ? t('needAccount') : t('haveAccount')}
             </button>
           </div>
         </div>
-
-        <p className="text-xs text-gray-600">
-          By continuing, you agree to Livia's Terms & Privacy Policy.
-          <br />Guest mode does not save data permanently.
-        </p>
       </div>
     </div>
   );
@@ -553,1839 +589,1747 @@ const Modal = ({ isOpen, onClose, title, children, footer, theme }) => {
   );
 };
 
-const SettingsModal = ({ isOpen, onClose, data, setData, theme, isGuest }) => {
-  const [activeTab, setActiveTab] = useState('account');
-  const [tempName, setTempName] = useState(data.appSettings.userName);
-  const [tempEmail, setTempEmail] = useState(data.appSettings.userEmail);
-  const [uploading, setUploading] = useState(false);
+const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
+  if (!isOpen) return null;
+  const { appSettings } = data;
+  const colors = THEMES[appSettings.theme];
 
-  const colors = THEMES[theme];
-
-  const handleSave = () => {
+  const handleChange = (field, value) => {
     if (isGuest) {
-      alert("Settings cannot be saved in Guest Mode.");
+      alert(t('settingsNotSavedGuest'));
       return;
     }
     setData(prev => ({
       ...prev,
-      appSettings: {
-        ...prev.appSettings,
-        userName: tempName,
-        userEmail: tempEmail
-      }
+      appSettings: { ...prev.appSettings, [field]: value }
     }));
-    onClose();
   };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className={`${colors.bgSecondary} w-full max-w-md rounded-xl shadow-2xl border ${colors.border} p-6`}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className={`text-xl font-bold ${colors.text}`}>{t('settings')}</h2>
+          <button onClick={onClose} className={`p-2 hover:bg-gray-700 rounded-full ${colors.textSecondary}`}><X size={20} /></button>
+        </div>
+
+        <div className="space-y-6">
+          <div>
+            <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>{t('theme')}</label>
+            <div className="flex gap-2">
+              <button onClick={() => handleChange('theme', 'dark')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'dark' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>{t('dark')}</button>
+              <button onClick={() => handleChange('theme', 'light')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'light' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>{t('light')}</button>
+            </div>
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>{t('language')}</label>
+            <select
+              value={appSettings.language}
+              onChange={(e) => handleChange('language', e.target.value)}
+              className={`w-full p-2 rounded-lg border ${colors.border} ${colors.input} ${colors.text}`}
+            >
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="pt">Português</option>
+              <option value="zh">中文</option>
+              <option value="ja">日本語</option>
+            </select>
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>{t('userName')}</label>
+            <input
+              type="text"
+              value={appSettings.userName}
+              onChange={(e) => handleChange('userName', e.target.value)}
+              className={`w-full p-2 rounded-lg border ${colors.border} ${colors.input} ${colors.text}`}
+            />
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-end">
+          <button onClick={onClose} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg">{t('save')}</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onSave, theme, isGuest }) => {
+  const [formData, setFormData] = useState(item || {});
+  const [uploading, setUploading] = useState(false);
+  const colors = THEMES[theme || 'dark'];
+
+  useEffect(() => { setFormData(item || {}); }, [item]);
+
+  const handleChange = (field, value) => { setFormData(prev => ({ ...prev, [field]: value })); };
 
   const handleImageUpload = async (e) => {
     if (isGuest) {
-      alert("Image upload is disabled in Guest Mode.");
+      alert(t('uploadsDisabledGuest'));
       return;
     }
     const file = e.target.files[0];
-    const SettingsModal = ({ isOpen, onClose, data, setData, t }) => {
-      if (!isOpen) return null;
-      const { appSettings } = data;
-      const colors = THEMES[appSettings.theme];
+    if (file) {
+      setUploading(true);
+      const url = await uploadToCloudinary(file);
+      handleChange('image', url);
+      setUploading(false);
+    }
+  };
 
-      const handleChange = (field, value) => {
-        setData(prev => ({
-          ...prev,
-          appSettings: { ...prev.appSettings, [field]: value }
-        }));
-      };
+  if (!item) return null;
 
-      return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className={`${colors.bgSecondary} w-full max-w-md rounded-xl shadow-2xl border ${colors.border} p-6`}>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className={`text-xl font-bold ${colors.text}`}>{t('settings')}</h2>
-              <button onClick={onClose} className={`p-2 hover:bg-gray-700 rounded-full ${colors.textSecondary}`}><X size={20} /></button>
-            </div>
+  const isResource = type === 'resources' || type === 'wishlist' || type === 'money' || RESOURCE_CATEGORIES.some(c => c.id === type);
+  const isSkill = type === 'skills';
+  const autoCalculatedLevel = isSkill && data ? calculateSkillLevel({ ...formData, manualMode: false }, data) : 0;
 
-            <div className="space-y-6">
-              <div>
-                <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>Theme</label>
-                <div className="flex gap-2">
-                  <button onClick={() => handleChange('theme', 'dark')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'dark' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>Dark</button>
-                  <button onClick={() => handleChange('theme', 'light')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'light' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>Light</button>
-                </div>
-              </div>
-
-              <div>
-                <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>Language</label>
-                <select
-                  value={appSettings.language}
-                  onChange={(e) => handleChange('language', e.target.value)}
-                  className={`w-full p-2 rounded-lg border ${colors.border} ${colors.input} ${colors.text}`}
-                >
-                  <option value="en">English</option>
-                  <option value="es">Español</option>
-                  <option value="fr">Français</option>
-                  <option value="de">Deutsch</option>
-                  <option value="pt">Português</option>
-                  <option value="zh">中文</option>
-                  <option value="ja">日本語</option>
-                </select>
-              </div>
-
-              <div>
-                <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>User Name</label>
-                <input
-                  type="text"
-                  value={appSettings.userName}
-                  onChange={(e) => handleChange('userName', e.target.value)}
-                  className={`w-full p-2 rounded-lg border ${colors.border} ${colors.input} ${colors.text}`}
-                />
-              </div>
-            </div>
-
-            <div className="mt-8 flex justify-end">
-              <button onClick={onClose} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg">{t('save')}</button>
-            </div>
-          </div>
+  return (
+    <Modal
+      isOpen={isOpen} onClose={onClose}
+      title={`${t('edit')} ${type ? (t(type) || type) : t('item')}`}
+      theme={theme}
+      footer={
+        <div className="flex justify-end gap-3">
+          <button onClick={onClose} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text} transition-colors`}>{t('cancel')}</button>
+          <button onClick={() => onSave(formData)} className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium flex items-center gap-2 transition-colors"><Save size={16} /> {t('saveChanges')}</button>
         </div>
-      );
-    };
-
-    const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onSave, theme, isGuest }) => {
-      const [formData, setFormData] = useState(item || {});
-      const [uploading, setUploading] = useState(false);
-      const colors = THEMES[theme || 'dark'];
-
-      useEffect(() => { setFormData(item || {}); }, [item]);
-
-      const handleChange = (field, value) => { setFormData(prev => ({ ...prev, [field]: value })); };
-
-      const handleImageUpload = async (e) => {
-        if (isGuest) {
-          alert("Image upload disabled in Guest Mode");
-          return;
-        }
-        const file = e.target.files[0];
-        if (file) {
-          setUploading(true);
-          const url = await uploadToCloudinary(file);
-          handleChange('image', url);
-          setUploading(false);
-        }
-      };
-
-      if (!item) return null;
-
-      const isResource = type === 'resources' || type === 'wishlist' || type === 'money' || RESOURCE_CATEGORIES.some(c => c.id === type);
-      const isSkill = type === 'skills';
-      const autoCalculatedLevel = isSkill && data ? calculateSkillLevel({ ...formData, manualMode: false }, data) : 0;
-
-      return (
-        <Modal
-          isOpen={isOpen} onClose={onClose}
-          title={`Edit ${type ? type.charAt(0).toUpperCase() + type.slice(1) : 'Item'}`}
-          theme={theme}
-          footer={
-            <div className="flex justify-end gap-3">
-              <button onClick={onClose} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text} transition-colors`}>Cancel</button>
-              <button onClick={() => onSave(formData)} className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium flex items-center gap-2 transition-colors"><Save size={16} /> Save Changes</button>
-            </div>
-          }
-        >
-          <div className={`space-y-5 ${colors.text}`}>
-            {isResource && (
-              <div className="flex justify-center mb-4">
-                <label className={`relative w-full h-48 ${colors.bgSecondary} border-2 border-dashed ${colors.border} rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors overflow-hidden group ${isGuest ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                  {formData.image ? (
-                    <img src={formData.image} alt="Item" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className={`flex flex-col items-center ${colors.textSecondary}`}>
-                      <Camera size={32} className="mb-2" />
-                      <span className="text-sm">{uploading ? "Uploading..." : "Upload Photo"}</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-sm transition-opacity">
-                    {isGuest ? "Disabled in Guest Mode" : "Change Photo"}
-                  </div>
-                  <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
-                </label>
-              </div>
-            )}
-
-            <div>
-              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Name</label>
-              <input className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:border-blue-500 focus:outline-none`} value={formData.name || ''} onChange={e => handleChange('name', e.target.value)} />
-            </div>
-
-            {isResource && (
-              <div>
-                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-2`}>Category (Widget)</label>
-                <div className="grid grid-cols-5 gap-2">
-                  {RESOURCE_CATEGORIES.map(cat => (
-                    <div
-                      key={cat.id}
-                      onClick={() => handleChange('category', cat.id)}
-                      className={`cursor-pointer rounded-lg p-2 flex flex-col items-center justify-center gap-1 border transition-all ${formData.category === cat.id ? 'border-blue-500 bg-[#333]' : `border-transparent hover:${colors.bgTertiary}`}`}
-                    >
-                      <div className={`${cat.color}`}>{React.cloneElement(cat.icon, { size: 20 })}</div>
-                      <span className={`text-[9px] ${colors.textSecondary} text-center leading-tight`}>{cat.label}</span>
-                    </div>
-                  ))}
+      }
+    >
+      <div className={`space-y-5 ${colors.text}`}>
+        {isResource && (
+          <div className="flex justify-center mb-4">
+            <label className={`relative w-full h-48 ${colors.bgSecondary} border-2 border-dashed ${colors.border} rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors overflow-hidden group ${isGuest ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              {formData.image ? (
+                <img src={formData.image} alt="Item" className="w-full h-full object-cover" />
+              ) : (
+                <div className={`flex flex-col items-center ${colors.textSecondary}`}>
+                  <Camera size={32} className="mb-2" />
+                  <span className="text-sm">{uploading ? t('uploading') : t('uploadPhoto')}</span>
                 </div>
+              )}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-sm transition-opacity">
+                {isGuest ? t('disabledGuest') : t('changePhoto')}
               </div>
-            )}
-
-            {isSkill && (
-              <div className={`${colors.bgTertiary} p-4 rounded-lg border ${colors.border}`}>
-                <div className="flex justify-between items-center mb-4">
-                  <label className={`text-xs ${colors.textSecondary} uppercase font-bold`}>Mastery Mode</label>
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className={!formData.manualMode ? "text-blue-400 font-bold" : "text-gray-500"}>Auto</span>
-                    <button
-                      onClick={() => handleChange('manualMode', !formData.manualMode)}
-                      className={`w-10 h-5 rounded-full p-1 transition-colors relative ${formData.manualMode ? 'bg-blue-600' : 'bg-gray-600'}`}
-                    >
-                      <div className={`w-3 h-3 bg-white rounded-full transition-transform duration-200 ${formData.manualMode ? 'translate-x-5' : ''}`} />
-                    </button>
-                    <span className={formData.manualMode ? "text-blue-400 font-bold" : "text-gray-500"}>Manual</span>
-                  </div>
-                </div>
-
-                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>
-                  Level ({formData.manualMode ? 'Manual Set' : 'Auto-Calculated'})
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    disabled={!formData.manualMode}
-                    className={`flex-1 h-2 rounded-lg appearance-none cursor-pointer ${formData.manualMode ? 'bg-gray-700 accent-blue-500' : 'bg-gray-800 accent-gray-500'}`}
-                    value={formData.manualMode ? (formData.level || 0) : autoCalculatedLevel}
-                    onChange={e => handleChange('level', parseInt(e.target.value))}
-                  />
-                  <span className={`w-10 text-right text-sm font-mono ${formData.manualMode ? 'text-blue-400' : 'text-gray-500'}`}>
-                    {formData.manualMode ? (formData.level || 0) : autoCalculatedLevel}%
-                  </span>
-                </div>
-
-                {!formData.manualMode && (
-                  <p className={`text-[10px] ${colors.textSecondary} mt-3 flex items-center gap-1.5 ${colors.bgQuaternary} p-2 rounded`}>
-                    <AlertCircle size={12} />
-                    <span>Level is linked to the completion status of connected missions.</span>
-                  </p>
-                )}
-              </div>
-            )}
-
-            {!isSkill && !isResource && (
-              <>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Importance</label>
-                    <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.importance || 'Medium'} onChange={e => handleChange('importance', e.target.value)}>
-                      <option>Low</option><option>Medium</option><option>High</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Status (%)</label>
-                    <div className="flex items-center gap-2">
-                      <input type="range" min="0" max="100" className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500" value={formData.status || 0} onChange={e => handleChange('status', parseInt(e.target.value))} />
-                      <span className="w-10 text-right text-sm text-blue-400">{formData.status}%</span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Due Date</label>
-                  <input type="date" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.dueDate || ''} onChange={e => handleChange('dueDate', e.target.value)} />
-                </div>
-              </>
-            )}
-
-            {isResource && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Value ($)</label>
-                  <input type="number" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.value || ''} onChange={e => handleChange('value', e.target.value)} placeholder="0.00" />
-                </div>
-                <div>
-                  <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Condition</label>
-                  <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.condition || 'Good'} onChange={e => handleChange('condition', e.target.value)}>
-                    <option>New</option><option>Like New</option><option>Good</option><option>Fair</option><option>Poor</option>
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {roles && !formData.roleKey && (
-              <div>
-                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
-                <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.roleKey || ''} onChange={e => handleChange('roleKey', e.target.value)}>
-                  <option value="">-- No Role Linked --</option>
-                  {roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
-                </select>
-              </div>
-            )}
-
-            <div>
-              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Notes</label>
-              <textarea className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} h-24 resize-none focus:outline-none focus:border-blue-500`} value={formData.notes || ''} onChange={e => handleChange('notes', e.target.value)} />
-            </div>
-          </div>
-        </Modal>
-      );
-    };
-
-    const AddItemInput = ({ onAdd, placeholder, theme }) => {
-      const [val, setVal] = useState("");
-      const colors = THEMES[theme || 'dark'];
-      return (
-        <div className="w-full flex gap-2">
-          <input type="text" value={val} onChange={(e) => setVal(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { onAdd(val); setVal(""); } }}
-            placeholder={placeholder} className={`flex-1 ${colors.input} border ${colors.border} rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 ${colors.text}`} />
-          <button onClick={() => { onAdd(val); setVal(""); }} className="bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-blue-500"><Plus size={16} /></button>
-        </div>
-      );
-    };
-
-    const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, data, theme, isGuest, t }) => {
-      const menuItems = [
-        { id: 'visualization', icon: <Rocket size={20} />, label: 'Life Visualization' },
-        { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Life Balance' },
-        { id: 'roles', icon: <User size={20} />, label: 'Life Roles' },
-        { id: 'skills', icon: <BookOpen size={20} />, label: 'Life Skills' },
-        { id: 'resources', icon: <Briefcase size={20} />, label: 'Life Resources' },
-        { id: 'today', icon: <Calendar size={20} />, label: 'My Time' },
-      ];
-
-      const colors = THEMES[theme];
-
-      return (
-        <div className={`${colors.sidebar} ${colors.text} h-full flex flex-col transition-all duration-300 border-r ${colors.border} ${isOpen ? 'w-64' : 'w-20'}`}>
-          <div className="p-6 font-bold text-xl flex items-center gap-3 text-blue-400">
-            <div className="w-8 h-8 bg-blue-600/20 rounded flex items-center justify-center text-blue-400 border border-blue-500/30">L</div>
-            {isOpen && <span>Livia</span>}
-          </div>
-
-          {/* User Greeting */}
-          {isOpen && (
-            <div className="px-6 mb-6 flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full overflow-hidden ${colors.bgQuaternary}`}>
-                {data.appSettings.userAvatar ? (
-                  <img src={data.appSettings.userAvatar} className="w-full h-full object-cover" />
-                ) : (
-                  <User className="w-full h-full p-2 text-gray-400" />
-                )}
-              </div>
-              <div className="overflow-hidden">
-                <div className="text-sm font-bold truncate">{isGuest ? "Guest" : data.appSettings.userName}</div>
-                <div className={`text-xs ${colors.textSecondary} truncate`}>{isGuest ? "Not Saving" : "Level 5 Human"}</div>
-              </div>
-            </div>
-          )}
-
-          {isGuest && isOpen && (
-            <div className="px-6 mb-4">
-              <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-xs p-2 rounded flex items-center gap-2">
-                <UserX size={12} /> Guest Mode
-              </div>
-            </div>
-          )}
-
-          <nav className="flex-1 px-2 space-y-1">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full p-3 flex items-center gap-4 rounded-lg transition-all ${activeTab === item.id ? 'bg-blue-600/20 text-blue-400 border-l-2 border-blue-500' : `${colors.sidebarHover} ${colors.textSecondary}`
-                  }`}
-              >
-                <div className="min-w-[20px]">{item.icon}</div>
-                {isOpen && <span className="whitespace-nowrap">{item.label}</span>}
-              </button>
-            ))}
-          </nav>
-
-          <div className="mt-auto px-2 mb-2 space-y-1">
-            <button onClick={onOpenSettings} className={`w-full p-3 flex items-center gap-4 rounded-lg transition-all ${colors.sidebarHover} ${colors.textSecondary}`}>
-              <div className="min-w-[20px]"><Settings size={20} /></div>
-              {isOpen && <span>Options</span>}
-            </button>
-            <button onClick={() => window.location.reload()} className={`w-full p-3 flex items-center gap-4 rounded-lg transition-all ${colors.sidebarHover} text-red-400`}>
-              <div className="min-w-[20px]"><LogOut size={20} /></div>
-              {isOpen && <span>Log Out</span>}
-            </button>
-          </div>
-
-          <button onClick={() => setIsOpen(!isOpen)} className={`mx-auto mb-4 p-2 ${colors.sidebarHover} rounded-full ${colors.textSecondary}`}>
-            {isOpen ? <ChevronRight className="rotate-180" /> : <ChevronRight />}
-          </button>
-        </div>
-      );
-    };
-
-    // --- Pages (Theme Aware) ---
-
-    const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t }) => {
-      const [transform, setTransform] = useState({ x: -2000, y: -2000, scale: 1 }); // Start somewhat centered
-      const [selectedId, setSelectedId] = useState(null);
-      const containerRef = useRef(null);
-      const [isPanning, setIsPanning] = useState(false);
-      const [isSpacePressed, setIsSpacePressed] = useState(false);
-      const [panStart, setPanStart] = useState({ x: 0, y: 0 });
-      const [draggingImage, setDraggingImage] = useState(null);
-      const [uploading, setUploading] = useState(false);
-      const colors = THEMES[theme];
-
-      // Global Key & Wheel Listeners
-      useEffect(() => {
-        const handleKeyDown = (e) => { if (e.code === 'Space' && !e.repeat) setIsSpacePressed(true); };
-        const handleKeyUp = (e) => { if (e.code === 'Space') { setIsSpacePressed(false); setIsPanning(false); } };
-
-        // Non-passive wheel listener to prevent browser zoom
-        const handleWheel = (e) => {
-          if (e.ctrlKey) {
-            e.preventDefault();
-            const scaleAmount = -e.deltaY * 0.001;
-            setTransform(prev => {
-              const newScale = Math.max(0.1, Math.min(5, prev.scale + scaleAmount));
-              // Zoom towards mouse pointer
-              const rect = containerRef.current.getBoundingClientRect();
-              const mouseX = e.clientX - rect.left;
-              const mouseY = e.clientY - rect.top;
-              const scaleRatio = newScale / prev.scale;
-              const newX = mouseX - (mouseX - prev.x) * scaleRatio;
-              const newY = mouseY - (mouseY - prev.y) * scaleRatio;
-              return { x: newX, y: newY, scale: newScale };
-            });
-          }
-        };
-
-        // Center the view on mount
-        const container = containerRef.current;
-        if (container) {
-          const { clientWidth, clientHeight } = container;
-          setTransform({
-            x: (clientWidth / 2) - 2500, // 2500 is half of 5000 (canvas size)
-            y: (clientHeight / 2) - 2500,
-            scale: 1
-          });
-
-          container.addEventListener('wheel', handleWheel, { passive: false });
-        }
-
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('keyup', handleKeyUp);
-
-        return () => {
-          window.removeEventListener('keydown', handleKeyDown);
-          window.removeEventListener('keyup', handleKeyUp);
-          if (container) container.removeEventListener('wheel', handleWheel);
-        };
-      }, []);
-
-      const handleMouseDown = (e) => {
-        if (isSpacePressed || e.button === 1) { // Middle click or Space+Left
-          setIsPanning(true);
-          setPanStart({ x: e.clientX - transform.x, y: e.clientY - transform.y });
-          e.preventDefault();
-        } else {
-          // Deselect if clicking empty space
-          if (e.target === containerRef.current) setSelectedId(null);
-        }
-      };
-
-      const handleMouseMove = (e) => {
-        if (isPanning) {
-          setTransform(prev => ({ ...prev, x: e.clientX - panStart.x, y: e.clientY - panStart.y }));
-          return;
-        }
-        if (draggingImage) {
-          const dx = (e.clientX - draggingImage.startX) / transform.scale;
-          const dy = (e.clientY - draggingImage.startY) / transform.scale;
-          setImages(prev => prev.map(img =>
-            img.id === draggingImage.id ? { ...img, x: draggingImage.originalX + dx, y: draggingImage.originalY + dy } : img
-          ));
-        }
-      };
-
-      const handleMouseUp = () => { setIsPanning(false); setDraggingImage(null); };
-
-      const handleImageUpload = async (e) => {
-        if (isGuest) { alert("Uploads disabled in Guest Mode"); return; }
-        const file = e.target.files[0];
-        if (file) {
-          setUploading(true);
-          const url = await uploadToCloudinary(file);
-          // Add to center of current view
-          const rect = containerRef.current.getBoundingClientRect();
-          const centerX = (-transform.x + rect.width / 2) / transform.scale;
-          const centerY = (-transform.y + rect.height / 2) / transform.scale;
-
-          setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
-          setUploading(false);
-        }
-      };
-
-      const updateImage = (id, updates) => {
-        setImages(prev => prev.map(img => img.id === id ? { ...img, ...updates } : img));
-      };
-
-      const deleteImage = (id) => {
-        if (window.confirm("Delete this image?")) setImages(prev => prev.filter(img => img.id !== id));
-      };
-
-      // Radial Chart Background Generator
-      const renderRadialGuide = () => {
-        const size = 5000;
-        const center = size / 2;
-        const radius = 250; // 500px diameter as requested
-        const dims = dimensions || [];
-        if (dims.length < 3) return null;
-
-        const angleStep = (Math.PI * 2) / dims.length;
-        const axes = dims.map((dim, i) => {
-          const angle = i * angleStep - Math.PI / 2;
-          const x = center + Math.cos(angle) * radius;
-          const y = center + Math.sin(angle) * radius;
-          // Text radius should be slightly larger than the chart radius
-          const textRadius = radius + 60;
-          const tx = center + Math.cos(angle) * textRadius;
-          const ty = center + Math.sin(angle) * textRadius;
-          return { x, y, tx, ty, name: dim.name };
-        });
-
-        // Subtle colors for the guide
-        const guideColor = theme === 'dark' ? '#333' : '#e5e5e5';
-        const textColor = theme === 'dark' ? '#444' : '#ccc';
-
-        return (
-          <svg width={size} height={size} className="absolute top-0 left-0 pointer-events-none">
-            {/* Webs */}
-            {[0.2, 0.4, 0.6, 0.8, 1].map(r => (
-              <polygon key={r} points={axes.map(a => {
-                const x = center + (a.x - center) * r;
-                const y = center + (a.y - center) * r;
-                return `${x},${y}`;
-              }).join(' ')} fill="none" stroke={guideColor} strokeWidth="2" />
-            ))}
-            {/* Axes */}
-            {axes.map((a, i) => (
-              <g key={i}>
-                <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={guideColor} strokeWidth="2" />
-                <text x={a.tx} y={a.ty} fill={textColor} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
-              </g>
-            ))}
-            <circle cx={center} cy={center} r={10} fill={guideColor} />
-          </svg>
-        );
-      };
-
-      const handleExport = async () => {
-        if (isGuest) { alert("Export disabled in Guest Mode"); return; }
-        try {
-          const canvas = await import('html2canvas').then(m => m.default(containerRef.current, {
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
-            scale: 1, // Export at 1:1 scale of the container (which is huge, 5000x5000)
-            logging: false,
-            useCORS: true // For Cloudinary images
-          }));
-          const link = document.createElement('a');
-          link.download = 'livia-visualization.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        } catch (err) {
-          console.error("Export failed:", err);
-          alert("Failed to export visualization.");
-        }
-      };
-
-      return (
-        <div className={`flex flex-col h-full ${colors.bg} ${colors.text} overflow-hidden relative`}>
-          <div className={`absolute top-4 left-4 z-20 flex gap-2`}>
-            <label className={`flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded cursor-pointer text-sm text-white shadow-lg ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-              <Upload size={16} /> {uploading ? 'Uploading...' : 'Add Image'}
               <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
             </label>
-            <button onClick={handleExport} className={`flex items-center gap-2 px-4 py-2 ${colors.bgTertiary} hover:bg-gray-700 rounded text-sm ${colors.text} shadow-lg border ${colors.border}`}>
-              <Download size={16} /> Export
-            </button>
-            <div className={`${colors.bgTertiary} px-4 py-2 rounded text-xs ${colors.textSecondary} border ${colors.border} shadow-lg flex items-center gap-2`}>
-              <span className={isSpacePressed ? "text-blue-400 font-bold" : ""}>[Space] + Drag to Pan</span>
-              <span>|</span>
-              <span>[Ctrl] + Scroll to Zoom</span>
-            </div>
           </div>
+        )}
 
-          <div
-            ref={containerRef}
-            className={`w-full h-full overflow-hidden bg-[#1a1a1a] cursor-${isSpacePressed ? 'grab' : 'default'}`}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className="relative bg-[radial-gradient(#333_1px,transparent_1px)] bg-[length:50px_50px]">
+        <div>
+          <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('name')}</label>
+          <input className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:border-blue-500 focus:outline-none`} value={formData.name || ''} onChange={e => handleChange('name', e.target.value)} />
+        </div>
 
-              {renderRadialGuide()}
-
-              {images.map(img => (
+        {isResource && (
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-2`}>{t('categoryWidget')}</label>
+            <div className="grid grid-cols-5 gap-2">
+              {RESOURCE_CATEGORIES.map(cat => (
                 <div
-                  key={img.id}
-                  className={`absolute group ${selectedId === img.id ? 'z-50' : 'z-10'}`}
-                  style={{ left: img.x, top: img.y, width: img.width }}
-                  onMouseDown={(e) => {
-                    if (isSpacePressed) return;
-                    e.stopPropagation();
-                    setSelectedId(img.id);
-                    setDraggingImage({ id: img.id, startX: e.clientX, startY: e.clientY, originalX: img.x, originalY: img.y });
-                  }}
+                  key={cat.id}
+                  onClick={() => handleChange('category', cat.id)}
+                  className={`cursor-pointer rounded-lg p-2 flex flex-col items-center justify-center gap-1 border transition-all ${formData.category === cat.id ? 'border-blue-500 bg-[#333]' : `border-transparent hover:${colors.bgTertiary}`}`}
                 >
-                  <img src={img.src} className={`w-full h-auto rounded shadow-2xl select-none ${selectedId === img.id ? 'ring-4 ring-blue-500' : 'hover:ring-2 hover:ring-white/50'}`} />
-
-                  {selectedId === img.id && (
-                    <>
-                      {/* Resize Handle (Simple width adjustment) */}
-                      <div
-                        className="absolute -bottom-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-se-resize shadow-lg z-50"
-                        onMouseDown={(e) => {
-                          e.stopPropagation();
-                          const startX = e.clientX;
-                          const startWidth = img.width;
-                          const handleResize = (moveEvent) => {
-                            const newWidth = Math.max(50, startWidth + (moveEvent.clientX - startX) / transform.scale);
-                            updateImage(img.id, { width: newWidth });
-                          };
-                          const stopResize = () => {
-                            window.removeEventListener('mousemove', handleResize);
-                            window.removeEventListener('mouseup', stopResize);
-                          };
-                          window.addEventListener('mousemove', handleResize);
-                          window.addEventListener('mouseup', stopResize);
-                        }}
-                      />
-                      {/* Delete Button */}
-                      <button
-                        onClick={(e) => { e.stopPropagation(); deleteImage(img.id); }}
-                        className="absolute -top-3 -right-3 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 z-50"
-                      >
-                        <X size={12} />
-                      </button>
-                    </>
-                  )}
+                  <div className={`${cat.color}`}>{React.cloneElement(cat.icon, { size: 20 })}</div>
+                  <span className={`text-[9px] ${colors.textSecondary} text-center leading-tight`}>{cat.label}</span>
                 </div>
               ))}
             </div>
           </div>
+        )}
+
+        {isSkill && (
+          <div className={`${colors.bgTertiary} p-4 rounded-lg border ${colors.border}`}>
+            <div className="flex justify-between items-center mb-4">
+              <label className={`text-xs ${colors.textSecondary} uppercase font-bold`}>{t('masteryMode')}</label>
+              <div className="flex items-center gap-2 text-sm">
+                <span className={!formData.manualMode ? "text-blue-400 font-bold" : "text-gray-500"}>{t('auto')}</span>
+                <button
+                  onClick={() => handleChange('manualMode', !formData.manualMode)}
+                  className={`w-10 h-5 rounded-full p-1 transition-colors relative ${formData.manualMode ? 'bg-blue-600' : 'bg-gray-600'}`}
+                >
+                  <div className={`w-3 h-3 bg-white rounded-full transition-transform duration-200 ${formData.manualMode ? 'translate-x-5' : ''}`} />
+                </button>
+                <span className={formData.manualMode ? "text-blue-400 font-bold" : "text-gray-500"}>{t('manual')}</span>
+              </div>
+            </div>
+
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>
+              {t('level')} ({formData.manualMode ? t('manualSet') : t('autoCalculated')})
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                disabled={!formData.manualMode}
+                className={`flex-1 h-2 rounded-lg appearance-none cursor-pointer ${formData.manualMode ? 'bg-gray-700 accent-blue-500' : 'bg-gray-800 accent-gray-500'}`}
+                value={formData.manualMode ? (formData.level || 0) : autoCalculatedLevel}
+                onChange={e => handleChange('level', parseInt(e.target.value))}
+              />
+              <span className={`w-10 text-right text-sm font-mono ${formData.manualMode ? 'text-blue-400' : 'text-gray-500'}`}>
+                {formData.manualMode ? (formData.level || 0) : autoCalculatedLevel}%
+              </span>
+            </div>
+
+            {!formData.manualMode && (
+              <p className={`text-[10px] ${colors.textSecondary} mt-3 flex items-center gap-1.5 ${colors.bgQuaternary} p-2 rounded`}>
+                <AlertCircle size={12} />
+                <span>{t('levelLinked')}</span>
+              </p>
+            )}
+          </div>
+        )}
+
+        {!isSkill && !isResource && (
+          <>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('importance')}</label>
+                <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.importance || 'Medium'} onChange={e => handleChange('importance', e.target.value)}>
+                  <option>{t('low')}</option><option>{t('medium')}</option><option>{t('high')}</option>
+                </select>
+              </div>
+              <div>
+                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('status')} (%)</label>
+                <div className="flex items-center gap-2">
+                  <input type="range" min="0" max="100" className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500" value={formData.status || 0} onChange={e => handleChange('status', parseInt(e.target.value))} />
+                  <span className="w-10 text-right text-sm text-blue-400">{formData.status}%</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('dueDate')}</label>
+              <input type="date" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.dueDate || ''} onChange={e => handleChange('dueDate', e.target.value)} />
+            </div>
+          </>
+        )}
+
+        {isResource && (
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('value')} ($)</label>
+              <input type="number" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.value || ''} onChange={e => handleChange('value', e.target.value)} placeholder="0.00" />
+            </div>
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('condition')}</label>
+              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.condition || 'Good'} onChange={e => handleChange('condition', e.target.value)}>
+                <option>{t('new')}</option><option>{t('likeNew')}</option><option>{t('good')}</option><option>{t('fair')}</option><option>{t('poor')}</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {roles && !formData.roleKey && (
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
+            <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.roleKey || ''} onChange={e => handleChange('roleKey', e.target.value)}>
+              <option value="">-- No Role Linked --</option>
+              {roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
+            </select>
+          </div>
+        )}
+
+        <div>
+          <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Notes</label>
+          <textarea className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} h-24 resize-none focus:outline-none focus:border-blue-500`} value={formData.notes || ''} onChange={e => handleChange('notes', e.target.value)} />
         </div>
-      );
+      </div>
+    </Modal>
+  );
+};
+
+const AddItemInput = ({ onAdd, placeholder, theme }) => {
+  const [val, setVal] = useState("");
+  const colors = THEMES[theme || 'dark'];
+  return (
+    <div className="w-full flex gap-2">
+      <input type="text" value={val} onChange={(e) => setVal(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { onAdd(val); setVal(""); } }}
+        placeholder={placeholder} className={`flex-1 ${colors.input} border ${colors.border} rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 ${colors.text}`} />
+      <button onClick={() => { onAdd(val); setVal(""); }} className="bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-blue-500"><Plus size={16} /></button>
+    </div>
+  );
+};
+
+const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, data, theme, isGuest, t }) => {
+  const menuItems = [
+    { id: 'visualization', icon: <Rocket size={20} />, label: t('visualization') },
+    { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: t('lifeBalance') },
+    { id: 'roles', icon: <User size={20} />, label: t('lifeRoles') },
+    { id: 'skills', icon: <BookOpen size={20} />, label: t('lifeSkills') },
+    { id: 'resources', icon: <Briefcase size={20} />, label: t('lifeResources') },
+    { id: 'my_time', icon: <Calendar size={20} />, label: t('myTime') },
+  ];
+
+  const colors = THEMES[theme];
+
+  return (
+    <div className={`${isOpen ? 'w-64' : 'w-20'} h-full ${colors.sidebar} border-r ${colors.border} flex flex-col transition-all duration-300 z-50`}>
+      <div className="h-14 flex items-center px-6 border-b border-gray-800/50">
+        <div className={`w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold mr-3 flex-shrink-0`}>L</div>
+        {isOpen && <span className={`font-bold text-lg ${colors.text}`}>Livia</span>}
+      </div>
+
+      <div className="p-4 border-b border-gray-800/50">
+        <div className="flex items-center gap-3 mb-3">
+          <div className={`w-10 h-10 rounded-full ${colors.bgQuaternary} flex items-center justify-center overflow-hidden`}>
+            {data.appSettings.userAvatar ? <img src={data.appSettings.userAvatar} className="w-full h-full object-cover" /> : <User size={20} className={colors.textSecondary} />}
+          </div>
+          {isOpen && (
+            <div className="overflow-hidden">
+              <div className={`font-bold text-sm truncate ${colors.text}`}>{data.appSettings.userName}</div>
+              <div className={`text-xs ${colors.textSecondary} truncate`}>{isGuest ? t('notSaving') : t('savingToLocal')}</div>
+            </div>
+          )}
+        </div>
+        {isGuest && isOpen && <div className="text-xs text-yellow-500 bg-yellow-900/20 px-2 py-1 rounded border border-yellow-700/50 flex items-center gap-1"><AlertCircle size={12} /> {t('guestMode')}</div>}
+      </div>
+
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        {menuItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}
+          >
+            {item.icon}
+            {isOpen && <span className="text-sm font-medium">{item.label}</span>}
+          </button>
+        ))}
+      </nav>
+
+      <div className="p-4 border-t border-gray-800/50 space-y-1">
+        <button onClick={onOpenSettings} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} transition-colors`}>
+          <Settings size={20} />
+          {isOpen && <span className="text-sm font-medium">{t('settings')}</span>}
+        </button>
+        <button onClick={() => window.location.reload()} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/20 transition-colors`}>
+          <LogOut size={20} />
+          {isOpen && <span className="text-sm font-medium">{t('logOut')}</span>}
+        </button>
+        <button onClick={() => setIsOpen(!isOpen)} className={`w-full flex items-center justify-center py-2 mt-2 ${colors.textSecondary} hover:${colors.text}`}>
+          {isOpen ? <ArrowLeft size={16} /> : <Menu size={16} />}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// --- Pages (Theme Aware) ---
+
+const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t }) => {
+  const [transform, setTransform] = useState({ x: -2000, y: -2000, scale: 1 }); // Start somewhat centered
+  const [selectedId, setSelectedId] = useState(null);
+  const containerRef = useRef(null);
+  const [isPanning, setIsPanning] = useState(false);
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [draggingImage, setDraggingImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const colors = THEMES[theme];
+
+  // Global Key & Wheel Listeners
+  useEffect(() => {
+    const handleKeyDown = (e) => { if (e.code === 'Space' && !e.repeat) setIsSpacePressed(true); };
+    const handleKeyUp = (e) => { if (e.code === 'Space') { setIsSpacePressed(false); setIsPanning(false); } };
+
+    // Non-passive wheel listener to prevent browser zoom
+    const handleWheel = (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const scaleAmount = -e.deltaY * 0.001;
+        setTransform(prev => {
+          const newScale = Math.max(0.1, Math.min(5, prev.scale + scaleAmount));
+          // Zoom towards mouse pointer
+          const rect = containerRef.current.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+          const scaleRatio = newScale / prev.scale;
+          const newX = mouseX - (mouseX - prev.x) * scaleRatio;
+          const newY = mouseY - (mouseY - prev.y) * scaleRatio;
+          return { x: newX, y: newY, scale: newScale };
+        });
+      }
     };
 
-    const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
-      const [activeDimension, setActiveDimension] = useState(data.appSettings.dimensionConfig?.[0]?.name || "Health");
-      const [activeLibTab, setActiveLibTab] = useState("challenges");
-      const [editingItem, setEditingItem] = useState(null);
-      const [editType, setEditType] = useState(null);
-      const [editFreq, setEditFreq] = useState(null);
-      const [isEditingDims, setIsEditingDims] = useState(false);
-      const colors = THEMES[theme];
+    // Center the view on mount
+    const container = containerRef.current;
+    if (container) {
+      const { clientWidth, clientHeight } = container;
+      setTransform({
+        x: (clientWidth / 2) - 2500, // 2500 is half of 5000 (canvas size)
+        y: (clientHeight / 2) - 2500,
+        scale: 1
+      });
 
-      // Ensure dimensionConfig exists (migration for old data)
-      const dimensions = data.appSettings.dimensionConfig || DIMENSIONS.map(d => ({ ...d, weight: 12.5 }));
+      container.addEventListener('wheel', handleWheel, { passive: false });
+    }
 
-      // ... calculations same as before ...
-      const calculatedDimensions = useMemo(() => {
-        return dimensions.map(dim => {
-          const rawScore = calculateDimensionScore(data.dimensions[dim.name]);
-          return { ...dim, score: rawScore };
-        });
-      }, [data.dimensions, dimensions]);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
-      const overallScore = useMemo(() => {
-        const totalWeight = dimensions.reduce((acc, dim) => acc + (dim.weight || 0), 0);
-        if (totalWeight === 0) return 0;
-        const weightedSum = calculatedDimensions.reduce((acc, dim) => acc + (dim.score * (dim.weight || 0)), 0);
-        return Math.round(weightedSum / totalWeight);
-      }, [calculatedDimensions, dimensions]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      if (container) container.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
-      const chartData = calculatedDimensions.map(dim => ({ subject: dim.name, A: dim.score, fullMark: 100 }));
-      const currentDimData = data.dimensions[activeDimension] || {};
+  const handleMouseDown = (e) => {
+    if (isSpacePressed || e.button === 1) { // Middle click or Space+Left
+      setIsPanning(true);
+      setPanStart({ x: e.clientX - transform.x, y: e.clientY - transform.y });
+      e.preventDefault();
+    } else {
+      // Deselect if clicking empty space
+      if (e.target === containerRef.current) setSelectedId(null);
+    }
+  };
 
-      const addItem = (type, val) => {
-        if (!val) return;
-        const newItem = { id: Date.now(), name: val, status: 0, importance: 'Medium', skills: [], roleKey: '', dueDate: '' };
-        setData(prev => {
-          const dimData = prev.dimensions[activeDimension];
-          const updatedList = type === 'routine' ? { ...dimData.routines, daily: [...dimData.routines.daily, newItem] } : [...dimData[type], newItem];
-          return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type === 'routine' ? 'routines' : type]: updatedList } } };
-        });
-        // Auto-open modal
-        setEditingItem(newItem);
-        setEditType(type === 'routine' ? 'routines' : type);
-        if (type === 'routine') setEditFreq('daily'); // Default to daily for quick add
-      };
+  const handleMouseMove = (e) => {
+    if (isPanning) {
+      setTransform(prev => ({ ...prev, x: e.clientX - panStart.x, y: e.clientY - panStart.y }));
+      return;
+    }
+    if (draggingImage) {
+      const dx = (e.clientX - draggingImage.startX) / transform.scale;
+      const dy = (e.clientY - draggingImage.startY) / transform.scale;
+      setImages(prev => prev.map(img =>
+        img.id === draggingImage.id ? { ...img, x: draggingImage.originalX + dx, y: draggingImage.originalY + dy } : img
+      ));
+    }
+  };
 
-      const saveItem = (updatedItem) => {
-        setData(prev => {
-          const dimData = prev.dimensions[activeDimension];
-          let updatedField;
-          if (editType === 'routines') {
-            const list = dimData.routines[editFreq].map(i => i.id === updatedItem.id ? updatedItem : i);
-            updatedField = { ...dimData.routines, [editFreq]: list };
-          } else {
-            updatedField = dimData[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
-          }
-          return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [editType === 'routines' ? 'routines' : editType]: updatedField } } };
-        });
-        setEditingItem(null);
-      };
+  const handleMouseUp = () => { setIsPanning(false); setDraggingImage(null); };
 
-      const removeItem = (type, id, freq = 'daily') => {
-        setData(prev => {
-          const dimData = prev.dimensions[activeDimension];
-          let updated;
-          if (type === 'routines') updated = { ...dimData.routines, [freq]: dimData.routines[freq].filter(i => i.id !== id) };
-          else updated = dimData[type].filter(i => i.id !== id);
-          return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type]: updated } } };
-        });
-      };
+  const handleImageUpload = async (e) => {
+    if (isGuest) { alert(t('uploadsDisabledGuest')); return; }
+    const file = e.target.files[0];
+    if (file) {
+      setUploading(true);
+      const url = await uploadToCloudinary(file);
+      // Add to center of current view
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = (-transform.x + rect.width / 2) / transform.scale;
+      const centerY = (-transform.y + rect.height / 2) / transform.scale;
 
-      const LibraryItemCard = ({ item, onDelete, onClick }) => (
-        <div onClick={onClick} className={`${colors.bgQuaternary} p-4 rounded-lg mb-3 border border-transparent hover:border-blue-500/50 transition-all cursor-pointer group relative shadow-sm`}>
-          <div className="flex justify-between items-start mb-2">
-            <h4 className={`font-bold ${colors.text} pr-8`}>{item.name}</h4>
-            <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`${colors.textSecondary} hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
-          </div>
-          <div className={`flex items-center gap-3 text-xs ${colors.textSecondary} mb-3 flex-wrap`}>
-            <span className={`px-2 py-0.5 rounded font-medium ${item.importance === 'High' ? 'bg-red-900/40 text-red-400' : 'bg-gray-500/20 text-gray-400'}`}>{item.importance}</span>
-            {item.dueDate && <span className="flex items-center gap-1 text-orange-400"><Calendar size={12} /> {item.dueDate}</span>}
-          </div>
-          <div className="w-full h-1.5 bg-gray-500/20 rounded-full overflow-hidden relative">
-            <div className={`h-full rounded-full ${item.status >= 100 ? 'bg-emerald-500' : 'bg-blue-500'}`} style={{ width: `${item.status}%` }}></div>
-          </div>
+      setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
+      setUploading(false);
+    }
+  };
+
+  const updateImage = (id, updates) => {
+    setImages(prev => prev.map(img => img.id === id ? { ...img, ...updates } : img));
+  };
+
+  const deleteImage = (id) => {
+    if (window.confirm(t('deleteImageConfirm'))) setImages(prev => prev.filter(img => img.id !== id));
+  };
+
+  // Radial Chart Background Generator
+  const renderRadialGuide = () => {
+    const size = 5000;
+    const center = size / 2;
+    const radius = 250; // 500px diameter as requested
+    const dims = dimensions || [];
+    if (dims.length < 3) return null;
+
+    const angleStep = (Math.PI * 2) / dims.length;
+    const axes = dims.map((dim, i) => {
+      const angle = i * angleStep - Math.PI / 2;
+      const x = center + Math.cos(angle) * radius;
+      const y = center + Math.sin(angle) * radius;
+      // Text radius should be slightly larger than the chart radius
+      const textRadius = radius + 60;
+      const tx = center + Math.cos(angle) * textRadius;
+      const ty = center + Math.sin(angle) * textRadius;
+      return { x, y, tx, ty, name: dim.name };
+    });
+
+    // Subtle colors for the guide
+    const guideColor = theme === 'dark' ? '#333' : '#e5e5e5';
+    const textColor = theme === 'dark' ? '#444' : '#ccc';
+
+    return (
+      <svg width={size} height={size} className="absolute top-0 left-0 pointer-events-none">
+        {/* Webs */}
+        {[0.2, 0.4, 0.6, 0.8, 1].map(r => (
+          <polygon key={r} points={axes.map(a => {
+            const x = center + (a.x - center) * r;
+            const y = center + (a.y - center) * r;
+            return `${x},${y}`;
+          }).join(' ')} fill="none" stroke={guideColor} strokeWidth="2" />
+        ))}
+        {/* Axes */}
+        {axes.map((a, i) => (
+          <g key={i}>
+            <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={guideColor} strokeWidth="2" />
+            <text x={a.tx} y={a.ty} fill={textColor} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+          </g>
+        ))}
+        <circle cx={center} cy={center} r={10} fill={guideColor} />
+      </svg>
+    );
+  };
+
+  const handleExport = async () => {
+    if (isGuest) { alert(t('exportDisabledGuest')); return; }
+    try {
+      const canvas = await import('html2canvas').then(m => m.default(containerRef.current, {
+        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+        scale: 1, // Export at 1:1 scale of the container (which is huge, 5000x5000)
+        logging: false,
+        useCORS: true // For Cloudinary images
+      }));
+      const link = document.createElement('a');
+      link.download = 'livia-visualization.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    } catch (err) {
+      console.error("Export failed:", err);
+      alert(t('exportFailed'));
+    }
+  };
+
+  return (
+    <div className={`flex flex-col h-full ${colors.bg} ${colors.text} overflow-hidden relative`}>
+      <div className={`absolute top-4 left-4 z-20 flex gap-2`}>
+        <label className={`flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded cursor-pointer text-sm text-white shadow-lg ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+          <Upload size={16} /> {uploading ? t('uploading') : t('addImage')}
+          <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
+        </label>
+        <button onClick={handleExport} className={`flex items-center gap-2 px-4 py-2 ${colors.bgTertiary} hover:bg-gray-700 rounded text-sm ${colors.text} shadow-lg border ${colors.border}`}>
+          <Download size={16} /> {t('export')}
+        </button>
+        <div className={`${colors.bgTertiary} px-4 py-2 rounded text-xs ${colors.textSecondary} border ${colors.border} shadow-lg flex items-center gap-2`}>
+          <span className={isSpacePressed ? "text-blue-400 font-bold" : ""}>{t('panInstruction')}</span>
+          <span>|</span>
+          <span>{t('zoomInstruction')}</span>
         </div>
-      );
+      </div>
 
-      return (
-        <div className={`flex h-full ${colors.bg} overflow-hidden`}>
-          <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveItem} theme={theme} isGuest={isGuest} />
+      <div
+        ref={containerRef}
+        className={`w-full h-full overflow-hidden bg-[#1a1a1a] cursor-${isSpacePressed ? 'grab' : 'default'}`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className="relative bg-[radial-gradient(#333_1px,transparent_1px)] bg-[length:50px_50px]">
 
-          {/* Edit Dimensions Modal */}
-          <Modal isOpen={isEditingDims} onClose={() => setIsEditingDims(false)} title="Edit Life Dimensions" theme={theme}>
-            <div className="space-y-4">
-              <p className={`text-sm ${colors.textSecondary}`}>Customize your life pillars and their importance. Weights should sum to 100%.</p>
-              {dimensions.map((dim, idx) => (
-                <div key={idx} className={`flex gap-2 items-center ${colors.bgSecondary} p-2 rounded`}>
-                  <input
-                    value={dim.name}
-                    onChange={(e) => {
-                      const newName = e.target.value;
-                      setData(prev => {
-                        const newDims = [...prev.appSettings.dimensionConfig];
-                        newDims[idx] = { ...newDims[idx], name: newName };
-                        // Also rename the key in data.dimensions if it exists
-                        const oldName = dim.name;
-                        const newDimensionsData = { ...prev.dimensions };
-                        if (oldName !== newName && newDimensionsData[oldName]) {
-                          newDimensionsData[newName] = newDimensionsData[oldName];
-                          delete newDimensionsData[oldName];
-                        }
-                        return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims }, dimensions: newDimensionsData };
-                      });
-                    }}
-                    className={`flex-1 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm`}
-                  />
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-gray-500">Weight:</span>
-                    <input
-                      type="number"
-                      value={dim.weight || 0}
-                      onChange={(e) => {
-                        const newWeight = parseInt(e.target.value) || 0;
-                        setData(prev => {
-                          const newDims = [...prev.appSettings.dimensionConfig];
-                          newDims[idx] = { ...newDims[idx], weight: newWeight };
-                          return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims } };
-                        });
-                      }}
-                      className={`w-16 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm text-right`}
-                    />
-                    <span className="text-xs">%</span>
-                  </div>
-                </div>
-              ))}
-              <div className={`flex justify-between items-center pt-4 border-t ${colors.border}`}>
-                <span className={`font-bold ${dimensions.reduce((a, b) => a + (b.weight || 0), 0) === 100 ? 'text-green-400' : 'text-orange-400'}`}>
-                  Total Weight: {dimensions.reduce((a, b) => a + (b.weight || 0), 0)}%
-                </span>
-                <button onClick={() => setIsEditingDims(false)} className="bg-blue-600 text-white px-4 py-2 rounded">Done</button>
-              </div>
-            </div>
-          </Modal>
+          {renderRadialGuide()}
 
-          <div className={`w-1/3 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar`}>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className={`text-2xl font-bold ${colors.text}`}>Life Quality</h2>
-              <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:${colors.bgQuaternary} rounded text-blue-400`}><Settings size={16} /></button>
-            </div>
+          {images.map(img => (
+            <div
+              key={img.id}
+              className={`absolute group ${selectedId === img.id ? 'z-50' : 'z-10'}`}
+              style={{ left: img.x, top: img.y, width: img.width }}
+              onMouseDown={(e) => {
+                if (isSpacePressed) return;
+                e.stopPropagation();
+                setSelectedId(img.id);
+                setDraggingImage({ id: img.id, startX: e.clientX, startY: e.clientY, originalX: img.x, originalY: img.y });
+              }}
+            >
+              <img src={img.src} className={`w-full h-auto rounded shadow-2xl select-none ${selectedId === img.id ? 'ring-4 ring-blue-500' : 'hover:ring-2 hover:ring-white/50'}`} />
 
-            {/* Overall Score Card */}
-            <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 flex items-center justify-between`}>
-              <div>
-                <div className="text-xs text-blue-300 font-bold uppercase tracking-wider">Overall Score</div>
-                <div className="text-3xl font-bold mt-1 text-white">{overallScore}%</div>
-              </div>
-              <div className="h-12 w-12 rounded-full border-4 border-blue-500 flex items-center justify-center text-xs font-bold text-blue-300">
-                {overallScore}
-              </div>
-            </div>
-
-            <div className="h-64 w-full"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke={theme === 'dark' ? "#444" : "#ddd"} /><PolarAngleAxis dataKey="subject" tick={{ fill: theme === 'dark' ? '#999' : '#666', fontSize: 10 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.4} /></RadarChart></ResponsiveContainer></div>
-            <div className="mt-4 space-y-2">
-              {calculatedDimensions.map(dim => (
-                <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`flex justify-between p-2 rounded cursor-pointer ${activeDimension === dim.name ? colors.bgQuaternary : ''}`}>
-                  <span className={colors.text}>{dim.name}</span><span className="font-bold text-blue-400">{dim.score}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className={`flex-1 p-6 flex flex-col ${colors.bgSecondary}`}>
-            <h2 className={`text-3xl font-bold ${colors.text} mb-4`}>{activeDimension}</h2>
-            <div className={`flex gap-6 text-sm font-medium ${colors.textSecondary} border-b ${colors.border} mb-4`}>
-              {['challenges', 'goals', 'projects', 'routines'].map(tab => (
-                <button key={tab} onClick={() => setActiveLibTab(tab)} className={`pb-3 capitalize border-b-2 ${activeLibTab === tab ? 'text-blue-400 border-blue-400' : 'border-transparent'}`}>{tab}</button>
-              ))}
-            </div>
-            <div className="flex-1 overflow-y-auto">
-              {activeLibTab === 'routines' ? (
-                ['daily', 'weekly', 'monthly'].map(freq => (
-                  <div key={freq} className="mb-6">
-                    <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase mb-2`}>{freq}</h4>
-                    {currentDimData.routines?.[freq]?.map(item => (
-                      <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem('routines', item.id, freq)} onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }} />
-                    ))}
-                    <AddItemInput onAdd={(v) => addItem('routine', v)} placeholder={`Add ${freq} routine...`} theme={theme} />
-                  </div>
-                ))
-              ) : (
+              {selectedId === img.id && (
                 <>
-                  {currentDimData[activeLibTab]?.map(item => (
-                    <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem(activeLibTab, item.id)} onClick={() => { setEditingItem(item); setEditType(activeLibTab); }} />
-                  ))}
-                  <AddItemInput onAdd={(v) => addItem(activeLibTab, v)} placeholder={`Add ${activeLibTab}...`} theme={theme} />
+                  {/* Resize Handle (Simple width adjustment) */}
+                  <div
+                    className="absolute -bottom-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-se-resize shadow-lg z-50"
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      const startX = e.clientX;
+                      const startWidth = img.width;
+                      const handleResize = (moveEvent) => {
+                        const newWidth = Math.max(50, startWidth + (moveEvent.clientX - startX) / transform.scale);
+                        updateImage(img.id, { width: newWidth });
+                      };
+                      const stopResize = () => {
+                        window.removeEventListener('mousemove', handleResize);
+                        window.removeEventListener('mouseup', stopResize);
+                      };
+                      window.addEventListener('mousemove', handleResize);
+                      window.addEventListener('mouseup', stopResize);
+                    }}
+                  />
+                  {/* Delete Button */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); deleteImage(img.id); }}
+                    className="absolute -top-3 -right-3 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 z-50"
+                  >
+                    <X size={12} />
+                  </button>
                 </>
               )}
             </div>
-          </div>
+          ))}
         </div>
-      );
-    };
+      </div>
+    </div>
+  );
+};
 
-    const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
-      const { userRoles, roleLibrary } = data.appSettings;
-      const [showLibrary, setShowLibrary] = useState(false);
-      const [isCreating, setIsCreating] = useState(false);
-      const [newRoleName, setNewRoleName] = useState("");
-      const colors = THEMES[theme];
+const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
+  const [activeDimension, setActiveDimension] = useState(data.appSettings.dimensionConfig?.[0]?.name || "Health");
+  const [activeLibTab, setActiveLibTab] = useState("challenges");
+  const [editingItem, setEditingItem] = useState(null);
+  const [editType, setEditType] = useState(null);
+  const [editFreq, setEditFreq] = useState(null);
+  const [isEditingDims, setIsEditingDims] = useState(false);
+  const colors = THEMES[theme];
 
-      const availableRoles = roleLibrary ? roleLibrary.filter(r => !userRoles.find(ur => ur.key === r.key)) : [];
+  // Ensure dimensionConfig exists (migration for old data)
+  const dimensions = data.appSettings.dimensionConfig || DIMENSIONS.map(d => ({ ...d, weight: 12.5 }));
 
-      const toggleRole = (role, isAdding) => {
-        setData(prev => {
-          const newRoles = isAdding ? [...prev.appSettings.userRoles, role] : prev.appSettings.userRoles.filter(r => r.key !== role.key);
-          return { ...prev, appSettings: { ...prev.appSettings, userRoles: newRoles } };
-        });
-      };
+  // ... calculations same as before ...
+  const calculatedDimensions = useMemo(() => {
+    return dimensions.map(dim => {
+      const rawScore = calculateDimensionScore(data.dimensions[dim.name]);
+      return { ...dim, score: rawScore };
+    });
+  }, [data.dimensions, dimensions]);
 
-      const createCustomRole = () => {
-        if (!newRoleName) return;
-        const newRole = { key: newRoleName.toLowerCase().replace(/\s/g, '_'), name: newRoleName, icon: 'User' };
-        setData(prev => ({
-          ...prev,
-          appSettings: {
-            ...prev.appSettings,
-            userRoles: [...prev.appSettings.userRoles, newRole],
-            roleLibrary: [...prev.appSettings.roleLibrary, newRole]
-          }
-        }));
-        setNewRoleName("");
-        setIsCreating(false);
-      };
+  const overallScore = useMemo(() => {
+    const totalWeight = dimensions.reduce((acc, dim) => acc + (dim.weight || 0), 0);
+    if (totalWeight === 0) return 0;
+    const weightedSum = calculatedDimensions.reduce((acc, dim) => acc + (dim.score * (dim.weight || 0)), 0);
+    return Math.round(weightedSum / totalWeight);
+  }, [calculatedDimensions, dimensions]);
 
-      const handleDeleteRole = (e, roleKey) => {
-        e.stopPropagation();
-        if (window.confirm("Are you sure you want to delete this role?")) {
-          const role = userRoles.find(r => r.key === roleKey);
-          toggleRole(role, false);
-        }
-      };
+  const chartData = calculatedDimensions.map(dim => ({ subject: dim.name, A: dim.score, fullMark: 100 }));
+  const currentDimData = data.dimensions[activeDimension] || {};
 
-      const getRoleIcon = (iconName) => {
-        switch (iconName) {
-          case 'Dumbbell': return <Dumbbell size={48} className="text-blue-400" />;
-          case 'Briefcase': return <Briefcase size={48} className="text-blue-400" />;
-          case 'User': return <User size={48} className="text-blue-400" />;
-          case 'Heart': return <Heart size={48} className="text-blue-400" />;
-          case 'Flag': return <Flag size={48} className="text-blue-400" />;
-          case 'Users': return <Users size={48} className="text-blue-400" />;
-          case 'GraduationCap': return <GraduationCap size={48} className="text-blue-400" />;
-          default: return <User size={48} className="text-blue-400" />;
-        }
-      };
+  const addItem = (type, val) => {
+    if (!val) return;
+    const newItem = { id: Date.now(), name: val, status: 0, importance: 'Medium', skills: [], roleKey: '', dueDate: '' };
+    setData(prev => {
+      const dimData = prev.dimensions[activeDimension];
+      const updatedList = type === 'routine' ? { ...dimData.routines, daily: [...dimData.routines.daily, newItem] } : [...dimData[type], newItem];
+      return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type === 'routine' ? 'routines' : type]: updatedList } } };
+    });
+    // Auto-open modal
+    setEditingItem(newItem);
+    setEditType(type === 'routine' ? 'routines' : type);
+    if (type === 'routine') setEditFreq('daily'); // Default to daily for quick add
+  };
 
-      const getSmallRoleIcon = (iconName) => {
-        switch (iconName) {
-          case 'Dumbbell': return <Dumbbell size={20} />;
-          case 'Briefcase': return <Briefcase size={20} />;
-          case 'User': return <User size={20} />;
-          case 'Heart': return <Heart size={20} />;
-          case 'Flag': return <Flag size={20} />;
-          case 'Users': return <Users size={20} />;
-          case 'GraduationCap': return <GraduationCap size={20} />;
-          default: return <User size={20} />;
-        }
-      };
-
-      return (
-        <div className={`h-full overflow-y-auto ${colors.bg} p-8 custom-scrollbar flex flex-col`}>
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><User size={32} className="text-blue-400" /> Your Roles</h2>
-              <div className="flex gap-3">
-                <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:border-blue-500 transition-colors ${colors.text}`}>
-                  <BookOpen size={18} /> Role Library
-                </button>
-                <button onClick={() => setIsCreating(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
-                  <Plus size={18} /> Create Custom
-                </button>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {userRoles.map(role => (
-                <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 bg-gradient-to-br from-[#333] to-[#222] border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden`}>
-                  <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                    <button onClick={(e) => handleDeleteRole(e, role.key)} className="p-2 bg-black/50 hover:bg-red-600 rounded-lg text-white/70 hover:text-white transition-colors">
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                  <div className="z-10 relative h-full flex flex-col">
-                    <div className="mb-4 p-4 bg-white/5 rounded-2xl w-fit">
-                      {getRoleIcon(role.icon)}
-                    </div>
-                    <div className="mt-auto">
-                      <h3 className="text-3xl font-bold text-white mb-2">{role.name}</h3>
-                      <div className="flex items-center gap-3">
-                        <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">Level 1</span>
-                        <span className="text-gray-400 text-sm font-mono">0 XP</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Decorative background element */}
-                  <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                </div>
-              ))}
-              {userRoles.length === 0 && (
-                <div className={`col-span-3 h-64 flex flex-col items-center justify-center border-2 border-dashed ${colors.border} rounded-2xl ${colors.textSecondary}`}>
-                  <p className="mb-4 text-lg">You haven't added any roles yet.</p>
-                  <button onClick={() => setShowLibrary(true)} className="text-blue-400 hover:underline">Open Library</button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Library Modal */}
-          <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title="Role Library" theme={theme}>
-            <div className="space-y-2">
-              {availableRoles.length === 0 ? (
-                <p className={`${colors.textSecondary} text-center py-8`}>All available roles are currently active.</p>
-              ) : (
-                availableRoles.map(role => (
-                  <div key={role.key} onClick={() => toggleRole(role, true)} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center cursor-pointer hover:${colors.bgQuaternary} border border-transparent hover:border-blue-500/50 transition-all group`}>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 ${colors.bgQuaternary} rounded-lg flex items-center justify-center ${colors.textSecondary}`}>
-                        {getSmallRoleIcon(role.icon)}
-                      </div>
-                      <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
-                    </div>
-                    <button className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg"><Plus size={18} /></button>
-                  </div>
-                ))
-              )}
-            </div>
-          </Modal>
-
-          {/* Create Role Modal */}
-          <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title="Create Custom Role" theme={theme}>
-            <div className="space-y-4">
-              <div>
-                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Role Name</label>
-                <input
-                  className={`w-full ${colors.input} ${colors.text} px-4 py-3 rounded-lg border ${colors.border} focus:border-blue-500 outline-none`}
-                  placeholder="e.g. Musician, Gamer, Chef..."
-                  value={newRoleName}
-                  onChange={(e) => setNewRoleName(e.target.value)}
-                  autoFocus
-                />
-              </div>
-              <div className="flex justify-end gap-3 pt-4">
-                <button onClick={() => setIsCreating(false)} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text}`}>Cancel</button>
-                <button onClick={createCustomRole} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">Create Role</button>
-              </div>
-            </div>
-          </Modal>
-        </div>
-      );
-    };
-
-    const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
-      const [editingItem, setEditingItem] = useState(null);
-      const [editType, setEditType] = useState(null);
-      const colors = THEMES[theme];
-
-      const roleItems = useMemo(() => {
-        const items = { goals: [], projects: [], challenges: [], routines: [], skills: [], resources: [], wishlist: [] };
-        Object.values(data.dimensions).forEach(dim => {
-          ['goals', 'projects', 'challenges'].forEach(type => { dim[type]?.forEach(i => { if (i.roleKey === role.key) items[type].push(i); }); });
-          ['daily', 'weekly', 'monthly'].forEach(freq => { dim.routines?.[freq]?.forEach(i => { if (i.roleKey === role.key) items.routines.push({ ...i, freq }); }); });
-        });
-        items.skills = data.skills.filter(s => s.roleKey === role.key || s.source?.toLowerCase().includes(role.name.toLowerCase()));
-        items.resources = data.resources.filter(r => r.roleKey === role.key);
-        items.wishlist = data.wishlist.filter(r => r.roleKey === role.key);
-        return items;
-      }, [data, role]);
-
-      const xp = calculateRoleXP(role.key, data);
-      const level = Math.floor(xp / 100) + 1;
-
-      const handleSaveItem = (updatedItem) => {
-        if (editType === 'skills') {
-          if (!data.skills.find(s => s.id === updatedItem.id)) {
-            setData(prev => ({ ...prev, skills: [...prev.skills, updatedItem] }));
-          } else {
-            setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedItem.id ? updatedItem : s) }));
-          }
-        } else if (editType === 'resources') {
-          if (!data.resources.find(r => r.id === updatedItem.id)) {
-            setData(prev => ({ ...prev, resources: [...prev.resources, updatedItem] }));
-          } else {
-            setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === updatedItem.id ? updatedItem : r) }));
-          }
-        } else if (editType === 'wishlist') {
-          if (!data.wishlist.find(r => r.id === updatedItem.id)) {
-            setData(prev => ({ ...prev, wishlist: [...prev.wishlist, updatedItem] }));
-          } else {
-            setData(prev => ({ ...prev, wishlist: prev.wishlist.map(r => r.id === updatedItem.id ? updatedItem : r) }));
-          }
-        } else if (['goals', 'projects', 'challenges'].includes(editType)) {
-          setData(prev => {
-            const newData = { ...prev };
-            Object.keys(newData.dimensions).forEach(dimKey => {
-              const dim = newData.dimensions[dimKey];
-              if (dim[editType]) {
-                dim[editType] = dim[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
-              }
-            });
-            return newData;
-          });
-        }
-        setEditingItem(null);
-      };
-
-      const createItem = (type) => {
-        const baseItem = { id: Date.now(), name: '', roleKey: role.key };
-        if (type === 'skills') baseItem.level = 0;
-        if (type === 'resources' || type === 'wishlist') {
-          baseItem.category = type === 'wishlist' ? 'wishlist' : 'electronics';
-          baseItem.value = 0;
-        }
-        if (['goals', 'projects', 'challenges'].includes(type)) {
-          baseItem.status = 0;
-          baseItem.importance = 'Medium';
-        }
-        setEditingItem(baseItem);
-        setEditType(type);
-      };
-
-      const deleteItem = (type, id) => {
-        if (!window.confirm("Remove this item?")) return;
-        if (type === 'skills') {
-          setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
-        } else if (type === 'resources') {
-          setData(prev => ({ ...prev, resources: prev.resources.filter(s => s.id !== id) }));
-        } else if (type === 'wishlist') {
-          setData(prev => ({ ...prev, wishlist: prev.wishlist.filter(s => s.id !== id) }));
-        }
-      };
-
-      return (
-        <div className={`h-full flex flex-col ${colors.bg}`}>
-          <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={handleSaveItem} theme={theme} isGuest={isGuest} />
-
-          <div className="h-48 bg-gradient-to-r from-blue-900 to-purple-900 p-8 flex items-end relative">
-            <button onClick={onBack} className="absolute top-6 left-6 text-white/70 hover:text-white flex items-center gap-2"><ArrowLeft /> Back to Roles</button>
-            <div className="flex items-center gap-6 w-full">
-              <div className="w-24 h-24 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-xl"><span className="text-4xl font-bold">{role.name[0]}</span></div>
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold text-white mb-2">{role.name}</h1>
-                <div className="flex items-center gap-4 text-sm text-blue-200 font-mono"><span className="bg-white/10 px-3 py-1 rounded">Level {level}</span><span>{xp} XP</span></div>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-              {/* Column 1: Active Missions */}
-              <div className="space-y-6">
-                <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> Active Missions</h3>
-                <div className="space-y-3">
-                  {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
-                    <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
-                      <div className="flex justify-between items-start mb-2"><span className={`font-bold ${colors.text}`}>{item.name}</span><span className={`text-xs px-2 py-0.5 rounded ${item.importance === 'High' ? 'bg-red-900/50 text-red-400' : 'bg-gray-700 text-gray-400'}`}>{item.importance}</span></div>
-                      <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className="h-full bg-blue-500" style={{ width: `${item.status}%` }}></div></div>
-                    </div>
-                  ))}
-                  {roleItems.goals.length === 0 && roleItems.projects.length === 0 && roleItems.challenges.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No active missions linked to this role.</div>}
-                </div>
-              </div>
-
-              {/* Column 2: Mastery & Habits */}
-              <div className="space-y-6">
-                <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><BookOpen size={16} /> Mastery & Habits</h3>
-
-                {/* Skills Section */}
-                <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
-                  <div className="flex justify-between items-center mb-3">
-                    <h4 className={`text-sm font-bold ${colors.text}`}>Skills</h4>
-                    <button onClick={() => createItem('skills')} className="text-blue-400 hover:text-white text-xs flex items-center gap-1"><Plus size={12} /> Add</button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {roleItems.skills.map(s => {
-                      const dynamicLevel = calculateSkillLevel(s, data);
-                      return (
-                        <span key={s.id} onClick={() => { setEditingItem(s); setEditType('skills'); }} className={`${colors.bgSecondary} border ${colors.border} px-3 py-1 rounded-full text-xs ${colors.textSecondary} flex items-center gap-2 cursor-pointer hover:border-blue-500 hover:${colors.text} group`}>
-                          {s.name} <span className="text-blue-400">{dynamicLevel}%</span>
-                          <button onClick={(e) => { e.stopPropagation(); deleteItem('skills', s.id); }} className="hidden group-hover:block text-red-400"><X size={12} /></button>
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Routines Section */}
-                <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
-                  <h4 className={`text-sm font-bold ${colors.text} mb-3`}>Routines</h4>
-                  <div className="space-y-2">{roleItems.routines.map(r => <div key={r.id} className={`flex items-center justify-between text-sm ${colors.textSecondary} border-b ${colors.border} pb-2 last:border-0`}><span>{r.name}</span><span className={`text-xs ${colors.bgQuaternary} px-2 rounded text-blue-400 capitalize`}>{r.freq}</span></div>)}</div>
-                </div>
-              </div>
-
-              {/* Column 3: Inventory & Needs */}
-              <div className="space-y-6">
-                <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Briefcase size={16} /> Role Resources</h3>
-
-                {/* Have */}
-                <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
-                  <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
-                    <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wide">Inventory (Have)</h4>
-                    <button onClick={() => createItem('resources')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
-                  </div>
-                  <div className="space-y-3">
-                    {roleItems.resources.map(item => (
-                      <div key={item.id} onClick={() => { setEditingItem(item); setEditType('resources'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
-                        <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><ImageIcon size={14} /></div>}</div>
-                        <div className="flex-1 min-w-0">
-                          <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
-                          <div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div>
-                        </div>
-                        <button onClick={(e) => { e.stopPropagation(); deleteItem('resources', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
-                      </div>
-                    ))}
-                    {roleItems.resources.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>No resources linked.</div>}
-                  </div>
-                </div>
-
-                {/* Need */}
-                <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
-                  <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
-                    <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wide">Needs (Wishlist)</h4>
-                    <button onClick={() => createItem('wishlist')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
-                  </div>
-                  <div className="space-y-3">
-                    {roleItems.wishlist.map(item => (
-                      <div key={item.id} onClick={() => { setEditingItem(item); setEditType('wishlist'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
-                        <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden border border-yellow-400/20`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><Star size={14} className="text-yellow-400/50" /></div>}</div>
-                        <div className="flex-1 min-w-0">
-                          <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
-                          <div className="font-mono text-yellow-400">${parseFloat(item.value || 0).toLocaleString()}</div>
-                        </div>
-                        <button onClick={(e) => { e.stopPropagation(); deleteItem('wishlist', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
-                      </div>
-                    ))}
-                    {roleItems.wishlist.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>No items needed.</div>}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    const SkillsPage = ({ data, setData, theme, isGuest, t }) => {
-      const [newSkill, setNewSkill] = useState("");
-      const [editingSkill, setEditingSkill] = useState(null);
-      const colors = THEMES[theme];
-
-      const addSkill = () => {
-        if (!newSkill.trim()) return;
-        setData(prev => ({
-          ...prev, skills: [...prev.skills, { id: Date.now(), name: newSkill, level: 0, source: 'Manual' }]
-        }));
-        setNewSkill("");
-      };
-
-      const saveEditedSkill = (updatedSkill) => {
-        setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedSkill.id ? updatedSkill : s) }));
-        setEditingSkill(null);
-      };
-
-      const deleteSkill = (id) => {
-        if (window.confirm("Delete skill?")) setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
-      };
-
-      return (
-        <div className={`h-full p-8 ${colors.bg} overflow-y-auto custom-scrollbar`}>
-          <ItemDetailModal isOpen={!!editingSkill} onClose={() => setEditingSkill(null)} item={editingSkill} type="skills" roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveEditedSkill} theme={theme} isGuest={isGuest} />
-          <div className="max-w-5xl mx-auto">
-            <h2 className={`text-2xl font-bold ${colors.text} mb-6 flex items-center gap-2`}><BookOpen size={24} className="text-blue-400" /> Life Skills Matrix</h2>
-            <div className="flex gap-4 mb-8">
-              <input value={newSkill} onChange={(e) => setNewSkill(e.target.value)} className={`flex-1 ${colors.bgSecondary} border ${colors.border} rounded-lg px-4 py-3 ${colors.text} focus:border-blue-500 focus:outline-none`} placeholder="Add skill..." onKeyDown={(e) => e.key === 'Enter' && addSkill()} />
-              <button onClick={addSkill} className="bg-blue-600 px-6 rounded-lg font-bold text-white hover:bg-blue-500">Add</button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {data.skills.map(skill => {
-                const dynamicLevel = calculateSkillLevel(skill, data);
-                return (
-                  <div key={skill.id} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500/50 transition-all group relative`}>
-                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => setEditingSkill(skill)} className="p-1.5 bg-gray-700 hover:bg-blue-600 rounded text-white"><Edit2 size={14} /></button>
-                      <button onClick={() => deleteSkill(skill.id)} className="p-1.5 bg-gray-700 hover:bg-red-600 rounded text-white"><Trash2 size={14} /></button>
-                    </div>
-                    <div className="flex justify-between items-start mb-2 pr-12">
-                      <h3 className={`font-bold text-lg ${colors.text} truncate`}>{skill.name}</h3>
-                      <span className={`text-xs ${colors.bgQuaternary} px-2 py-1 rounded ${colors.textSecondary}`}>{skill.source || 'General'}</span>
-                    </div>
-                    <div className={`w-full ${colors.bgQuaternary} h-2 rounded-full mb-2`}><div className="bg-blue-500 h-full rounded-full" style={{ width: `${dynamicLevel}%` }}></div></div>
-                    <div className={`flex justify-between text-xs ${colors.textSecondary}`}><span>Lvl {Math.floor(dynamicLevel / 10) + 1}</span><span>{dynamicLevel}%</span></div>
-                  </div>
-                );
-              })}
-              {data.skills.length === 0 && <div className={`col-span-3 text-center ${colors.textSecondary} py-8`}>No skills added yet.</div>}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
-      const [view, setView] = useState('grid');
-      const [activeCat, setActiveCat] = useState(null);
-      const [editingItem, setEditingItem] = useState(null);
-      const colors = THEMES[theme];
-
-      const financials = useMemo(() => {
-        const moneyItems = data.resources.filter(r => r.category === 'money');
-        let liquidAssets = 0, liabilities = 0, income = 0, expenses = 0;
-        moneyItems.forEach(item => {
-          const val = parseFloat(item.value) || 0;
-          if (item.type === 'Asset') liquidAssets += val;
-          if (item.type === 'Liability') liabilities += val;
-          if (item.type === 'Income') income += val;
-          if (item.type === 'Expense') expenses += val;
-        });
-        let inventoryAssets = 0;
-        data.resources.forEach(item => {
-          if (item.category !== 'money' && item.category !== 'wishlist') inventoryAssets += (parseFloat(item.value) || 0);
-        });
-        return { liquidAssets, inventoryAssets, liabilities, income, expenses, netWorth: (liquidAssets + inventoryAssets) - liabilities };
-      }, [data.resources]);
-
-      const addItem = (val, type) => {
-        if (!val) return;
-        const newItem = { id: Date.now(), name: val, category: activeCat.id, value: '0', type: type || 'Asset', image: null, condition: 'Good' };
-        if (activeCat.id === 'wishlist') setData(prev => ({ ...prev, wishlist: [...prev.wishlist, newItem] }));
-        else setData(prev => ({ ...prev, resources: [...prev.resources, newItem] }));
-      };
-
-      const saveItem = (updated) => {
-        const listName = updated.category === 'wishlist' ? 'wishlist' : 'resources';
-        setData(prev => ({ ...prev, [listName]: prev[listName].map(i => i.id === updated.id ? updated : i) }));
-        setEditingItem(null);
-      };
-
-      const deleteItem = (id) => {
-        const listName = activeCat.id === 'wishlist' ? 'wishlist' : 'resources';
-        setData(prev => ({ ...prev, [listName]: prev[listName].filter(i => i.id !== id) }));
-      };
-
-      if (view === 'grid') {
-        return (
-          <div className={`h-full p-8 overflow-y-auto custom-scrollbar ${colors.bg}`}>
-            <h2 className={`text-3xl font-bold ${colors.text} mb-8 flex items-center gap-2`}><Briefcase size={32} className="text-blue-400" /> Life Resources</h2>
-
-            {/* Financial Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-              <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
-                <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Net Worth</div>
-                <div className={`text-3xl font-bold mt-1 ${financials.netWorth >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div>
-                <div className={`text-xs ${colors.textSecondary} mt-2`}>Assets - Debts</div>
-              </div>
-              <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
-                <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Monthly Income</div>
-                <div className="text-3xl font-bold mt-1 text-emerald-400">+${financials.income.toLocaleString()}</div>
-                <div className={`text-xs ${colors.textSecondary} mt-2`}>Fixed & Passive</div>
-              </div>
-              <div className={`${colors.bgTertiary} p-5 rounded-2xl border ${colors.border} flex flex-col justify-between`}>
-                <div className={`text-sm ${colors.textSecondary} font-bold uppercase tracking-wider`}>Monthly Expenses</div>
-                <div className="text-3xl font-bold mt-1 text-red-400">-${financials.expenses.toLocaleString()}</div>
-                <div className={`text-xs ${colors.textSecondary} mt-2`}>Fixed & Recurring</div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {RESOURCE_CATEGORIES.map(cat => <div key={cat.id} onClick={() => { setActiveCat(cat); setView('category'); }} className={`${colors.bgSecondary} p-6 rounded-2xl border ${colors.border} hover:border-blue-500 hover:${colors.bgQuaternary} transition-all cursor-pointer flex flex-col items-center justify-center gap-4 group aspect-square relative overflow-hidden shadow-lg`}><div className={`${cat.color} group-hover:scale-110 transition-transform p-4 bg-gray-800/50 rounded-full`}>{cat.icon}</div><div className={`text-lg font-bold ${colors.text}`}>{cat.label}</div></div>)}
-            </div>
-          </div>
-        );
+  const saveItem = (updatedItem) => {
+    setData(prev => {
+      const dimData = prev.dimensions[activeDimension];
+      let updatedField;
+      if (editType === 'routines') {
+        const list = dimData.routines[editFreq].map(i => i.id === updatedItem.id ? updatedItem : i);
+        updatedField = { ...dimData.routines, [editFreq]: list };
+      } else {
+        updatedField = dimData[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
       }
+      return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [editType === 'routines' ? 'routines' : editType]: updatedField } } };
+    });
+    setEditingItem(null);
+  };
 
-      const activeItems = activeCat.id === 'wishlist' ? data.wishlist : data.resources.filter(r => r.category === activeCat.id);
-      const totalValue = activeItems.reduce((acc, item) => acc + (parseFloat(item.value) || 0), 0);
+  const removeItem = (type, id, freq = 'daily') => {
+    setData(prev => {
+      const dimData = prev.dimensions[activeDimension];
+      let updated;
+      if (type === 'routines') updated = { ...dimData.routines, [freq]: dimData.routines[freq].filter(i => i.id !== id) };
+      else updated = dimData[type].filter(i => i.id !== id);
+      return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type]: updated } } };
+    });
+  };
 
-      return (
-        <div className={`h-full flex flex-col ${colors.bg}`}>
-          <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={activeCat?.id} roles={data.appSettings.userRoles} onSave={saveItem} theme={theme} isGuest={isGuest} />
-          <div className={`p-6 border-b ${colors.border} flex items-center justify-between ${colors.bgTertiary}`}>
-            <div className="flex items-center gap-4"><button onClick={() => setView('grid')} className={`p-2 hover:${colors.bgQuaternary} rounded-full ${colors.textSecondary} hover:${colors.text}`}><ArrowLeft size={20} /></button><div className={`${activeCat.color}`}>{activeCat.icon}</div><div><h2 className={`text-2xl font-bold ${colors.text}`}>{activeCat.label}</h2><p className={`text-xs ${colors.textSecondary}`}>Total: <span className="text-emerald-400 font-mono">${totalValue.toLocaleString()}</span></p></div></div>
-          </div>
-          {activeCat.id === 'money' ? (
-            <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Assets & Liabilities */}
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Liquid Assets</h3>
-                    {activeItems.filter(i => i.type === 'Asset').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div></div>)}
-                    <AddItemInput onAdd={(v) => addItem(v, 'Asset')} placeholder="Add Asset..." theme={theme} />
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Liabilities (Debts)</h3>
-                    {activeItems.filter(i => i.type === 'Liability').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}
-                    <AddItemInput onAdd={(v) => addItem(v, 'Liability')} placeholder="Add Liability..." theme={theme} />
-                  </div>
-                </div>
+  const LibraryItemCard = ({ item, onDelete, onClick }) => (
+    <div onClick={onClick} className={`${colors.bgQuaternary} p-4 rounded-lg mb-3 border border-transparent hover:border-blue-500/50 transition-all cursor-pointer group relative shadow-sm`}>
+      <div className="flex justify-between items-start mb-2">
+        <h4 className={`font-bold ${colors.text} pr-8`}>{item.name}</h4>
+        <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`${colors.textSecondary} hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
+      </div>
+      <div className={`flex items-center gap-3 text-xs ${colors.textSecondary} mb-3 flex-wrap`}>
+        <span className={`px-2 py-0.5 rounded font-medium ${item.importance === 'High' ? 'bg-red-900/40 text-red-400' : 'bg-gray-500/20 text-gray-400'}`}>{item.importance}</span>
+        {item.dueDate && <span className="flex items-center gap-1 text-orange-400"><Calendar size={12} /> {item.dueDate}</span>}
+      </div>
+      <div className="w-full h-1.5 bg-gray-500/20 rounded-full overflow-hidden relative">
+        <div className={`h-full rounded-full ${item.status >= 100 ? 'bg-emerald-500' : 'bg-blue-500'}`} style={{ width: `${item.status}%` }}></div>
+      </div>
+    </div>
+  );
 
-                {/* Income & Expenses */}
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-emerald-900/50 pb-2">Monthly Income</h3>
-                    {activeItems.filter(i => i.type === 'Income').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-emerald-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-emerald-400">+${parseFloat(item.value).toLocaleString()}</div></div>)}
-                    <AddItemInput onAdd={(v) => addItem(v, 'Income')} placeholder="Add Income Source..." theme={theme} />
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-red-400 font-bold uppercase tracking-widest text-xs mb-4 border-b border-red-900/50 pb-2">Monthly Expenses</h3>
-                    {activeItems.filter(i => i.type === 'Expense').map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} p-4 rounded-xl flex justify-between items-center border ${colors.border} hover:border-red-500 cursor-pointer`}><div className={`font-bold ${colors.text}`}>{item.name}</div><div className="font-mono text-red-400">-${parseFloat(item.value).toLocaleString()}</div></div>)}
-                    <AddItemInput onAdd={(v) => addItem(v, 'Expense')} placeholder="Add Expense..." theme={theme} />
-                  </div>
-                </div>
+  return (
+    <div className={`flex h-full ${colors.bg} overflow-hidden`}>
+      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveItem} theme={theme} isGuest={isGuest} />
+
+      {/* Edit Dimensions Modal */}
+      <Modal isOpen={isEditingDims} onClose={() => setIsEditingDims(false)} title={t('editDimensions')} theme={theme}>
+        <div className="space-y-4">
+          <p className={`text-sm ${colors.textSecondary}`}>{t('editDimensionsDesc')}</p>
+          {dimensions.map((dim, idx) => (
+            <div key={idx} className={`flex gap-2 items-center ${colors.bgSecondary} p-2 rounded`}>
+              <input
+                value={dim.name}
+                onChange={(e) => {
+                  const newName = e.target.value;
+                  setData(prev => {
+                    const newDims = [...prev.appSettings.dimensionConfig];
+                    newDims[idx] = { ...newDims[idx], name: newName };
+                    // Also rename the key in data.dimensions if it exists
+                    const oldName = dim.name;
+                    const newDimensionsData = { ...prev.dimensions };
+                    if (oldName !== newName && newDimensionsData[oldName]) {
+                      newDimensionsData[newName] = newDimensionsData[oldName];
+                      delete newDimensionsData[oldName];
+                    }
+                    return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims }, dimensions: newDimensionsData };
+                  });
+                }}
+                className={`flex-1 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm`}
+              />
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-gray-500">{t('weight')}:</span>
+                <input
+                  type="number"
+                  value={dim.weight || 0}
+                  onChange={(e) => {
+                    const newWeight = parseInt(e.target.value) || 0;
+                    setData(prev => {
+                      const newDims = [...prev.appSettings.dimensionConfig];
+                      newDims[idx] = { ...newDims[idx], weight: newWeight };
+                      return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims } };
+                    });
+                  }}
+                  className={`w-16 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm text-right`}
+                />
+                <span className="text-xs">%</span>
               </div>
             </div>
-          ) : (
-            <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {activeItems.map(item => <div key={item.id} onClick={() => setEditingItem(item)} className={`${colors.bgSecondary} rounded-xl border ${colors.border} overflow-hidden hover:border-blue-500 transition-all cursor-pointer group flex flex-col`}><div className={`h-40 ${colors.bgQuaternary} w-full relative`}>{item.image ? <img src={item.image} alt={item.name} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><ImageIcon size={32} /></div>}<div className="absolute top-2 right-2 bg-black/60 px-2 py-1 rounded text-xs text-white backdrop-blur">${parseFloat(item.value || 0).toLocaleString()}</div></div><div className="p-4 flex-1 flex flex-col"><div className={`font-bold ${colors.text} mb-1 truncate`}>{item.name}</div><div className={`mt-auto flex justify-between items-center pt-2 border-t ${colors.border}`}><span className={`text-[10px] ${colors.textSecondary} uppercase`}>Edit</span><button onClick={(e) => { e.stopPropagation(); deleteItem(item.id); }} className={`text-gray-600 hover:text-red-400`}><Trash2 size={14} /></button></div></div></div>)}
-                <div className={`${colors.bgTertiary} rounded-xl border-2 border-dashed ${colors.border} flex flex-col items-center justify-center h-64 cursor-pointer hover:border-blue-500 hover:text-blue-400 ${colors.textSecondary} transition-colors p-4`}><AddItemInput onAdd={addItem} placeholder={`Add ${activeCat.label}...`} theme={theme} /></div>
+          ))}
+          <div className={`flex justify-between items-center pt-4 border-t ${colors.border}`}>
+            <span className={`font-bold ${dimensions.reduce((a, b) => a + (b.weight || 0), 0) === 100 ? 'text-green-400' : 'text-orange-400'}`}>
+              {t('totalWeight')}: {dimensions.reduce((a, b) => a + (b.weight || 0), 0)}%
+            </span>
+            <button onClick={() => setIsEditingDims(false)} className="bg-blue-600 text-white px-4 py-2 rounded">{t('done')}</button>
+          </div>
+        </div>
+      </Modal>
+
+      <div className={`w-1/3 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar`}>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className={`text-2xl font-bold ${colors.text}`}>{t('lifeBalance')}</h2>
+          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:${colors.bgQuaternary} rounded text-blue-400`}><Settings size={16} /></button>
+        </div>
+
+        {/* Overall Score Card */}
+        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 flex items-center justify-between`}>
+          <div>
+            <div className="text-xs text-blue-300 font-bold uppercase tracking-wider">{t('overallScore')}</div>
+            <div className="text-3xl font-bold mt-1 text-white">{overallScore}%</div>
+          </div>
+          <div className="h-12 w-12 rounded-full border-4 border-blue-500 flex items-center justify-center text-xs font-bold text-blue-300">
+            {overallScore}
+          </div>
+        </div>
+
+        <div className="h-64 w-full"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke={theme === 'dark' ? "#444" : "#ddd"} /><PolarAngleAxis dataKey="subject" tick={{ fill: theme === 'dark' ? '#999' : '#666', fontSize: 10 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.4} /></RadarChart></ResponsiveContainer></div>
+        <div className="mt-4 space-y-2">
+          {calculatedDimensions.map(dim => (
+            <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`flex justify-between p-2 rounded cursor-pointer ${activeDimension === dim.name ? colors.bgQuaternary : ''}`}>
+              <span className={colors.text}>{dim.name}</span><span className="font-bold text-blue-400">{dim.score}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={`flex-1 p-6 flex flex-col ${colors.bgSecondary}`}>
+        <h2 className={`text-3xl font-bold ${colors.text} mb-4`}>{t(activeDimension.toLowerCase()) || activeDimension}</h2>
+        <div className={`flex gap-6 text-sm font-medium ${colors.textSecondary} border-b ${colors.border} mb-4`}>
+          {['challenges', 'goals', 'projects', 'routines'].map(tab => (
+            <button key={tab} onClick={() => setActiveLibTab(tab)} className={`pb-3 capitalize border-b-2 ${activeLibTab === tab ? 'text-blue-400 border-blue-400' : 'border-transparent'}`}>{t(tab)}</button>
+          ))}
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          {activeLibTab === 'routines' ? (
+            ['daily', 'weekly', 'monthly'].map(freq => (
+              <div key={freq} className="mb-6">
+                <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase mb-2`}>{t(freq)}</h4>
+                {currentDimData.routines?.[freq]?.map(item => (
+                  <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem('routines', item.id, freq)} onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }} />
+                ))}
+                <AddItemInput onAdd={(v) => addItem('routine', v)} placeholder={`${t('add')} ${t(freq)} ${t('routine')}...`} theme={theme} />
               </div>
+            ))
+          ) : (
+            <>
+              {currentDimData[activeLibTab]?.map(item => (
+                <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem(activeLibTab, item.id)} onClick={() => { setEditingItem(item); setEditType(activeLibTab); }} />
+              ))}
+              <AddItemInput onAdd={(v) => addItem(activeLibTab, v)} placeholder={`${t('add')} ${t(activeLibTab)}...`} theme={theme} />
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
+  const { userRoles, roleLibrary } = data.appSettings;
+  const [showLibrary, setShowLibrary] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newRoleName, setNewRoleName] = useState("");
+  const colors = THEMES[theme];
+
+  const availableRoles = roleLibrary ? roleLibrary.filter(r => !userRoles.find(ur => ur.key === r.key)) : [];
+
+  const toggleRole = (role, isAdding) => {
+    setData(prev => {
+      const newRoles = isAdding ? [...prev.appSettings.userRoles, role] : prev.appSettings.userRoles.filter(r => r.key !== role.key);
+      return { ...prev, appSettings: { ...prev.appSettings, userRoles: newRoles } };
+    });
+  };
+
+  const createCustomRole = () => {
+    if (!newRoleName) return;
+    const newRole = { key: newRoleName.toLowerCase().replace(/\s/g, '_'), name: newRoleName, icon: 'User' };
+    setData(prev => ({
+      ...prev,
+      appSettings: {
+        ...prev.appSettings,
+        userRoles: [...prev.appSettings.userRoles, newRole],
+        roleLibrary: [...prev.appSettings.roleLibrary, newRole]
+      }
+    }));
+    setNewRoleName("");
+    setIsCreating(false);
+  };
+
+  const handleDeleteRole = (e, roleKey) => {
+    e.stopPropagation();
+    if (window.confirm(t('deleteRoleConfirm'))) {
+      const role = userRoles.find(r => r.key === roleKey);
+      toggleRole(role, false);
+    }
+  };
+
+  const getRoleIcon = (iconName) => {
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={48} className="text-blue-400" />;
+      case 'Briefcase': return <Briefcase size={48} className="text-blue-400" />;
+      case 'User': return <User size={48} className="text-blue-400" />;
+      case 'Heart': return <Heart size={48} className="text-blue-400" />;
+      case 'Flag': return <Flag size={48} className="text-blue-400" />;
+      case 'Users': return <Users size={48} className="text-blue-400" />;
+      case 'GraduationCap': return <GraduationCap size={48} className="text-blue-400" />;
+      default: return <User size={48} className="text-blue-400" />;
+    }
+  };
+
+  const getSmallRoleIcon = (iconName) => {
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={20} />;
+      case 'Briefcase': return <Briefcase size={20} />;
+      case 'User': return <User size={20} />;
+      case 'Heart': return <Heart size={20} />;
+      case 'Flag': return <Flag size={20} />;
+      case 'Users': return <Users size={20} />;
+      case 'GraduationCap': return <GraduationCap size={20} />;
+      default: return <User size={20} />;
+    }
+  };
+
+  return (
+    <div className={`h-full overflow-y-auto ${colors.bg} p-8 custom-scrollbar flex flex-col`}>
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><User size={32} className="text-blue-400" /> {t('yourRoles')}</h2>
+          <div className="flex gap-3">
+            <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:border-blue-500 transition-colors ${colors.text}`}>
+              <BookOpen size={18} /> {t('roleLibrary')}
+            </button>
+            <button onClick={() => setIsCreating(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+              <Plus size={18} /> {t('createCustom')}
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {userRoles.map(role => (
+            <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 bg-gradient-to-br from-[#333] to-[#222] border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden`}>
+              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                <button onClick={(e) => handleDeleteRole(e, role.key)} className="p-2 bg-black/50 hover:bg-red-600 rounded-lg text-white/70 hover:text-white transition-colors">
+                  <Trash2 size={18} />
+                </button>
+              </div>
+              <div className="z-10 relative h-full flex flex-col">
+                <div className="mb-4 p-4 bg-white/5 rounded-2xl w-fit">
+                  {getRoleIcon(role.icon)}
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-3xl font-bold text-white mb-2">{role.name}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">{t('level1')}</span>
+                    <span className="text-gray-400 text-sm font-mono">0 {t('xp')}</span>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative background element */}
+              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            </div>
+          ))}
+          {userRoles.length === 0 && (
+            <div className={`col-span-3 h-64 flex flex-col items-center justify-center border-2 border-dashed ${colors.border} rounded-2xl ${colors.textSecondary}`}>
+              <p className="mb-4 text-lg">{t('noRolesAdded')}</p>
+              <button onClick={() => setShowLibrary(true)} className="text-blue-400 hover:underline">{t('openLibrary')}</button>
             </div>
           )}
         </div>
-      );
-    };
+      </div>
 
-    const TodayPage = ({ data, setData, theme, isGuest, t }) => {
-      const [selectedDate, setSelectedDate] = useState(new Date());
-      const [newTask, setNewTask] = useState("");
-      const colors = THEMES[theme];
+      {/* Library Modal */}
+      <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title={t('roleLibraryTitle')} theme={theme}>
+        <div className="space-y-2">
+          {availableRoles.length === 0 ? (
+            <p className={`${colors.textSecondary} text-center py-8`}>{t('allRolesActive')}</p>
+          ) : (
+            availableRoles.map(role => (
+              <div key={role.key} onClick={() => toggleRole(role, true)} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center cursor-pointer hover:${colors.bgQuaternary} border border-transparent hover:border-blue-500/50 transition-all group`}>
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 ${colors.bgQuaternary} rounded-lg flex items-center justify-center ${colors.textSecondary}`}>
+                    {getSmallRoleIcon(role.icon)}
+                  </div>
+                  <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
+                </div>
+                <button className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg"><Plus size={18} /></button>
+              </div>
+            ))
+          )}
+        </div>
+      </Modal>
 
-      // Helper for date ranges
-      const getWeekBounds = (date) => {
-        const start = new Date(date);
-        start.setDate(date.getDate() - date.getDay()); // Sunday
-        start.setHours(0, 0, 0, 0);
-        const end = new Date(start);
-        end.setDate(start.getDate() + 6);
-        end.setHours(23, 59, 59, 999);
-        return { start, end };
-      };
+      {/* Create Role Modal */}
+      <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title={t('createCustomRoleTitle')} theme={theme}>
+        <div className="space-y-4">
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('roleName')}</label>
+            <input
+              className={`w-full ${colors.input} ${colors.text} px-4 py-3 rounded-lg border ${colors.border} focus:border-blue-500 outline-none`}
+              placeholder={t('roleNamePlaceholder')}
+              value={newRoleName}
+              onChange={(e) => setNewRoleName(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <div className="flex justify-end gap-3 pt-4">
+            <button onClick={() => setIsCreating(false)} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text}`}>{t('cancel')}</button>
+            <button onClick={createCustomRole} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">{t('createRole')}</button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
 
-      const checkWeekCompletion = (history, date) => {
-        if (!history) return false;
-        const { start, end } = getWeekBounds(date);
-        return history.some(hDate => {
-          const d = new Date(hDate);
-          return d >= start && d <= end;
+const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
+  const [editingItem, setEditingItem] = useState(null);
+  const [editType, setEditType] = useState(null);
+  const colors = THEMES[theme];
+
+  const roleItems = useMemo(() => {
+    const items = { goals: [], projects: [], challenges: [], routines: [], skills: [], resources: [], wishlist: [] };
+    Object.values(data.dimensions).forEach(dim => {
+      ['goals', 'projects', 'challenges'].forEach(type => { dim[type]?.forEach(i => { if (i.roleKey === role.key) items[type].push(i); }); });
+      ['daily', 'weekly', 'monthly'].forEach(freq => { dim.routines?.[freq]?.forEach(i => { if (i.roleKey === role.key) items.routines.push({ ...i, freq }); }); });
+    });
+    items.skills = data.skills.filter(s => s.roleKey === role.key || s.source?.toLowerCase().includes(role.name.toLowerCase()));
+    items.resources = data.resources.filter(r => r.roleKey === role.key);
+    items.wishlist = data.wishlist.filter(r => r.roleKey === role.key);
+    return items;
+  }, [data, role]);
+
+  const xp = calculateRoleXP(role.key, data);
+  const level = Math.floor(xp / 100) + 1;
+
+  const handleSaveItem = (updatedItem) => {
+    if (editType === 'skills') {
+      if (!data.skills.find(s => s.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, skills: [...prev.skills, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedItem.id ? updatedItem : s) }));
+      }
+    } else if (editType === 'resources') {
+      if (!data.resources.find(r => r.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, resources: [...prev.resources, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === updatedItem.id ? updatedItem : r) }));
+      }
+    } else if (editType === 'wishlist') {
+      if (!data.wishlist.find(r => r.id === updatedItem.id)) {
+        setData(prev => ({ ...prev, wishlist: [...prev.wishlist, updatedItem] }));
+      } else {
+        setData(prev => ({ ...prev, wishlist: prev.wishlist.map(r => r.id === updatedItem.id ? updatedItem : r) }));
+      }
+    } else if (['goals', 'projects', 'challenges'].includes(editType)) {
+      setData(prev => {
+        const newData = { ...prev };
+        Object.keys(newData.dimensions).forEach(dimKey => {
+          const dim = newData.dimensions[dimKey];
+          if (dim[editType]) {
+            dim[editType] = dim[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
+          }
         });
-      };
+        return newData;
+      });
+    }
+    setEditingItem(null);
+  };
 
-      const checkMonthCompletion = (history, date) => {
-        if (!history) return false;
-        const m = date.getMonth();
-        const y = date.getFullYear();
-        return history.some(hDate => {
-          const d = new Date(hDate);
-          return d.getMonth() === m && d.getFullYear() === y;
+  const createItem = (type) => {
+    const baseItem = { id: Date.now(), name: '', roleKey: role.key };
+    if (type === 'skills') baseItem.level = 0;
+    if (type === 'resources' || type === 'wishlist') {
+      baseItem.category = type === 'wishlist' ? 'wishlist' : 'electronics';
+      baseItem.value = 0;
+    }
+    if (['goals', 'projects', 'challenges'].includes(type)) {
+      baseItem.status = 0;
+      baseItem.importance = 'Medium';
+    }
+    setEditingItem(baseItem);
+    setEditType(type);
+  };
+
+  const deleteItem = (type, id) => {
+    if (!window.confirm(t('removeItemConfirm'))) return;
+    if (type === 'skills') {
+      setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
+    } else if (type === 'resources') {
+      setData(prev => ({ ...prev, resources: prev.resources.filter(s => s.id !== id) }));
+    } else if (type === 'wishlist') {
+      setData(prev => ({ ...prev, wishlist: prev.wishlist.filter(s => s.id !== id) }));
+    }
+  };
+
+  return (
+    <div className={`h-full flex flex-col ${colors.bg}`}>
+      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={handleSaveItem} theme={theme} isGuest={isGuest} />
+
+      <div className="h-48 bg-gradient-to-r from-blue-900 to-purple-900 p-8 flex items-end relative">
+        <button onClick={onBack} className="absolute top-6 left-6 text-white/70 hover:text-white flex items-center gap-2"><ArrowLeft /> {t('backToRoles')}</button>
+        <div className="flex items-center gap-6 w-full">
+          <div className="w-24 h-24 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-xl"><span className="text-4xl font-bold">{role.name[0]}</span></div>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-white mb-2">{role.name}</h1>
+            <div className="flex items-center gap-4 text-sm text-blue-200 font-mono"><span className="bg-white/10 px-3 py-1 rounded">{t('level')} {level}</span><span>{xp} XP</span></div>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Column 1: Active Missions */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> {t('activeMissions')}</h3>
+            <div className="space-y-3">
+              {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
+                <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
+                  <div className="flex justify-between items-start mb-2"><span className={`font-bold ${colors.text}`}>{item.name}</span><span className={`text-xs px-2 py-0.5 rounded ${item.importance === 'High' ? 'bg-red-900/50 text-red-400' : 'bg-gray-700 text-gray-400'}`}>{item.importance}</span></div>
+                  <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className="h-full bg-blue-500" style={{ width: `${item.status}%` }}></div></div>
+                </div>
+              ))}
+              {roleItems.goals.length === 0 && roleItems.projects.length === 0 && roleItems.challenges.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noActiveMissions')}</div>}
+            </div>
+          </div>
+
+          {/* Column 2: Mastery & Habits */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><BookOpen size={16} /> {t('masteryHabits')}</h3>
+
+            {/* Skills Section */}
+            <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className={`text-sm font-bold ${colors.text}`}>{t('skills')}</h4>
+                <button onClick={() => createItem('skills')} className="text-blue-400 hover:text-white text-xs flex items-center gap-1"><Plus size={12} /> {t('add')}</button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {roleItems.skills.map(s => {
+                  const dynamicLevel = calculateSkillLevel(s, data);
+                  return (
+                    <span key={s.id} onClick={() => { setEditingSkill(s); setEditType('skills'); }} className={`${colors.bgSecondary} border ${colors.border} px-3 py-1 rounded-full text-xs ${colors.textSecondary} flex items-center gap-2 cursor-pointer hover:border-blue-500 hover:${colors.text} group`}>
+                      {s.name} <span className="text-blue-400">{dynamicLevel}%</span>
+                      <button onClick={(e) => { e.stopPropagation(); deleteItem('skills', s.id); }} className="hidden group-hover:block text-red-400"><X size={12} /></button>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Routines Section */}
+            <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
+              <h4 className={`text-sm font-bold ${colors.text} mb-3`}>{t('routines')}</h4>
+              <div className="space-y-2">{roleItems.routines.map(r => <div key={r.id} className={`flex items-center justify-between text-sm ${colors.textSecondary} border-b ${colors.border} pb-2 last:border-0`}><span>{r.name}</span><span className={`text-xs ${colors.bgQuaternary} px-2 rounded text-blue-400 capitalize`}>{r.freq}</span></div>)}</div>
+            </div>
+          </div>
+
+          {/* Column 3: Inventory & Needs */}
+          <div className="space-y-6">
+            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Briefcase size={16} /> {t('roleResources')}</h3>
+
+            {/* Have */}
+            <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
+              <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
+                <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wide">{t('inventoryHave')}</h4>
+                <button onClick={() => createItem('resources')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
+              </div>
+              <div className="space-y-3">
+                {roleItems.resources.map(item => (
+                  <div key={item.id} onClick={() => { setEditingItem(item); setEditType('resources'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
+                    <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><ImageIcon size={14} /></div>}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
+                      <div className="font-mono text-emerald-400">${parseFloat(item.value).toLocaleString()}</div>
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); deleteItem('resources', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
+                  </div>
+                ))}
+                {roleItems.resources.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>{t('noResourcesLinked')}</div>}
+              </div>
+            </div>
+
+            {/* Need */}
+            <div className={`${colors.bgSecondary} rounded-xl border ${colors.border} p-4`}>
+              <div className={`flex justify-between items-center mb-3 border-b ${colors.border} pb-2`}>
+                <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wide">{t('needsWishlist')}</h4>
+                <button onClick={() => createItem('wishlist')} className={`${colors.bgQuaternary} hover:bg-gray-600 p-1 rounded text-white`}><Plus size={14} /></button>
+              </div>
+              <div className="space-y-3">
+                {roleItems.wishlist.map(item => (
+                  <div key={item.id} onClick={() => { setEditingItem(item); setEditType('wishlist'); }} className={`flex gap-3 items-center group cursor-pointer p-2 hover:${colors.bgQuaternary} rounded-lg transition-colors`}>
+                    <div className={`w-10 h-10 ${colors.bgQuaternary} rounded flex-shrink-0 overflow-hidden border border-yellow-400/20`}>{item.image ? <img src={item.image} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${colors.textSecondary}`}><Star size={14} className="text-yellow-400/50" /></div>}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold ${colors.text} text-sm truncate`}>{item.name}</div>
+                      <div className="font-mono text-yellow-400">${parseFloat(item.value || 0).toLocaleString()}</div>
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); deleteItem('wishlist', item.id); }} className={`text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100`}><Trash2 size={14} /></button>
+                  </div>
+                ))}
+                {roleItems.wishlist.length === 0 && <div className={`text-xs ${colors.textSecondary} italic text-center py-2`}>{t('noItemsNeeded')}</div>}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkillsPage = ({ data, setData, theme, isGuest, t }) => {
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [editType, setEditType] = useState(null);
+  const colors = THEMES[theme];
+
+  const deleteItem = (type, id) => {
+    if (window.confirm(t('deleteSkillConfirm'))) {
+      setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== id) }));
+    }
+  };
+
+  const saveSkill = (updatedSkill) => {
+    setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === updatedSkill.id ? updatedSkill : s) }));
+    setEditingSkill(null);
+  };
+
+  const groupedSkills = data.skills.reduce((acc, skill) => {
+    const role = data.appSettings.userRoles.find(r => r.key === skill.roleKey) || { name: t('general'), icon: 'User' };
+    if (!acc[role.name]) acc[role.name] = { role, skills: [] };
+    acc[role.name].skills.push(skill);
+    return acc;
+  }, {});
+
+  return (
+    <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
+      <ItemDetailModal isOpen={!!editingSkill} onClose={() => setEditingSkill(null)} item={editingSkill} type="skills" roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveSkill} theme={theme} isGuest={isGuest} />
+
+      <div className="flex justify-between items-center mb-6">
+        <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><BookOpen size={32} className="text-blue-400" /> {t('lifeSkills')}</h2>
+        <button onClick={() => { setEditingSkill({ id: Date.now(), name: '', level: 0, roleKey: '', source: 'Manual', manualMode: true }); setEditType('skills'); }} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+          <Plus size={18} /> {t('addSkill')}
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto space-y-6">
+        {Object.values(groupedSkills).map(roleItems => (
+          <div key={roleItems.role.name} className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`p-2 rounded-lg ${colors.bgQuaternary} text-blue-400`}>
+                {/* Icon rendering logic would go here if needed, simplified for now */}
+                <User size={20} />
+              </div>
+              <h3 className={`text-xl font-bold ${colors.text}`}>{roleItems.role.name}</h3>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {roleItems.skills.map(s => {
+                const dynamicLevel = calculateSkillLevel(s, data);
+                return (
+                  <span key={s.id} onClick={() => { setEditingSkill(s); setEditType('skills'); }} className={`${colors.bgSecondary} border ${colors.border} px-3 py-1 rounded-full text-xs ${colors.textSecondary} flex items-center gap-2 cursor-pointer hover:border-blue-500 hover:${colors.text} group`}>
+                    {s.name} <span className="text-blue-400">{dynamicLevel}%</span>
+                    <button onClick={(e) => { e.stopPropagation(); deleteItem('skills', s.id); }} className="hidden group-hover:block text-red-400"><X size={12} /></button>
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {data.skills.length === 0 && (
+          <div className={`text-center py-12 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}>
+            <p>{t('noSkills')}</p>
+            <p className="text-sm mt-1">{t('addSkillPrompt')}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
+  const [activeCategory, setActiveCategory] = useState('money');
+  const [isAdding, setIsAdding] = useState(false);
+  const colors = THEMES[theme];
+
+  const categories = [
+    { id: 'money', icon: <DollarSign size={18} />, label: t('money') },
+    { id: 'tools', icon: <Tool size={18} />, label: t('tools') },
+    { id: 'knowledge', icon: <BookOpen size={18} />, label: t('knowledge') },
+    { id: 'people', icon: <Users size={18} />, label: t('people') },
+    { id: 'energy', icon: <Zap size={18} />, label: t('energy') }
+  ];
+
+  const financials = useMemo(() => {
+    const moneyItems = data.resources.filter(r => r.category === 'money');
+    const assets = moneyItems.filter(i => i.value > 0).reduce((a, b) => a + b.value, 0);
+    const liabilities = moneyItems.filter(i => i.value < 0).reduce((a, b) => a + b.value, 0);
+    const income = moneyItems.filter(i => i.type === 'income').reduce((a, b) => a + (b.monthlyValue || 0), 0);
+    const expenses = moneyItems.filter(i => i.type === 'expense').reduce((a, b) => a + (b.monthlyValue || 0), 0);
+    return { netWorth: assets + liabilities, income, expenses };
+  }, [data.resources]);
+
+  const addResource = (val) => {
+    if (!val) return;
+    const newItem = { id: Date.now(), name: val, category: activeCategory, value: 0, monthlyValue: 0, type: 'asset' };
+    setData(prev => ({ ...prev, resources: [...prev.resources, newItem] }));
+    setIsAdding(false);
+  };
+
+  const deleteResource = (id) => {
+    if (window.confirm(t('deleteResourceConfirm'))) {
+      setData(prev => ({ ...prev, resources: prev.resources.filter(r => r.id !== id) }));
+    }
+  };
+
+  return (
+    <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Briefcase size={32} className="text-blue-400" /> {t('lifeResources')}</h2>
+        <button onClick={() => setIsAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+          <Plus size={18} /> {t('addResource')}
+        </button>
+      </div>
+
+      {/* Financial Overview (Only for Money) */}
+      {activeCategory === 'money' && (
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('netWorth')}</div>
+            <div className={`text-2xl font-bold ${financials.netWorth >= 0 ? 'text-green-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div>
+          </div>
+          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyIncome')}</div>
+            <div className="text-2xl font-bold text-green-400">+${financials.income.toLocaleString()}</div>
+          </div>
+          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyExpenses')}</div>
+            <div className="text-2xl font-bold text-red-400">-${financials.expenses.toLocaleString()}</div>
+          </div>
+        </div>
+      )}
+
+      <div className={`flex gap-4 border-b ${colors.border} mb-4`}>
+        {categories.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id)}
+            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${activeCategory === cat.id ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+          >
+            {cat.icon} {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
+        {data.resources.filter(r => r.category === activeCategory).map(item => (
+          <div key={item.id} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative`}>
+            <button onClick={() => deleteResource(item.id)} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><X size={14} /></button>
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`p-2 rounded-lg ${colors.bgQuaternary} text-blue-400`}>
+                {categories.find(c => c.id === item.category)?.icon}
+              </div>
+              <div className={`font-bold ${colors.text}`}>{item.name}</div>
+            </div>
+            {activeCategory === 'money' && (
+              <div className="flex items-center gap-2 mt-2">
+                <input
+                  type="number"
+                  className={`w-24 bg-black/20 border border-gray-700 rounded px-2 py-1 text-sm ${colors.text}`}
+                  value={item.value}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value) || 0;
+                    setData(prev => ({ ...prev, resources: prev.resources.map(r => r.id === item.id ? { ...r, value: val } : r) }));
+                  }}
+                />
+                <span className={`text-xs ${colors.textSecondary}`}>{t('value')}</span>
+              </div>
+            )}
+          </div>
+        ))}
+        {isAdding && (
+          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} border-dashed flex items-center justify-center`}>
+            <input
+              autoFocus
+              placeholder={`${t('newItem')}...`}
+              className="bg-transparent border-none text-white placeholder-gray-500 focus:outline-none text-center w-full"
+              onKeyDown={(e) => { if (e.key === 'Enter') addResource(e.target.value); }}
+              onBlur={() => setIsAdding(false)}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const TodayPage = ({ data, setData, theme, isGuest, t }) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [newTask, setNewTask] = useState("");
+  const colors = THEMES[theme];
+
+  // Helper for date ranges
+  const getWeekBounds = (date) => {
+    const start = new Date(date);
+    start.setDate(date.getDate() - date.getDay()); // Sunday
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  };
+
+  const checkWeekCompletion = (history, date) => {
+    if (!history) return false;
+    const { start, end } = getWeekBounds(date);
+    return history.some(hDate => {
+      const d = new Date(hDate);
+      return d >= start && d <= end;
+    });
+  };
+
+  const checkMonthCompletion = (history, date) => {
+    if (!history) return false;
+    const m = date.getMonth();
+    const y = date.getFullYear();
+    return history.some(hDate => {
+      const d = new Date(hDate);
+      return d.getMonth() === m && d.getFullYear() === y;
+    });
+  };
+
+  const { dailyItems, weeklyItems, monthlyItems } = useMemo(() => {
+    const daily = [];
+    const weekly = [];
+    const monthly = [];
+    const dateStr = selectedDate.toISOString().split('T')[0];
+
+    Object.entries(data.dimensions).forEach(([dimKey, dim]) => {
+      // Daily Routines
+      dim.routines?.daily?.forEach(r => {
+        const isCompleted = (r.completionHistory || []).includes(dateStr);
+        daily.push({
+          ...r,
+          type: 'Routine',
+          source: 'Daily',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'daily',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
         });
-      };
+      });
 
-      const { dailyItems, weeklyItems, monthlyItems } = useMemo(() => {
-        const daily = [];
-        const weekly = [];
-        const monthly = [];
-        const dateStr = selectedDate.toISOString().split('T')[0];
+      // Weekly Routines
+      dim.routines?.weekly?.forEach(r => {
+        const isCompleted = checkWeekCompletion(r.completionHistory, selectedDate);
+        weekly.push({
+          ...r,
+          type: 'Routine',
+          source: 'Weekly',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'weekly',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
+        });
+      });
 
-        Object.entries(data.dimensions).forEach(([dimKey, dim]) => {
-          // Daily Routines
-          dim.routines?.daily?.forEach(r => {
-            const isCompleted = (r.completionHistory || []).includes(dateStr);
-            daily.push({
-              ...r,
-              type: 'Routine',
-              source: 'Daily',
-              dimKey: dimKey,
-              category: 'routines',
-              subCategory: 'daily',
-              isCompleted: isCompleted,
-              status: isCompleted ? 100 : 0
-            });
-          });
+      // Monthly Routines
+      dim.routines?.monthly?.forEach(r => {
+        const isCompleted = checkMonthCompletion(r.completionHistory, selectedDate);
+        monthly.push({
+          ...r,
+          type: 'Routine',
+          source: 'Monthly',
+          dimKey: dimKey,
+          category: 'routines',
+          subCategory: 'monthly',
+          isCompleted: isCompleted,
+          status: isCompleted ? 100 : 0
+        });
+      });
 
-          // Weekly Routines
-          dim.routines?.weekly?.forEach(r => {
-            const isCompleted = checkWeekCompletion(r.completionHistory, selectedDate);
-            weekly.push({
-              ...r,
-              type: 'Routine',
-              source: 'Weekly',
-              dimKey: dimKey,
-              category: 'routines',
-              subCategory: 'weekly',
-              isCompleted: isCompleted,
-              status: isCompleted ? 100 : 0
-            });
-          });
-
-          // Monthly Routines
-          dim.routines?.monthly?.forEach(r => {
-            const isCompleted = checkMonthCompletion(r.completionHistory, selectedDate);
-            monthly.push({
-              ...r,
-              type: 'Routine',
-              source: 'Monthly',
-              dimKey: dimKey,
-              category: 'routines',
-              subCategory: 'monthly',
-              isCompleted: isCompleted,
-              status: isCompleted ? 100 : 0
-            });
-          });
-
-          // Process One-off Items
-          ['goals', 'projects', 'challenges'].forEach(cat => {
-            dim[cat]?.forEach(item => {
-              if (item.dueDate === dateStr) daily.push({
-                ...item,
-                type: cat.slice(0, -1),
-                source: 'Due',
-                dimKey: dimKey,
-                category: cat,
-                isCompleted: item.status === 100
-              });
-            });
+      // Process One-off Items
+      ['goals', 'projects', 'challenges'].forEach(cat => {
+        dim[cat]?.forEach(item => {
+          if (item.dueDate === dateStr) daily.push({
+            ...item,
+            type: cat.slice(0, -1),
+            source: 'Due',
+            dimKey: dimKey,
+            category: cat,
+            isCompleted: item.status === 100
           });
         });
-        return { dailyItems: daily, weeklyItems: weekly, monthlyItems: monthly };
-      }, [data, selectedDate]);
+      });
+    });
+    return { dailyItems: daily, weeklyItems: weekly, monthlyItems: monthly };
+  }, [data, selectedDate]);
 
-      // Calculate Adherence for Today, Week, Month
-      const adherenceData = useMemo(() => {
-        // All Daily Routines defined in the system (not just for today)
-        let allDailyRoutines = [];
-        Object.values(data.dimensions).forEach(dim => {
-          if (dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
-        });
+  // Calculate Adherence for Today, Week, Month
+  const adherenceData = useMemo(() => {
+    // All Daily Routines defined in the system (not just for today)
+    let allDailyRoutines = [];
+    Object.values(data.dimensions).forEach(dim => {
+      if (dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
+    });
 
-        const totalRoutines = allDailyRoutines.length;
-        if (totalRoutines === 0) return { today: 0, week: 0, month: 0 };
+    const totalRoutines = allDailyRoutines.length;
+    if (totalRoutines === 0) return { today: 0, week: 0, month: 0 };
 
-        // 1. Today
-        const dateStr = selectedDate.toISOString().split('T')[0];
-        const completedToday = allDailyRoutines.filter(r => (r.completionHistory || []).includes(dateStr)).length;
-        const todayPct = Math.round((completedToday / totalRoutines) * 100);
+    // 1. Today
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    const completedToday = allDailyRoutines.filter(r => (r.completionHistory || []).includes(dateStr)).length;
+    const todayPct = Math.round((completedToday / totalRoutines) * 100);
 
-        // 2. This Week (Sunday to Saturday of selectedDate)
-        const startOfWeek = new Date(selectedDate);
-        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay()); // Go to Sunday
+    // 2. This Week (Sunday to Saturday of selectedDate)
+    const startOfWeek = new Date(selectedDate);
+    startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay()); // Go to Sunday
 
-        let weeklyCompletions = 0;
-        for (let i = 0; i < 7; i++) {
-          const d = new Date(startOfWeek);
-          d.setDate(startOfWeek.getDate() + i);
-          const dStr = d.toISOString().split('T')[0];
-          weeklyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
-        }
-        const weekPct = Math.round((weeklyCompletions / (totalRoutines * 7)) * 100);
+    let weeklyCompletions = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startOfWeek);
+      d.setDate(startOfWeek.getDate() + i);
+      const dStr = d.toISOString().split('T')[0];
+      weeklyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
+    }
+    const weekPct = Math.round((weeklyCompletions / (totalRoutines * 7)) * 100);
 
-        // 3. This Month
-        const startOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-        const daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+    // 3. This Month
+    const startOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    const daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
-        let monthlyCompletions = 0;
-        for (let i = 1; i <= daysInMonth; i++) {
-          const d = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-          const dStr = d.toISOString().split('T')[0];
-          monthlyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
-        }
-        const monthPct = Math.round((monthlyCompletions / (totalRoutines * daysInMonth)) * 100);
+    let monthlyCompletions = 0;
+    for (let i = 1; i <= daysInMonth; i++) {
+      const d = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+      const dStr = d.toISOString().split('T')[0];
+      monthlyCompletions += allDailyRoutines.filter(r => (r.completionHistory || []).includes(dStr)).length;
+    }
+    const monthPct = Math.round((monthlyCompletions / (totalRoutines * daysInMonth)) * 100);
 
-        return { today: todayPct, week: weekPct, month: monthPct };
-      }, [data, selectedDate]);
+    return { today: todayPct, week: weekPct, month: monthPct };
+  }, [data, selectedDate]);
 
-      const toggleComplete = (item) => {
-        setData(prev => {
-          const newData = { ...prev };
-          const dim = newData.dimensions[item.dimKey];
-          const dateStr = selectedDate.toISOString().split('T')[0];
+  const toggleComplete = (item) => {
+    setData(prev => {
+      const newData = { ...prev };
+      const dim = newData.dimensions[item.dimKey];
+      const dateStr = selectedDate.toISOString().split('T')[0];
 
-          if (item.category === 'routines') {
-            const routines = dim.routines[item.subCategory];
-            const targetRoutine = routines.find(r => r.id === item.id);
+      if (item.category === 'routines') {
+        const routines = dim.routines[item.subCategory];
+        const targetRoutine = routines.find(r => r.id === item.id);
 
-            if (targetRoutine) {
-              let history = targetRoutine.completionHistory || [];
+        if (targetRoutine) {
+          let history = targetRoutine.completionHistory || [];
 
-              if (item.subCategory === 'daily') {
-                if (history.includes(dateStr)) {
-                  history = history.filter(h => h !== dateStr);
-                  targetRoutine.status = 0;
-                } else {
-                  history.push(dateStr);
-                  targetRoutine.status = 100;
-                }
-              } else if (item.subCategory === 'weekly') {
-                const { start, end } = getWeekBounds(selectedDate);
-                // Remove any completion in this week range if exists
-                const hasCompletion = history.some(hDate => {
-                  const d = new Date(hDate);
-                  return d >= start && d <= end;
-                });
-
-                if (hasCompletion) {
-                  // Remove all completions for this week
-                  history = history.filter(hDate => {
-                    const d = new Date(hDate);
-                    return d < start || d > end;
-                  });
-                  targetRoutine.status = 0;
-                } else {
-                  // Add today as the completion date for this week
-                  history.push(dateStr);
-                  targetRoutine.status = 100;
-                }
-              } else if (item.subCategory === 'monthly') {
-                const m = selectedDate.getMonth();
-                const y = selectedDate.getFullYear();
-                // Remove any completion in this month if exists
-                const hasCompletion = history.some(hDate => {
-                  const d = new Date(hDate);
-                  return d.getMonth() === m && d.getFullYear() === y;
-                });
-
-                if (hasCompletion) {
-                  history = history.filter(hDate => {
-                    const d = new Date(hDate);
-                    return d.getMonth() !== m || d.getFullYear() !== y;
-                  });
-                  targetRoutine.status = 0;
-                } else {
-                  history.push(dateStr);
-                  targetRoutine.status = 100;
-                }
-              }
-
-              targetRoutine.completionHistory = history;
+          if (item.subCategory === 'daily') {
+            if (history.includes(dateStr)) {
+              history = history.filter(h => h !== dateStr);
+              targetRoutine.status = 0;
+            } else {
+              history.push(dateStr);
+              targetRoutine.status = 100;
             }
-          } else {
-            // Handle standard one-off items
-            const targetList = dim[item.category];
-            const targetItem = targetList.find(i => i.id === item.id);
-            if (targetItem) {
-              targetItem.status = targetItem.status === 100 ? 0 : 100;
+          } else if (item.subCategory === 'weekly') {
+            const { start, end } = getWeekBounds(selectedDate);
+            // Remove any completion in this week range if exists
+            const hasCompletion = history.some(hDate => {
+              const d = new Date(hDate);
+              return d < start || d > end;
+            });
+
+            if (hasCompletion) {
+              // Remove all completions for this week
+              history = history.filter(hDate => {
+                const d = new Date(hDate);
+                return d < start || d > end;
+              });
+              targetRoutine.status = 0;
+            } else {
+              // Add today as the completion date for this week
+              history.push(dateStr);
+              targetRoutine.status = 100;
+            }
+          } else if (item.subCategory === 'monthly') {
+            const m = selectedDate.getMonth();
+            const y = selectedDate.getFullYear();
+            // Remove any completion in this month if exists
+            const hasCompletion = history.some(hDate => {
+              const d = new Date(hDate);
+              return d.getMonth() === m && d.getFullYear() === y;
+            });
+
+            if (hasCompletion) {
+              history = history.filter(hDate => {
+                const d = new Date(hDate);
+                return d.getMonth() !== m || d.getFullYear() !== y;
+              });
+              targetRoutine.status = 0;
+            } else {
+              history.push(dateStr);
+              targetRoutine.status = 100;
             }
           }
 
-          return newData;
-        });
-      };
-
-      const AdherenceBar = ({ label, pct, color }) => (
-        <div className="mb-3">
-          <div className="flex justify-between text-xs mb-1">
-            <span className={`${colors.textSecondary} font-medium`}>{label}</span>
-            <span className={`font-bold ${color}`}>{pct}%</span>
-          </div>
-          <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}>
-            <div className={`h-full rounded-full transition-all duration-500 ${pct >= 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-blue-500' : 'bg-gray-600'}`} style={{ width: `${pct}%` }}></div>
-          </div>
-        </div>
-      );
-
-      const TaskItem = ({ item }) => (
-        <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} flex items-center gap-4 group hover:border-gray-600 transition-all`}>
-          <div
-            onClick={() => toggleComplete(item)}
-            className={`w-6 h-6 rounded-full border-2 cursor-pointer flex items-center justify-center transition-all duration-200 ${item.isCompleted ? 'bg-green-500 border-green-500 scale-110' : `border-gray-600 hover:border-green-500 hover:bg-green-500/10`}`}
-          >
-            {item.isCompleted && <Check size={14} className="text-black font-bold" />}
-          </div>
-          <div className="flex-1">
-            <div className={`font-medium ${colors.text} transition-all ${item.isCompleted ? `line-through ${colors.textSecondary}` : ''}`}>{item.name}</div>
-            <div className={`text-xs ${colors.textSecondary} flex gap-2 mt-1`}>
-              <span className={`${colors.bgQuaternary} px-2 py-0.5 rounded text-blue-300`}>{item.type}</span>
-              {item.source === 'Due' && <span className="text-orange-400">Due Today</span>}
-              {item.subCategory === 'weekly' && <span className="text-purple-400">Weekly Goal</span>}
-              {item.subCategory === 'monthly' && <span className="text-indigo-400">Monthly Goal</span>}
-            </div>
-          </div>
-        </div>
-      );
-
-      return (
-        <div className={`h-full p-6 overflow-y-auto custom-scrollbar ${colors.bg} flex gap-6`}>
-          <div className="w-80 flex-shrink-0">
-            <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border}`}>
-              <div className="flex justify-between items-center mb-4">
-                <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight className="rotate-180" /></button>
-                <h3 className={`font-bold ${colors.text}`}>{selectedDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h3>
-                <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight /></button>
-              </div>
-              <div className="grid grid-cols-7 gap-1 text-center text-sm">
-                {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className={`${colors.textSecondary} py-1`}>{d}</div>)}
-                {Array.from({ length: new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map(d => (
-                  <div key={d} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d))} className={`py-2 rounded cursor-pointer hover:${colors.bgQuaternary} ${d === selectedDate.getDate() ? 'bg-blue-600 text-white font-bold' : colors.textSecondary}`}>{d}</div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`mt-4 ${colors.bgTertiary} p-4 rounded-xl border ${colors.border}`}>
-              <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase`}>Quick Stats</h4>
-              <div className={`mt-2 text-sm ${colors.text}`}>Tasks: {dailyItems.length + weeklyItems.length + monthlyItems.length}</div>
-            </div>
-
-            {/* Routine Adherence Widget */}
-            <div className={`mt-4 ${colors.bgTertiary} p-5 rounded-xl border ${colors.border}`}>
-              <h4 className={`text-xs font-bold ${colors.textSecondary} uppercase mb-4 flex items-center gap-2`}>
-                <BarChart3 size={14} /> Daily Habit Consistency
-              </h4>
-
-              <AdherenceBar label="Today" pct={adherenceData.today} color="text-blue-400" />
-              <AdherenceBar label="This Week" pct={adherenceData.week} color="text-purple-400" />
-              <AdherenceBar label="This Month" pct={adherenceData.month} color="text-orange-400" />
-
-              <div className={`mt-3 pt-3 border-t ${colors.border} text-[10px] ${colors.textSecondary} italic text-center`}>
-                Tracking daily routines consistency
-              </div>
-            </div>
-          </div>
-          <div className="flex-1">
-            <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3 mb-6`}><Calendar size={32} className="text-blue-400" /> My Time</h2>
-
-            <div className="space-y-8">
-
-              {/* Weekly Section */}
-              <div>
-                <h3 className="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">Focus for This Week</h3>
-                <div className="space-y-3">
-                  {weeklyItems.map((item, idx) => <TaskItem key={`w-${idx}`} item={item} />)}
-                  {weeklyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No weekly routines set.</div>}
-                </div>
-              </div>
-
-              {/* Monthly Section */}
-              <div>
-                <h3 className="text-xl font-bold text-indigo-400 mb-3 flex items-center gap-2">Focus for This Month</h3>
-                <div className="space-y-3">
-                  {monthlyItems.map((item, idx) => <TaskItem key={`m-${idx}`} item={item} />)}
-                  {monthlyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>No monthly routines set.</div>}
-                </div>
-              </div>
-
-              {/* Daily Section */}
-              <div>
-                <h3 className="text-xl font-bold text-blue-400 mb-3 flex items-center gap-2">Focus for {selectedDate.toLocaleDateString()}</h3>
-                <div className="space-y-3">
-                  {dailyItems.map((item, idx) => <TaskItem key={`d-${idx}`} item={item} />)}
-                  {dailyItems.length === 0 && <div className={`flex flex-col items-center justify-center h-32 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}><Smile size={32} className="mb-2 opacity-20" /><p>No daily tasks scheduled.</p></div>}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // --- Main App Layout ---
-
-    // Placeholder for TRANSLATIONS object
-    const TRANSLATIONS = {
-      en: {
-        settings: "Settings",
-        save: "Save",
-        // Add other English translations as needed
-      },
-      es: {
-        settings: "Ajustes",
-        save: "Guardar",
-        // Add other Spanish translations
-      },
-      fr: {
-        settings: "Paramètres",
-        save: "Enregistrer",
-        // Add other French translations
-      },
-      de: {
-        settings: "Einstellungen",
-        save: "Speichern",
-        // Add other German translations
-      },
-      pt: {
-        settings: "Configurações",
-        save: "Salvar",
-        // Add other Portuguese translations
-      },
-      zh: {
-        settings: "设置",
-        save: "保存",
-        // Add other Chinese translations
-      },
-      ja: {
-        settings: "設定",
-        save: "保存",
-        // Add other Japanese translations
-      },
-    };
-
-    export default function LiviaApp() {
-      const [isAuthenticated, setIsAuthenticated] = useState(false);
-      const [isGuest, setIsGuest] = useState(false);
-      const [activeTab, setActiveTab] = useState('dashboard');
-      const [selectedRole, setSelectedRole] = useState(null);
-      const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-      const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-      // Load Data & Theme
-      const [data, setData] = useState(DEFAULT_DATA);
-
-      useEffect(() => {
-        const saved = localStorage.getItem('livia_data_v8');
-        if (saved) { try { setData(prev => ({ ...DEFAULT_DATA, ...JSON.parse(saved) })); } catch (e) { } }
-      }, []);
-
-      useEffect(() => {
-        if (!isGuest) {
-          localStorage.setItem('livia_data_v8', JSON.stringify(data));
+          targetRoutine.completionHistory = history;
         }
-      }, [data, isGuest]);
-
-      // Derived state for theme
-      const theme = data.appSettings.theme || 'dark';
-      const colors = THEMES[theme];
-
-      const handleLogin = (user) => {
-        setData(prev => ({
-          ...prev,
-          appSettings: { ...prev.appSettings, userName: user.name, userEmail: user.email }
-        }));
-        setIsGuest(false);
-        setIsAuthenticated(true);
-      };
-
-      const handleGuest = () => {
-        setData(JSON.parse(JSON.stringify(DEFAULT_DATA))); // Deep copy to reset
-        setIsGuest(true);
-        setIsAuthenticated(true);
-      };
-
-      // Translation Helper
-      const t = (key) => {
-        const lang = data.appSettings.language || 'en';
-        return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key] || key;
-      };
-
-      if (!isAuthenticated) {
-        return <LandingPage onLogin={handleLogin} onGuest={handleGuest} t={t} />;
+      } else {
+        // Handle standard one-off items
+        const targetList = dim[item.category];
+        const targetItem = targetList.find(i => i.id === item.id);
+        if (targetItem) {
+          targetItem.status = targetItem.status === 100 ? 0 : 100;
+        }
       }
 
-      return (
-        <div className={`flex h-screen w-screen ${colors.bg} ${colors.text} font-sans overflow-hidden transition-colors duration-300`}>
+      return newData;
+    });
+  };
 
-          <Sidebar
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            isOpen={isSidebarOpen}
-            setIsOpen={setIsSidebarOpen}
-            onOpenSettings={() => setIsSettingsOpen(true)}
-            data={data}
-            theme={theme}
-            isGuest={isGuest}
-            t={t}
-          />
+  const AdherenceBar = ({ label, pct, color }) => (
+    <div className="mb-3">
+      <div className="flex justify-between text-xs mb-1">
+        <span className={`${colors.textSecondary} font-medium`}>{label}</span>
+        <span className={`font-bold ${color}`}>{pct}%</span>
+      </div>
+      <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}>
+        <div className={`h-full rounded-full transition-all duration-500 ${pct >= 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-blue-500' : 'bg-gray-600'}`} style={{ width: `${pct}%` }}></div>
+      </div>
+    </div>
+  );
 
-          <SettingsModal
-            isOpen={isSettingsOpen}
-            onClose={() => setIsSettingsOpen(false)}
-            data={data}
-            setData={setData}
-            theme={theme}
-            isGuest={isGuest}
-            t={t}
-          />
-
-          <main className="flex-1 flex flex-col h-full relative min-w-0">
-            <header className={`h-14 border-b ${colors.border} flex items-center justify-between px-6 ${colors.bgSecondary}`}>
-              <h1 className={`font-bold capitalize ${colors.text} flex items-center gap-2`}>Livia / {activeTab.replace('_', ' ')}</h1>
-              <div className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-full overflow-hidden border ${colors.border}`}>
-                  {data.appSettings.userAvatar ? <img src={data.appSettings.userAvatar} className="w-full h-full object-cover" /> : <div className={`w-full h-full ${colors.bgQuaternary} flex items-center justify-center text-xs font-bold`}>{data.appSettings.userName[0]}</div>}
-                </div>
-              </div>
-            </header>
-
-            <div className="flex-1 overflow-hidden relative">
-              {activeTab === 'visualization' && <VisualizationPage images={data.visualizationImages} setImages={(val) => setData(prev => ({ ...prev, visualizationImages: typeof val === 'function' ? val(prev.visualizationImages) : val }))} theme={theme} isGuest={isGuest} dimensions={data.appSettings.dimensionConfig || DIMENSIONS} t={t} />}
-              {activeTab === 'dashboard' && <LifeBalancePage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
-              {activeTab === 'roles' && <RolesPage data={data} setData={setData} onSelectRole={handleRoleSelect} theme={theme} t={t} />}
-              {/* Placeholder for others to save space, logic exists in memory if needed */}
-              {activeTab === 'resources' && <ResourcesPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
-              {activeTab === 'skills' && <SkillsPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
-              {activeTab === 'today' && <TodayPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
-
-              {activeTab === 'role_detail' && selectedRole && (
-                <RoleDetailPage role={selectedRole} data={data} setData={setData} onBack={() => setActiveTab('roles')} theme={theme} isGuest={isGuest} t={t} />
-              )}
-            </div>
-          </main>
+  const TaskItem = ({ item }) => (
+    <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} flex items-center gap-4 group hover:border-gray-600 transition-all`}>
+      <div
+        onClick={() => toggleComplete(item)}
+        className={`w-6 h-6 rounded-full border-2 cursor-pointer flex items-center justify-center transition-all duration-200 ${item.isCompleted ? 'bg-green-500 border-green-500 scale-110' : `border-gray-600 hover:border-green-500 hover:bg-green-500/10`}`}
+      >
+        {item.isCompleted && <Check size={14} className="text-black font-bold" />}
+      </div>
+      <div className="flex-1">
+        <div className={`font-medium ${colors.text} transition-all ${item.isCompleted ? `line-through ${colors.textSecondary}` : ''}`}>{item.name}</div>
+        <div className={`text-xs ${colors.textSecondary} flex gap-2 mt-1`}>
+          <span className={`${colors.bgQuaternary} px-2 py-0.5 rounded text-blue-300`}>{item.type}</span>
+          {item.source === 'Due' && <span className="text-orange-400">{t('dueToday')}</span>}
+          {item.subCategory === 'weekly' && <span className="text-purple-400">{t('weeklyGoal')}</span>}
+          {item.subCategory === 'monthly' && <span className="text-indigo-400">{t('monthlyGoal')}</span>}
         </div>
-      );
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`h-full p-6 overflow-y-auto custom-scrollbar ${colors.bg} flex gap-6`}>
+      <div className="w-80 flex-shrink-0">
+        <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border}`}>
+          <div className="flex justify-between items-center mb-4">
+            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight className="rotate-180" /></button>
+            <h3 className={`font-bold ${colors.text}`}>{selectedDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h3>
+            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight /></button>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center text-sm">
+            {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className={`${colors.textSecondary} py-1`}>{d}</div>)}
+            {Array.from({ length: new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map(d => (
+              <div key={d} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d))} className={`py-2 rounded cursor-pointer hover:${colors.bgQuaternary} ${d === selectedDate.getDate() ? 'bg-blue-600 text-white font-bold' : colors.textSecondary}`}>{d}</div>
+            ))}
+          </div>
+        </div>
+
+        <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Calendar size={32} className="text-blue-400" /> {t('myTime')}</h2>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() - 1)))} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
+              <div className={`text-lg font-bold ${colors.text} w-32 text-center`}>{selectedDate.toLocaleDateString()}</div>
+              <button onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() + 1)))} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronRight size={20} /></button>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Weekly Section */}
+            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+              <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">{t('focusWeek')}</h3>
+              <div className="space-y-3">
+                {weeklyItems.map((item, idx) => <TaskItem key={`w-${idx}`} item={item} />)}
+                {weeklyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noWeeklyRoutines')}</div>}
+              </div>
+            </div>
+
+            {/* Monthly Section */}
+            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+              <h3 className="text-xl font-bold text-indigo-400 mb-4 flex items-center gap-2">{t('focusMonth')}</h3>
+              <div className="space-y-3">
+                {monthlyItems.map((item, idx) => <TaskItem key={`m-${idx}`} item={item} />)}
+                {monthlyItems.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noMonthlyRoutines')}</div>}
+              </div>
+            </div>
+
+            {/* Daily Section */}
+            <div className={`p-6 rounded-2xl ${colors.bgSecondary} border ${colors.border}`}>
+              <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center gap-2">{t('focusToday')}</h3>
+              <div className="space-y-3">
+                {dailyItems.map((item, idx) => <TaskItem key={`d-${idx}`} item={item} />)}
+                {dailyItems.length === 0 && <div className={`flex flex-col items-center justify-center h-32 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}><Smile size={32} className="mb-2 opacity-20" /><p>{t('noDailyTasks')}</p></div>}
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-700/50">
+                <AddItemInput onAdd={addTask} placeholder={`${t('addTask')}...`} theme={theme} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Main App Layout ---
+
+export default function LiviaApp() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
+  const [data, setData] = useState(() => {
+    const saved = localStorage.getItem('livia_data_v8');
+    return saved ? JSON.parse(saved) : DEFAULT_DATA;
+  });
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  useEffect(() => {
+    if (!isGuest) {
+      localStorage.setItem('livia_data_v8', JSON.stringify(data));
     }
+  }, [data, isGuest]);
 
+  // Derived state for theme
+  const theme = data.appSettings.theme || 'dark';
+  const colors = THEMES[theme];
 
+  const handleLogin = (user) => {
+    setData(prev => ({
+      ...prev,
+      appSettings: { ...prev.appSettings, userName: user.name, userEmail: user.email }
+    }));
+    setIsGuest(false);
+    setIsAuthenticated(true);
+  };
 
+  const handleGuest = () => {
+    setData(JSON.parse(JSON.stringify(DEFAULT_DATA))); // Deep copy to reset
+    setIsGuest(true);
+    setIsAuthenticated(true);
+  };
 
+  // Translation Helper
+  const t = (key) => {
+    const lang = data.appSettings.language || 'en';
+    return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key] || key;
+  };
+
+  if (!isAuthenticated) {
+    return <LandingPage onLogin={handleLogin} onGuest={handleGuest} t={t} />;
+  }
+
+  const handleRoleSelect = (role) => { setSelectedRole(role); setActiveTab('role_detail'); };
+
+  return (
+    <div className={`flex h-screen w-screen ${colors.bg} ${colors.text} font-sans overflow-hidden transition-colors duration-300`}>
+
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        data={data}
+        theme={theme}
+        isGuest={isGuest}
+        t={t}
+      />
+
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        data={data}
+        setData={setData}
+        t={t}
+        isGuest={isGuest}
+      />
+
+      <main className="flex-1 flex flex-col h-full relative min-w-0">
+        <header className={`h-14 border-b ${colors.border} flex items-center justify-between px-6 ${colors.bgSecondary}`}>
+          <h1 className={`font-bold capitalize ${colors.text} flex items-center gap-2`}>Livia / {t(activeTab) || activeTab.replace('_', ' ')}</h1>
+          <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 rounded-full overflow-hidden border ${colors.border}`}>
+              {data.appSettings.userAvatar ? <img src={data.appSettings.userAvatar} className="w-full h-full object-cover" /> : <div className={`w-full h-full ${colors.bgQuaternary} flex items-center justify-center text-xs font-bold`}>{data.appSettings.userName[0]}</div>}
+            </div>
+          </div>
+        </header>
+
+        <div className="flex-1 overflow-hidden relative">
+          {activeTab === 'visualization' && <VisualizationPage images={data.visualizationImages} setImages={(val) => setData(prev => ({ ...prev, visualizationImages: typeof val === 'function' ? val(prev.visualizationImages) : val }))} theme={theme} isGuest={isGuest} dimensions={data.appSettings.dimensionConfig || DIMENSIONS} t={t} />}
+          {activeTab === 'dashboard' && <LifeBalancePage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
+          {activeTab === 'roles' && <RolesPage data={data} setData={setData} onSelectRole={handleRoleSelect} theme={theme} t={t} />}
+          {/* Placeholder for others to save space, logic exists in memory if needed */}
+          {activeTab === 'resources' && <ResourcesPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
+          {activeTab === 'skills' && <SkillsPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
+          {activeTab === 'my_time' && <TodayPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
+
+          {activeTab === 'role_detail' && selectedRole && (
+            <RoleDetailPage role={selectedRole} data={data} setData={setData} onBack={() => setActiveTab('roles')} theme={theme} isGuest={isGuest} t={t} />
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
