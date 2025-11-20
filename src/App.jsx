@@ -1990,6 +1990,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
       if (!dim) return;
       // Daily Routines
       dim.routines?.daily?.forEach(r => {
+        if (!r) return;
         const isCompleted = (r.completionHistory || []).includes(dateStr);
         daily.push({
           ...r,
@@ -2005,6 +2006,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
 
       // Weekly Routines
       dim.routines?.weekly?.forEach(r => {
+        if (!r) return;
         const isCompleted = checkWeekCompletion(r.completionHistory, selectedDate);
         weekly.push({
           ...r,
@@ -2020,6 +2022,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
 
       // Monthly Routines
       dim.routines?.monthly?.forEach(r => {
+        if (!r) return;
         const isCompleted = checkMonthCompletion(r.completionHistory, selectedDate);
         monthly.push({
           ...r,
@@ -2036,6 +2039,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
       // Process One-off Items
       ['goals', 'projects', 'challenges'].forEach(cat => {
         dim[cat]?.forEach(item => {
+          if (!item) return;
           if (item.dueDate === dateStr) daily.push({
             ...item,
             type: cat.slice(0, -1),
