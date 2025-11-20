@@ -1987,6 +1987,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
     const dateStr = selectedDate.toISOString().split('T')[0];
 
     Object.entries(data.dimensions || {}).forEach(([dimKey, dim]) => {
+      if (!dim) return;
       // Daily Routines
       dim.routines?.daily?.forEach(r => {
         const isCompleted = (r.completionHistory || []).includes(dateStr);
@@ -2054,7 +2055,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
     // All Daily Routines defined in the system (not just for today)
     let allDailyRoutines = [];
     Object.values(data.dimensions || {}).forEach(dim => {
-      if (dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
+      if (dim && dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
     });
 
     const totalRoutines = allDailyRoutines.length;
@@ -2097,6 +2098,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
     setData(prev => {
       const newData = { ...prev };
       const dim = newData.dimensions[item.dimKey];
+      if (!dim) return prev; // Safety check
       const dateStr = selectedDate.toISOString().split('T')[0];
 
       if (item.category === 'routines') {
@@ -2207,9 +2209,9 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
       <div className="w-80 flex-shrink-0">
         <div className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border}`}>
           <div className="flex justify-between items-center mb-4">
-            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight className="rotate-180" /></button>
+            <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setMonth(prev.getMonth() - 1); return d; })} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight className="rotate-180" /></button>
             <h3 className={`font-bold ${colors.text}`}>{selectedDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</h3>
-            <button onClick={() => setSelectedDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)))} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight /></button>
+            <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setMonth(prev.getMonth() + 1); return d; })} className={`p-1 hover:${colors.bgQuaternary} rounded`}><ChevronRight /></button>
           </div>
           <div className="grid grid-cols-7 gap-1 text-center text-sm">
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className={`${colors.textSecondary} py-1`}>{d}</div>)}
@@ -2223,9 +2225,9 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
           <div className="flex justify-between items-center mb-6">
             <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Calendar size={32} className="text-blue-400" /> {t('myTime')}</h2>
             <div className="flex items-center gap-2">
-              <button onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() - 1)))} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
+              <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() - 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
               <div className={`text-lg font-bold ${colors.text} w-32 text-center`}>{selectedDate.toLocaleDateString()}</div>
-              <button onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() + 1)))} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronRight size={20} /></button>
+              <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() + 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronRight size={20} /></button>
             </div>
           </div>
 
