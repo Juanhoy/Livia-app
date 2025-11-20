@@ -280,7 +280,31 @@ const TRANSLATIONS = {
     weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensual", money: "Dinero", tools: "Herramientas", knowledge: "Conocimiento", people: "Personas", energy: "Energía",
     newItem: "Nuevo Ítem", addTask: "Añadir nueva tarea", value: "Valor", deleteResourceConfirm: "¿Eliminar este recurso?",
     focusWeek: "Enfoque Semanal", focusMonth: "Enfoque Mensual", focusToday: "Enfoque de Hoy",
-    noWeeklyRoutines: "Sin rutinas semanales.", noMonthlyRoutines: "Sin rutinas mensuales.", noDailyTasks: "Sin tareas diarias."
+    noWeeklyRoutines: "Sin rutinas semanales.", noMonthlyRoutines: "Sin rutinas mensuales.", noDailyTasks: "Sin tareas diarias.",
+    // Missing Translations Added
+    addResource: "Agregar Recurso", addSkill: "Agregar Habilidad", addSkillPrompt: "Añade habilidades para rastrear tu crecimiento.",
+    noSkills: "Aún no hay habilidades rastreadas.", general: "General", deleteSkillConfirm: "¿Eliminar esta habilidad?",
+    deleteRoleConfirm: "¿Estás seguro de que quieres eliminar este rol?", editDimensions: "Editar Dimensiones",
+    editDimensionsDesc: "Ajusta los nombres y pesos de tus dimensiones de vida.", haveAccount: "¿Ya tienes una cuenta? Inicia Sesión",
+    createAccount: "Crear Cuenta", needAccount: "¿Necesitas una cuenta? Regístrate", password: "Contraseña", email: "Correo Electrónico",
+    yourNamePlaceholder: "Tu Nombre", userName: "Nombre de Usuario", language: "Idioma", theme: "Tema", dark: "Oscuro", light: "Claro",
+    settingsNotSavedGuest: "La configuración no se puede guardar en Modo Invitado.", weight: "Peso", poor: "Pobre", fair: "Justo",
+    good: "Bueno", likeNew: "Como Nuevo", new: "Nuevo", condition: "Condición", value: "Valor", dueDate: "Fecha de Vencimiento",
+    status: "Estado", high: "Alto", medium: "Medio", low: "Bajo", importance: "Importancia",
+    levelLinked: "El nivel está vinculado al estado de finalización de las misiones conectadas.", autoCalculated: "Calculado Automáticamente",
+    manualSet: "Ajuste Manual", manual: "Manual", auto: "Auto", masteryMode: "Modo de Maestría", categoryWidget: "Categoría (Widget)",
+    name: "Nombre", changePhoto: "Cambiar Foto", disabledGuest: "Deshabilitado en Modo Invitado", uploadPhoto: "Subir Foto",
+    saveChanges: "Guardar Cambios", item: "Ítem", roleResources: "Recursos del Rol", noItemsNeeded: "No se necesitan artículos.",
+    needsWishlist: "Necesidades (Lista de Deseos)", noResourcesLinked: "No hay recursos vinculados.", inventoryHave: "Inventario (Tener)",
+    routines: "Rutinas", skills: "Habilidades", masteryHabits: "Maestría y Hábitos", noActiveMissions: "No hay misiones activas vinculadas a este rol.",
+    activeMissions: "Misiones Activas", level: "Nivel", backToRoles: "Volver a Roles", removeItemConfirm: "¿Eliminar este elemento?",
+    openLibrary: "Abrir Biblioteca", noRolesAdded: "Aún no has agregado ningún rol.", zoomInstruction: "[Ctrl] + Desplazarse para Zoom",
+    panInstruction: "[Espacio] + Arrastrar para Panorámica", addImage: "Añadir Imagen", uploading: "Subiendo...",
+    exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
+    deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+    notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+    management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -1820,7 +1844,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
   ];
 
   const financials = useMemo(() => {
-    const moneyItems = data.resources.filter(r => r.category === 'money');
+    const moneyItems = (data.resources || []).filter(r => r.category === 'money');
     const assets = moneyItems.filter(i => i.value > 0).reduce((a, b) => a + b.value, 0);
     const liabilities = moneyItems.filter(i => i.value < 0).reduce((a, b) => a + b.value, 0);
     const income = moneyItems.filter(i => i.type === 'income').reduce((a, b) => a + (b.monthlyValue || 0), 0);
@@ -1881,7 +1905,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
-        {data.resources.filter(r => r.category === activeCategory).map(item => (
+        {(data.resources || []).filter(r => r.category === activeCategory).map(item => (
           <div key={item.id} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative`}>
             <button onClick={() => deleteResource(item.id)} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><X size={14} /></button>
             <div className="flex items-center gap-3 mb-2">
@@ -1963,7 +1987,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
     const monthly = [];
     const dateStr = selectedDate.toISOString().split('T')[0];
 
-    Object.entries(data.dimensions).forEach(([dimKey, dim]) => {
+    Object.entries(data.dimensions || {}).forEach(([dimKey, dim]) => {
       // Daily Routines
       dim.routines?.daily?.forEach(r => {
         const isCompleted = (r.completionHistory || []).includes(dateStr);
@@ -2030,7 +2054,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
   const adherenceData = useMemo(() => {
     // All Daily Routines defined in the system (not just for today)
     let allDailyRoutines = [];
-    Object.values(data.dimensions).forEach(dim => {
+    Object.values(data.dimensions || {}).forEach(dim => {
       if (dim.routines?.daily) allDailyRoutines = [...allDailyRoutines, ...dim.routines.daily];
     });
 
@@ -2250,7 +2274,26 @@ export default function LiviaApp() {
   const [isGuest, setIsGuest] = useState(false);
   const [data, setData] = useState(() => {
     const saved = localStorage.getItem('livia_data_v8');
-    return saved ? JSON.parse(saved) : DEFAULT_DATA;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Merge with DEFAULT_DATA to ensure new fields (like resources, skills) exist if missing in old data
+        return {
+          ...DEFAULT_DATA,
+          ...parsed,
+          appSettings: { ...DEFAULT_DATA.appSettings, ...parsed.appSettings },
+          resources: parsed.resources || DEFAULT_DATA.resources,
+          skills: parsed.skills || DEFAULT_DATA.skills,
+          wishlist: parsed.wishlist || DEFAULT_DATA.wishlist,
+          visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
+          dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
+        };
+      } catch (e) {
+        console.error("Error parsing saved data:", e);
+        return DEFAULT_DATA;
+      }
+    }
+    return DEFAULT_DATA;
   });
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
