@@ -989,7 +989,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
   const renderRadialGuide = () => {
     const size = 5000;
     const center = size / 2;
-    const radius = 1500; // Large radius for the guide
+    const radius = 250; // 500px diameter as requested
     const dims = dimensions || [];
     if (dims.length < 3) return null;
 
