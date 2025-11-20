@@ -1073,26 +1073,157 @@ const LifeBalancePage = ({ data, setData, theme, isGuest }) => {
 };
 
 const RolesPage = ({ data, setData, onSelectRole, theme }) => {
-  const { userRoles } = data.appSettings;
+  const { userRoles, roleLibrary } = data.appSettings;
+  const [showLibrary, setShowLibrary] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newRoleName, setNewRoleName] = useState("");
   const colors = THEMES[theme];
+
+  const availableRoles = roleLibrary ? roleLibrary.filter(r => !userRoles.find(ur => ur.key === r.key)) : [];
+
+  const toggleRole = (role, isAdding) => {
+    setData(prev => {
+      const newRoles = isAdding ? [...prev.appSettings.userRoles, role] : prev.appSettings.userRoles.filter(r => r.key !== role.key);
+      return { ...prev, appSettings: { ...prev.appSettings, userRoles: newRoles } };
+    });
+  };
+
+  const createCustomRole = () => {
+    if (!newRoleName) return;
+    const newRole = { key: newRoleName.toLowerCase().replace(/\s/g, '_'), name: newRoleName, icon: 'User' };
+    setData(prev => ({
+      ...prev,
+      appSettings: {
+        ...prev.appSettings,
+        userRoles: [...prev.appSettings.userRoles, newRole],
+        roleLibrary: [...prev.appSettings.roleLibrary, newRole]
+      }
+    }));
+    setNewRoleName("");
+    setIsCreating(false);
+  };
+
+  const handleDeleteRole = (e, roleKey) => {
+    e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete this role?")) {
+      const role = userRoles.find(r => r.key === roleKey);
+      toggleRole(role, false);
+    }
+  };
+
+  const getRoleIcon = (iconName) => {
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={48} className="text-blue-400" />;
+      case 'Briefcase': return <Briefcase size={48} className="text-blue-400" />;
+      case 'User': return <User size={48} className="text-blue-400" />;
+      case 'Heart': return <Heart size={48} className="text-blue-400" />;
+      case 'Flag': return <Flag size={48} className="text-blue-400" />;
+      case 'Users': return <Users size={48} className="text-blue-400" />;
+      case 'GraduationCap': return <GraduationCap size={48} className="text-blue-400" />;
+      default: return <User size={48} className="text-blue-400" />;
+    }
+  };
+
+  const getSmallRoleIcon = (iconName) => {
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={20} />;
+      case 'Briefcase': return <Briefcase size={20} />;
+      case 'User': return <User size={20} />;
+      case 'Heart': return <Heart size={20} />;
+      case 'Flag': return <Flag size={20} />;
+      case 'Users': return <Users size={20} />;
+      case 'GraduationCap': return <GraduationCap size={20} />;
+      default: return <User size={20} />;
+    }
+  };
 
   return (
     <div className={`h-full overflow-y-auto ${colors.bg} p-8 custom-scrollbar flex flex-col`}>
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><User size={32} className="text-blue-400" /> Your Roles</h2>
+          <div className="flex gap-3">
+            <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:border-blue-500 transition-colors ${colors.text}`}>
+              <BookOpen size={18} /> Role Library
+            </button>
+            <button onClick={() => setIsCreating(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+              <Plus size={18} /> Create Custom
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {userRoles.map(role => (
             <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 bg-gradient-to-br from-[#333] to-[#222] border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden`}>
-              <div className="z-10 relative">
-                <h3 className="text-3xl font-bold text-white mb-1">{role.name}</h3>
-                <div className="flex items-center gap-3"><span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">Level 1</span></div>
+              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                <button onClick={(e) => handleDeleteRole(e, role.key)} className="p-2 bg-black/50 hover:bg-red-600 rounded-lg text-white/70 hover:text-white transition-colors">
+                  <Trash2 size={18} />
+                </button>
               </div>
+              <div className="z-10 relative h-full flex flex-col">
+                <div className="mb-4 p-4 bg-white/5 rounded-2xl w-fit">
+                  {getRoleIcon(role.icon)}
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-3xl font-bold text-white mb-2">{role.name}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">Level 1</span>
+                    <span className="text-gray-400 text-sm font-mono">0 XP</span>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative background element */}
+              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
             </div>
           ))}
+          {userRoles.length === 0 && (
+            <div className={`col-span-3 h-64 flex flex-col items-center justify-center border-2 border-dashed ${colors.border} rounded-2xl ${colors.textSecondary}`}>
+              <p className="mb-4 text-lg">You haven't added any roles yet.</p>
+              <button onClick={() => setShowLibrary(true)} className="text-blue-400 hover:underline">Open Library</button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Library Modal */}
+      <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title="Role Library" theme={theme}>
+        <div className="space-y-2">
+          {availableRoles.length === 0 ? (
+            <p className={`${colors.textSecondary} text-center py-8`}>All available roles are currently active.</p>
+          ) : (
+            availableRoles.map(role => (
+              <div key={role.key} onClick={() => toggleRole(role, true)} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center cursor-pointer hover:${colors.bgQuaternary} border border-transparent hover:border-blue-500/50 transition-all group`}>
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 ${colors.bgQuaternary} rounded-lg flex items-center justify-center ${colors.textSecondary}`}>
+                    {getSmallRoleIcon(role.icon)}
+                  </div>
+                  <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
+                </div>
+                <button className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg"><Plus size={18} /></button>
+              </div>
+            ))
+          )}
+        </div>
+      </Modal>
+
+      {/* Create Role Modal */}
+      <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title="Create Custom Role" theme={theme}>
+        <div className="space-y-4">
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Role Name</label>
+            <input
+              className={`w-full ${colors.input} ${colors.text} px-4 py-3 rounded-lg border ${colors.border} focus:border-blue-500 outline-none`}
+              placeholder="e.g. Musician, Gamer, Chef..."
+              value={newRoleName}
+              onChange={(e) => setNewRoleName(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <div className="flex justify-end gap-3 pt-4">
+            <button onClick={() => setIsCreating(false)} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text}`}>Cancel</button>
+            <button onClick={createCustomRole} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">Create Role</button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
