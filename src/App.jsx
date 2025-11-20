@@ -1950,6 +1950,12 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
   const [newTask, setNewTask] = useState("");
   const colors = THEMES[theme];
 
+  const addTask = (name) => {
+    // Placeholder for adding a task - currently just logs or could be implemented to add to a default dimension
+    console.log("Adding task:", name);
+    // Logic to add a one-off task could go here, e.g., adding to a 'General' dimension or similar
+  };
+
   // Helper for date ranges
   const getWeekBounds = (date) => {
     const start = new Date(date);
