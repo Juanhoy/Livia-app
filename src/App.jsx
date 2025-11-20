@@ -927,10 +927,21 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
       }
     };
 
+    // Center the view on mount
+    const container = containerRef.current;
+    if (container) {
+      const { clientWidth, clientHeight } = container;
+      setTransform({
+        x: (clientWidth / 2) - 2500, // 2500 is half of 5000 (canvas size)
+        y: (clientHeight / 2) - 2500,
+        scale: 1
+      });
+
+      container.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
-    const container = containerRef.current;
-    if (container) container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -965,8 +976,6 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
   };
 
   const handleMouseUp = () => { setIsPanning(false); setDraggingImage(null); };
-
-
 
   const handleImageUpload = async (e) => {
     if (isGuest) { alert("Uploads disabled in Guest Mode"); return; }
@@ -1012,24 +1021,28 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
       return { x, y, tx, ty, name: dim.name };
     });
 
+    // Subtle colors for the guide
+    const guideColor = theme === 'dark' ? '#333' : '#e5e5e5';
+    const textColor = theme === 'dark' ? '#444' : '#ccc';
+
     return (
-      <svg width={size} height={size} className="absolute top-0 left-0 pointer-events-none opacity-20">
+      <svg width={size} height={size} className="absolute top-0 left-0 pointer-events-none">
         {/* Webs */}
         {[0.2, 0.4, 0.6, 0.8, 1].map(r => (
           <polygon key={r} points={axes.map(a => {
             const x = center + (a.x - center) * r;
             const y = center + (a.y - center) * r;
             return `${x},${y}`;
-          }).join(' ')} fill="none" stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
+          }).join(' ')} fill="none" stroke={guideColor} strokeWidth="2" />
         ))}
         {/* Axes */}
         {axes.map((a, i) => (
           <g key={i}>
-            <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
-            <text x={a.tx} y={a.ty} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+            <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={guideColor} strokeWidth="2" />
+            <text x={a.tx} y={a.ty} fill={textColor} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
           </g>
         ))}
-        <circle cx={center} cy={center} r={10} fill={theme === 'dark' ? '#fff' : '#000'} />
+        <circle cx={center} cy={center} r={10} fill={guideColor} />
       </svg>
     );
   };
