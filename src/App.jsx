@@ -1005,7 +1005,11 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
       const angle = i * angleStep - Math.PI / 2;
       const x = center + Math.cos(angle) * radius;
       const y = center + Math.sin(angle) * radius;
-      return { x, y, name: dim.name };
+      // Text radius should be slightly larger than the chart radius
+      const textRadius = radius + 60;
+      const tx = center + Math.cos(angle) * textRadius;
+      const ty = center + Math.sin(angle) * textRadius;
+      return { x, y, tx, ty, name: dim.name };
     });
 
     return (
@@ -1022,12 +1026,31 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
         {axes.map((a, i) => (
           <g key={i}>
             <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={theme === 'dark' ? '#fff' : '#000'} strokeWidth="2" />
-            <text x={a.x} y={a.y} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+            <text x={a.tx} y={a.ty} fill={theme === 'dark' ? '#fff' : '#000'} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
           </g>
         ))}
         <circle cx={center} cy={center} r={10} fill={theme === 'dark' ? '#fff' : '#000'} />
       </svg>
     );
+  };
+
+  const handleExport = async () => {
+    if (isGuest) { alert("Export disabled in Guest Mode"); return; }
+    try {
+      const canvas = await import('html2canvas').then(m => m.default(containerRef.current, {
+        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+        scale: 1, // Export at 1:1 scale of the container (which is huge, 5000x5000)
+        logging: false,
+        useCORS: true // For Cloudinary images
+      }));
+      const link = document.createElement('a');
+      link.download = 'livia-visualization.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    } catch (err) {
+      console.error("Export failed:", err);
+      alert("Failed to export visualization.");
+    }
   };
 
   return (
@@ -1037,6 +1060,9 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions }) =>
           <Upload size={16} /> {uploading ? 'Uploading...' : 'Add Image'}
           <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
         </label>
+        <button onClick={handleExport} className={`flex items-center gap-2 px-4 py-2 ${colors.bgTertiary} hover:bg-gray-700 rounded text-sm ${colors.text} shadow-lg border ${colors.border}`}>
+          <Download size={16} /> Export
+        </button>
         <div className={`${colors.bgTertiary} px-4 py-2 rounded text-xs ${colors.textSecondary} border ${colors.border} shadow-lg flex items-center gap-2`}>
           <span className={isSpacePressed ? "text-blue-400 font-bold" : ""}>[Space] + Drag to Pan</span>
           <span>|</span>
