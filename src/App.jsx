@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Tool, Zap, ChevronLeft
+  UserX, Wrench, Zap, ChevronLeft
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -289,22 +289,21 @@ const TRANSLATIONS = {
     createAccount: "Crear Cuenta", needAccount: "¿Necesitas una cuenta? Regístrate", password: "Contraseña", email: "Correo Electrónico",
     yourNamePlaceholder: "Tu Nombre", userName: "Nombre de Usuario", language: "Idioma", theme: "Tema", dark: "Oscuro", light: "Claro",
     settingsNotSavedGuest: "La configuración no se puede guardar en Modo Invitado.", weight: "Peso", poor: "Pobre", fair: "Justo",
-    good: "Bueno", likeNew: "Como Nuevo", new: "Nuevo", condition: "Condición", value: "Valor", dueDate: "Fecha de Vencimiento",
+    good: "Bueno", likeNew: "Como Nuevo", new: "Nuevo", condition: "Condición", dueDate: "Fecha de Vencimiento",
     status: "Estado", high: "Alto", medium: "Medio", low: "Bajo", importance: "Importancia",
     levelLinked: "El nivel está vinculado al estado de finalización de las misiones conectadas.", autoCalculated: "Calculado Automáticamente",
     manualSet: "Ajuste Manual", manual: "Manual", auto: "Auto", masteryMode: "Modo de Maestría", categoryWidget: "Categoría (Widget)",
     name: "Nombre", changePhoto: "Cambiar Foto", disabledGuest: "Deshabilitado en Modo Invitado", uploadPhoto: "Subir Foto",
     saveChanges: "Guardar Cambios", item: "Ítem", roleResources: "Recursos del Rol", noItemsNeeded: "No se necesitan artículos.",
     needsWishlist: "Necesidades (Lista de Deseos)", noResourcesLinked: "No hay recursos vinculados.", inventoryHave: "Inventario (Tener)",
-    routines: "Rutinas", skills: "Habilidades", masteryHabits: "Maestría y Hábitos", noActiveMissions: "No hay misiones activas vinculadas a este rol.",
+    skills: "Habilidades", masteryHabits: "Maestría y Hábitos", noActiveMissions: "No hay misiones activas vinculadas a este rol.",
     activeMissions: "Misiones Activas", level: "Nivel", backToRoles: "Volver a Roles", removeItemConfirm: "¿Eliminar este elemento?",
     openLibrary: "Abrir Biblioteca", noRolesAdded: "Aún no has agregado ningún rol.", zoomInstruction: "[Ctrl] + Desplazarse para Zoom",
     panInstruction: "[Espacio] + Arrastrar para Panorámica", addImage: "Añadir Imagen", uploading: "Subiendo...",
     exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
     notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
-    management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
-    totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -1837,7 +1836,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
 
   const categories = [
     { id: 'money', icon: <DollarSign size={18} />, label: t('money') },
-    { id: 'tools', icon: <Tool size={18} />, label: t('tools') },
+    { id: 'tools', icon: <Wrench size={18} />, label: t('tools') },
     { id: 'knowledge', icon: <BookOpen size={18} />, label: t('knowledge') },
     { id: 'people', icon: <Users size={18} />, label: t('people') },
     { id: 'energy', icon: <Zap size={18} />, label: t('energy') }

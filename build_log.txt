@@ -1,0 +1,141 @@
+
+> web-app@0.0.0 build
+> vite build
+
+[36mvite v7.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "routines" in object literal[33m
+246 |      panInstruction: "[Space] + Drag to Pan", zoomInstruction: "[Ctrl] + Scroll to Zoom", noRolesAdded: "You haven't a...
+247 |      removeItemConfirm: "Remove this item?", backToRoles: "Back to Roles", level: "Level", activeMissions: "Active Mis...
+248 |      masteryHabits: "Mastery & Habits", skills: "Skills", routines: "Routines", inventoryHave: "Inventory (Have)", noR...
+    |                                                           ^
+249 |      needsWishlist: "Needs (Wishlist)", noItemsNeeded: "No items needed.", roleResources: "Role Resources", item: "Ite...
+250 |      uploadPhoto: "Upload Photo", disabledGuest: "Disabled in Guest Mode", changePhoto: "Change Photo", name: "Name", ...
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "value" in object literal[33m
+290 |      yourNamePlaceholder: "Tu Nombre", userName: "Nombre de Usuario", language: "Idioma", theme: "Tema", dark: "Oscuro...
+291 |      settingsNotSavedGuest: "La configuración no se puede guardar en Modo Invitado.", weight: "Peso", poor: "Pobre", f...
+292 |  ...keNew: "Como Nuevo", new: "Nuevo", condition: "Condición", value: "Valor", dueDate: "Fecha de Vencimiento",
+    |                                                                 ^
+293 |      status: "Estado", high: "Alto", medium: "Medio", low: "Bajo", importance: "Importancia",
+294 |      levelLinked: "El nivel está vinculado al estado de finalización de las misiones conectadas.", autoCalculated: "Ca...
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "routines" in object literal[33m
+297 |      saveChanges: "Guardar Cambios", item: "Ítem", roleResources: "Recursos del Rol", noItemsNeeded: "No se necesitan ...
+298 |      needsWishlist: "Necesidades (Lista de Deseos)", noResourcesLinked: "No hay recursos vinculados.", inventoryHave: ...
+299 |      routines: "Rutinas", skills: "Habilidades", masteryHabits: "Maestría y Hábitos", noActiveMissions: "No hay mision...
+    |      ^
+300 |      activeMissions: "Misiones Activas", level: "Nivel", backToRoles: "Volver a Roles", removeItemConfirm: "¿Eliminar ...
+301 |      openLibrary: "Abrir Biblioteca", noRolesAdded: "Aún no has agregado ningún rol.", zoomInstruction: "[Ctrl] + Desp...
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "creation" in object literal[33m
+303 |      exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+    |                                                                      ^
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "learning" in object literal[33m
+303 |      exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+    |                                                                                             ^
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "management" in object literal[33m
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    |      ^
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+308 |    },
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "community" in object literal[33m
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    |                              ^
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+308 |    },
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "freedom" in object literal[33m
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    |                                                      ^
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+308 |    },
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "family" in object literal[33m
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    |                                                                           ^
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+308 |    },
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "health" in object literal[33m
+304 |      deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+    |                                                                                              ^
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+308 |    },
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "totalWeight" in object literal[33m
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+    |      ^
+308 |    },
+309 |    fr: {
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "overallScore" in object literal[33m
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+    |                                 ^
+308 |    },
+309 |    fr: {
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "liabilities" in object literal[33m
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+    |                                                                  ^
+308 |    },
+309 |    fr: {
+[39m
+[33m[plugin vite:esbuild] src/App.jsx: [33mDuplicate key "liquidAssets" in object literal[33m
+305 |      notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+306 |      management: "Gestión", community: "Comunidad", freedom: "Libertad", family: "Familia", health: "Salud",
+307 |      totalWeight: "Peso Total", overallScore: "Puntaje General", liabilities: "Pasivos", liquidAssets: "Activos Líquidos"
+    |                                                                                          ^
+308 |    },
+309 |    fr: {
+[39m
+[32m✓[39m 2305 modules transformed.
+[31m✗[39m Build failed in 6.17s
+[31merror during build:
+[31msrc/App.jsx (14:9): "Tool" is not exported by "node_modules/lucide-react/dist/esm/lucide-react.js", imported by "src/App.jsx".[31m
+file: [36mD:/Juan José 2025/Roles/Enterpreneur/Livia - Self Coaching App/web-app/src/App.jsx:14:9[31m
+[33m
+12:   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
+13:   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
+14:   UserX, Tool, Zap, ChevronLeft
+             ^
+15: } from 'lucide-react';
+16: import {
+[31m
+    at getRollupError (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:16956:16)
+    at Module.traceVariable (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:17412:29)
+    at ModuleScope.findVariable (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:15076:39)
+    at ReturnValueScope.findVariable (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:5649:38)
+    at FunctionBodyScope.findVariable (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:5649:38)
+    at Identifier.bind (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:5423:40)
+    at CallExpression.bind (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:2809:28)
+    at CallExpression.bind (file:///D:/Juan%20Jos%C3%A9%202025/Roles/Enterpreneur/Livia%20-%20Self%20Coaching%20App/web-app/node_modules/rollup/dist/es/shared/node-entry.js:12123:15)[39m
