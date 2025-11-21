@@ -261,7 +261,8 @@ const TRANSLATIONS = {
     done: "Done", yourRoles: "Your Roles", roleLibrary: "Role Library", createCustom: "Create Custom", level1: "Level 1", xp: "XP",
     roleLibraryTitle: "Role Library", allRolesActive: "All available roles are currently active.", createCustomRoleTitle: "Create Custom Role",
     roleName: "Role Name", roleNamePlaceholder: "e.g. Musician, Gamer, Chef...", createRole: "Create Role", dueToday: "Due Today",
-    weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy"
+    weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
+    description: "Description"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -303,6 +304,7 @@ const TRANSLATIONS = {
     exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
     notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+    description: "Descripción"
 
   },
   fr: {
@@ -495,7 +497,7 @@ const calculateSkillLevel = (skill, allData) => {
   let count = 0;
 
   const checkItem = (item) => {
-    if (item.linkedSkillIds && item.linkedSkillIds.includes(skill.id)) {
+    if (item.linkedSkillIds && Array.isArray(item.linkedSkillIds) && item.linkedSkillIds.includes(skill.id)) {
       totalStatus += (item.status || 0);
       count++;
     }
@@ -726,7 +728,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
   return (
     <Modal
       isOpen={isOpen} onClose={onClose}
-      title={`${t('edit')} ${type ? (t(type) || type) : t('item')}`}
+      title={`${t('edit')} ${type ? (t(type) || type.charAt(0).toUpperCase() + type.slice(1)) : t('item')}`}
       theme={theme}
       footer={
         <div className="flex justify-end gap-3">
@@ -871,8 +873,8 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
         )}
 
         <div>
-          <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Notes</label>
-          <textarea className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} h-24 resize-none focus:outline-none focus:border-blue-500`} value={formData.notes || ''} onChange={e => handleChange('notes', e.target.value)} />
+          <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('description') || "Description"}</label>
+          <textarea className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} h-24 resize-none focus:outline-none focus:border-blue-500`} value={formData.description || ''} onChange={e => handleChange('description', e.target.value)} />
         </div>
       </div>
     </Modal>
