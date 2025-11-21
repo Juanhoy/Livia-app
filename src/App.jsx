@@ -1152,7 +1152,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
         {axes.map((a, i) => (
           <g key={i}>
             <line x1={center} y1={center} x2={a.x} y2={a.y} stroke={guideColor} strokeWidth="2" />
-            <text x={a.tx} y={a.ty} fill={textColor} fontSize="24" textAnchor="middle" dominantBaseline="middle">{a.name}</text>
+            <text x={a.tx} y={a.ty} fill={textColor} fontSize="24" textAnchor="middle" dominantBaseline="middle">{t(a.name.toLowerCase()) || a.name}</text>
           </g>
         ))}
         <circle cx={center} cy={center} r={10} fill={guideColor} />
@@ -1287,7 +1287,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
     return Math.round(weightedSum / totalWeight);
   }, [calculatedDimensions, dimensions]);
 
-  const chartData = calculatedDimensions.map(dim => ({ subject: dim.name, A: dim.score, fullMark: 100 }));
+  const chartData = calculatedDimensions.map(dim => ({ subject: t(dim.name.toLowerCase()) || dim.name, A: dim.score, fullMark: 100 }));
   const currentDimData = data.dimensions[activeDimension] || {};
 
   const addItem = (type, val) => {
@@ -1425,7 +1425,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
           {calculatedDimensions.map(dim => (
             <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`group cursor-pointer`}>
               <div className="flex justify-between items-end mb-1">
-                <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>{dim.name}</span>
+                <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>{t(dim.name.toLowerCase()) || dim.name}</span>
                 <span className={`text-xs font-bold ${activeDimension === dim.name ? 'text-yellow-500' : 'text-gray-600'}`}>{dim.score}%</span>
               </div>
               <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
