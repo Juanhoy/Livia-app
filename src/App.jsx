@@ -699,7 +699,7 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
   );
 };
 
-const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onSave, theme, isGuest }) => {
+const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onSave, theme, isGuest, t }) => {
   const [formData, setFormData] = useState(item || {});
   const [uploading, setUploading] = useState(false);
   const colors = THEMES[theme] || THEMES['dark'];
@@ -1304,7 +1304,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
 
   return (
     <div className={`flex h-full ${colors.bg} overflow-hidden`}>
-      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveItem} theme={theme} isGuest={isGuest} />
+      <ItemDetailModal isOpen={!!editingItem} onClose={() => setEditingItem(null)} item={editingItem} type={editType} roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveItem} theme={theme} isGuest={isGuest} t={t} />
 
       {/* Edit Dimensions Modal */}
       <Modal isOpen={isEditingDims} onClose={() => setIsEditingDims(false)} title={t('editDimensions')} theme={theme}>
@@ -1827,7 +1827,7 @@ const SkillsPage = ({ data, setData, theme, isGuest, t }) => {
 
   return (
     <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
-      <ItemDetailModal isOpen={!!editingSkill} onClose={() => setEditingSkill(null)} item={editingSkill} type="skills" roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveSkill} theme={theme} isGuest={isGuest} />
+      <ItemDetailModal isOpen={!!editingSkill} onClose={() => setEditingSkill(null)} item={editingSkill} type="skills" roles={data.appSettings.userRoles} skills={data.skills} data={data} onSave={saveSkill} theme={theme} isGuest={isGuest} t={t} />
 
       <div className="flex justify-between items-center mb-6">
         <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><BookOpen size={32} className="text-blue-400" /> {t('lifeSkills')}</h2>
@@ -1924,6 +1924,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
         onSave={handleSaveItem}
         theme={theme}
         isGuest={isGuest}
+        t={t}
       />
 
       <div className="flex justify-between items-center mb-6">
