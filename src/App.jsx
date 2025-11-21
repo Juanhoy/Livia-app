@@ -479,6 +479,7 @@ const calculateRoleXP = (roleKey, allData) => {
   let xp = 0;
   const checkItem = (item) => { if (item.roleKey === roleKey) xp += (item.status || 0); };
   Object.values(allData.dimensions).forEach(dim => {
+    if (!dim) return;
     dim.goals?.forEach(checkItem);
     dim.projects?.forEach(checkItem);
     dim.challenges?.forEach(checkItem);
@@ -497,6 +498,7 @@ const calculateSkillLevel = (skill, allData) => {
   let count = 0;
 
   const checkItem = (item) => {
+    if (!item) return;
     if (item.linkedSkillIds && Array.isArray(item.linkedSkillIds) && item.linkedSkillIds.includes(skill.id)) {
       totalStatus += (item.status || 0);
       count++;
@@ -504,6 +506,7 @@ const calculateSkillLevel = (skill, allData) => {
   };
 
   Object.values(allData.dimensions).forEach(dim => {
+    if (!dim) return;
     dim.goals?.forEach(checkItem);
     dim.projects?.forEach(checkItem);
     dim.challenges?.forEach(checkItem);
@@ -699,7 +702,7 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
 const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onSave, theme, isGuest }) => {
   const [formData, setFormData] = useState(item || {});
   const [uploading, setUploading] = useState(false);
-  const colors = THEMES[theme || 'dark'];
+  const colors = THEMES[theme] || THEMES['dark'];
 
   useEffect(() => { setFormData(item || {}); }, [item]);
 
@@ -772,7 +775,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
                   onClick={() => handleChange('category', cat.id)}
                   className={`cursor-pointer rounded-lg p-2 flex flex-col items-center justify-center gap-1 border transition-all ${formData.category === cat.id ? 'border-blue-500 bg-[#333]' : `border-transparent hover:${colors.bgTertiary}`}`}
                 >
-                  <div className={`${cat.color}`}>{React.cloneElement(cat.icon, { size: 20 })}</div>
+                  <div className={`${cat.color}`}>{cat.icon && React.isValidElement(cat.icon) ? React.cloneElement(cat.icon, { size: 20 }) : null}</div>
                   <span className={`text-[9px] ${colors.textSecondary} text-center leading-tight`}>{cat.label}</span>
                 </div>
               ))}
@@ -867,7 +870,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
             <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.roleKey || ''} onChange={e => handleChange('roleKey', e.target.value)}>
               <option value="">-- No Role Linked --</option>
-              {roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
+              {roles && roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
             </select>
           </div>
         )}
