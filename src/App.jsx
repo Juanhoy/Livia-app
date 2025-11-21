@@ -547,70 +547,87 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
   };
 
   return (
-    <div className="h-screen w-screen bg-[#0a0a0a] text-white flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000_100%)]"></div>
-      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#333 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
-
-      <div className="relative z-10 w-full max-w-md p-8">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-2xl shadow-blue-900/50">
-            <span className="text-3xl font-bold">L</span>
-          </div>
-          <h1 className="text-4xl font-bold mb-2">Livia</h1>
-          <p className="text-gray-400">{t('welcome')}</p>
+    <div className="h-screen w-screen bg-[#0a0a0a] text-white flex overflow-hidden">
+      {/* Left Side - Hero Image (Desktop Only) */}
+      <div className="hidden lg:block w-1/2 h-full relative">
+        <div className="absolute inset-0 bg-blue-900/20 z-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0a] z-20"></div>
+        <img
+          src="/hero-collage.png"
+          alt="Livia Life Balance"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute bottom-12 left-12 z-30 max-w-md">
+          <h2 className="text-4xl font-bold mb-4 text-white leading-tight">Design a life you actually love living.</h2>
+          <p className="text-lg text-gray-200 opacity-90">Balance your health, wealth, and happiness with Livia's holistic coaching system.</p>
         </div>
+      </div>
 
-        <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-2xl border border-gray-800">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 h-full flex items-center justify-center relative bg-[#0a0a0a]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000_100%)] opacity-50"></div>
+
+        <div className="relative z-10 w-full max-w-md p-8">
+          <div className="text-center mb-10">
+            <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-6 shadow-2xl shadow-blue-900/50 transform rotate-3">
+              <span className="text-3xl font-bold">L</span>
+            </div>
+            <h1 className="text-4xl font-bold mb-2 tracking-tight">Livia</h1>
+            <p className="text-gray-400">{t('welcome')}</p>
+          </div>
+
+          <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-2xl border border-gray-800/50 backdrop-blur-sm">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {!isLogin && (
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('name')}</label>
+                  <input
+                    type="text"
+                    className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                    placeholder={t('yourNamePlaceholder')}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              )}
               <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('name')}</label>
+                <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('email')}</label>
                 <input
-                  type="text"
-                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
-                  placeholder={t('yourNamePlaceholder')}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  type="email"
+                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-            )}
-            <div>
-              <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('email')}</label>
-              <input
-                type="email"
-                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('password')}</label>
+                <input
+                  type="password"
+                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-900/20 active:scale-95">
+                {isLogin ? t('login') : t('createAccount')}
+              </button>
+            </form>
+
+            <div className="mt-8 pt-6 border-t border-gray-700/50">
+              <button onClick={onGuest} className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors py-2.5 rounded-xl hover:bg-gray-800/50 group">
+                <UserX size={18} className="group-hover:text-blue-400 transition-colors" />
+                {t('continueGuest')}
+              </button>
             </div>
-            <div>
-              <label className="block text-xs font-bold uppercase text-gray-500 mb-1">{t('password')}</label>
-              <input
-                type="password"
-                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none transition-colors"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+
+            <div className="mt-6 text-center">
+              <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-blue-400 hover:text-blue-300 font-medium hover:underline decoration-blue-400/30 underline-offset-4">
+                {isLogin ? t('needAccount') : t('haveAccount')}
+              </button>
             </div>
-
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-900/20">
-              {isLogin ? t('login') : t('createAccount')}
-            </button>
-          </form>
-
-          <div className="mt-6 pt-6 border-t border-gray-700/50">
-            <button onClick={onGuest} className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors py-2 rounded-lg hover:bg-gray-800">
-              <UserX size={18} />
-              {t('continueGuest')}
-            </button>
-          </div>
-
-          <div className="mt-4 text-center">
-            <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-blue-400 hover:text-blue-300">
-              {isLogin ? t('needAccount') : t('haveAccount')}
-            </button>
           </div>
         </div>
       </div>
