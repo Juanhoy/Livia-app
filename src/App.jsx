@@ -262,7 +262,9 @@ const TRANSLATIONS = {
     roleLibraryTitle: "Role Library", allRolesActive: "All available roles are currently active.", createCustomRoleTitle: "Create Custom Role",
     roleName: "Role Name", roleNamePlaceholder: "e.g. Musician, Gamer, Chef...", createRole: "Create Role", dueToday: "Due Today",
     weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
-    description: "Description", connectedGoal: "Connected Goal", connectedChallenge: "Connected Challenge", connectedSkill: "Connected Skill", select: "Select"
+    weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
+    description: "Description", connectedGoal: "Connected Goal", connectedChallenge: "Connected Challenge", connectedSkill: "Connected Skill", select: "Select",
+    vehicles: "Vehicles", houses: "Houses", studio: "Studio", electronics: "Electronics", furniture: "Furniture", gym_and_sports: "Gym & Sports", musical_instruments: "Instruments", wishlist: "Wishlist", clothes: "Clothes"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -304,7 +306,8 @@ const TRANSLATIONS = {
     exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
     notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
-    description: "Descripción", connectedGoal: "Meta Conectada", connectedChallenge: "Desafío Conectado", connectedSkill: "Habilidad Conectada", select: "Seleccionar"
+    description: "Descripción", connectedGoal: "Meta Conectada", connectedChallenge: "Desafío Conectado", connectedSkill: "Habilidad Conectada", select: "Seleccionar",
+    vehicles: "Vehículos", houses: "Casas", studio: "Estudio", electronics: "Electrónica", furniture: "Muebles", gym_and_sports: "Gimnasio y Deportes", musical_instruments: "Instrumentos", wishlist: "Lista de Deseos", clothes: "Ropa"
 
   },
   fr: {
@@ -324,7 +327,9 @@ const TRANSLATIONS = {
     weeklyGoal: "Objectif Hebdo", monthlyGoal: "Objectif Mensuel", money: "Argent", tools: "Outils", knowledge: "Savoir", people: "Gens", energy: "Énergie",
     newItem: "Nouvel Élément", addTask: "Ajouter une tâche", value: "Valeur", deleteResourceConfirm: "Supprimer cette ressource ?",
     focusWeek: "Focus de la semaine", focusMonth: "Focus du mois", focusToday: "Focus d'aujourd'hui",
-    noWeeklyRoutines: "Aucune routine hebdomadaire.", noMonthlyRoutines: "Aucune routine mensuelle.", noDailyTasks: "Aucune tâche quotidienne."
+    focusWeek: "Focus de la semaine", focusMonth: "Focus du mois", focusToday: "Focus d'aujourd'hui",
+    noWeeklyRoutines: "Aucune routine hebdomadaire.", noMonthlyRoutines: "Aucune routine mensuelle.", noDailyTasks: "Aucune tâche quotidienne.",
+    vehicles: "Véhicules", houses: "Maisons", studio: "Studio", electronics: "Électronique", furniture: "Meubles", gym_and_sports: "Gym et Sports", musical_instruments: "Instruments", wishlist: "Liste de Vœux", clothes: "Vêtements"
   },
   de: {
     dashboard: "Armaturenbrett", lifeBalance: "Lebensbalance", lifeRoles: "Lebensrollen", lifeSkills: "Lebenskompetenzen", lifeResources: "Lebensressourcen", myTime: "Meine Zeit", visualization: "Visualisierung",
@@ -343,7 +348,9 @@ const TRANSLATIONS = {
     weeklyGoal: "Wochenziel", monthlyGoal: "Monatsziel", money: "Geld", tools: "Werkzeuge", knowledge: "Wissen", people: "Menschen", energy: "Energie",
     newItem: "Neues Element", addTask: "Neue Aufgabe hinzufügen", value: "Wert", deleteResourceConfirm: "Diese Ressource löschen?",
     focusWeek: "Fokus für diese Woche", focusMonth: "Fokus für diesen Monat", focusToday: "Fokus für heute",
-    noWeeklyRoutines: "Keine wöchentlichen Routinen.", noMonthlyRoutines: "Keine monatlichen Routinen.", noDailyTasks: "Keine täglichen Aufgaben."
+    focusWeek: "Fokus für diese Woche", focusMonth: "Fokus für diesen Monat", focusToday: "Fokus für heute",
+    noWeeklyRoutines: "Keine wöchentlichen Routinen.", noMonthlyRoutines: "Keine monatlichen Routinen.", noDailyTasks: "Keine täglichen Aufgaben.",
+    vehicles: "Fahrzeuge", houses: "Häuser", studio: "Studio", electronics: "Elektronik", furniture: "Möbel", gym_and_sports: "Fitness & Sport", musical_instruments: "Instrumente", wishlist: "Wunschliste", clothes: "Kleidung"
   },
   pt: {
     dashboard: "Painel", lifeBalance: "Equilíbrio de Vida", lifeRoles: "Papéis de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Meu Tempo", visualization: "Visualização",
@@ -362,7 +369,9 @@ const TRANSLATIONS = {
     weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensal", money: "Dinheiro", tools: "Ferramentas", knowledge: "Conhecimento", people: "Pessoas", energy: "Energia",
     newItem: "Novo Item", addTask: "Adicionar nova tarefa", value: "Valor", deleteResourceConfirm: "Excluir este recurso?",
     focusWeek: "Foco desta Semana", focusMonth: "Foco deste Mês", focusToday: "Foco de Hoje",
-    noWeeklyRoutines: "Sem rotinas semanais.", noMonthlyRoutines: "Sem rotinas mensais.", noDailyTasks: "Sem tarefas diárias."
+    focusWeek: "Foco desta Semana", focusMonth: "Foco deste Mês", focusToday: "Foco de Hoje",
+    noWeeklyRoutines: "Sem rotinas semanais.", noMonthlyRoutines: "Sem rotinas mensais.", noDailyTasks: "Sem tarefas diárias.",
+    vehicles: "Veículos", houses: "Casas", studio: "Estúdio", electronics: "Eletrônicos", furniture: "Móveis", gym_and_sports: "Academia e Esportes", musical_instruments: "Instrumentos", wishlist: "Lista de Desejos", clothes: "Roupas"
   },
   zh: {
     dashboard: "仪表板", lifeBalance: "生活平衡", lifeRoles: "生活角色", lifeSkills: "生活技能", lifeResources: "生活资源", myTime: "我的时间", visualization: "愿景板",
@@ -381,7 +390,9 @@ const TRANSLATIONS = {
     weeklyGoal: "每周目标", monthlyGoal: "每月目标", money: "金钱", tools: "工具", knowledge: "知识", people: "人脉", energy: "精力",
     newItem: "新项目", addTask: "添加新任务", value: "价值", deleteResourceConfirm: "删除此资源？",
     focusWeek: "本周重点", focusMonth: "本月重点", focusToday: "今日重点",
-    noWeeklyRoutines: "没有每周例行事务。", noMonthlyRoutines: "没有每月例行事务。", noDailyTasks: "没有每日任务。"
+    focusWeek: "本周重点", focusMonth: "本月重点", focusToday: "今日重点",
+    noWeeklyRoutines: "没有每周例行事务。", noMonthlyRoutines: "没有每月例行事务。", noDailyTasks: "没有每日任务。",
+    vehicles: "车辆", houses: "房屋", studio: "工作室", electronics: "电子产品", furniture: "家具", gym_and_sports: "健身与运动", musical_instruments: "乐器", wishlist: "愿望清单", clothes: "衣服"
   },
   ja: {
     dashboard: "ダッシュボード", lifeBalance: "ライフバランス", lifeRoles: "ライフロール", lifeSkills: "ライフスキル", lifeResources: "ライフリソース", myTime: "マイタイム", visualization: "ビジュアライゼーション",
@@ -400,7 +411,9 @@ const TRANSLATIONS = {
     weeklyGoal: "週の目標", monthlyGoal: "月の目標", money: "お金", tools: "ツール", knowledge: "知識", people: "人々", energy: "エネルギー",
     newItem: "新しいアイテム", addTask: "新しいタスクを追加", value: "価値", deleteResourceConfirm: "このリソースを削除しますか？",
     focusWeek: "今週のフォーカス", focusMonth: "今月のフォーカス", focusToday: "今日のフォーカス",
-    noWeeklyRoutines: "週次ルーチンはありません。", noMonthlyRoutines: "月次ルーチンはありません。", noDailyTasks: "今日のタスクはありません。"
+    focusWeek: "今週のフォーカス", focusMonth: "今月のフォーカス", focusToday: "今日のフォーカス",
+    noWeeklyRoutines: "週次ルーチンはありません。", noMonthlyRoutines: "月次ルーチンはありません。", noDailyTasks: "今日のタスクはありません。",
+    vehicles: "乗り物", houses: "家", studio: "スタジオ", electronics: "電子機器", furniture: "家具", gym_and_sports: "ジム＆スポーツ", musical_instruments: "楽器", wishlist: "ウィッシュリスト", clothes: "服"
   }
 };
 
@@ -417,8 +430,9 @@ const DEFAULT_DATA = {
     theme: 'dark',
     language: getBrowserLanguage(),
     userRoles: [
-      { key: "athlete", name: "Athlete", icon: "Dumbbell" },
-      { key: "professional", name: "Professional", icon: "Briefcase" }
+      { key: "human", name: "Human", icon: "User" },
+      { key: "son", name: "Son/Daughter", icon: "Heart" },
+      { key: "citizen", name: "Citizen", icon: "Flag" }
     ],
     roleLibrary: [
       { key: "human", name: "Human", icon: "User" },
@@ -1988,7 +2002,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
             onClick={() => setActiveCategory(cat.id)}
             className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
           >
-            {React.cloneElement(cat.icon, { size: 18 })} {cat.label}
+            {React.cloneElement(cat.icon, { size: 18 })} {t(cat.id)}
           </button>
         ))}
       </div>
