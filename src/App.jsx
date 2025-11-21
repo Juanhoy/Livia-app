@@ -134,17 +134,16 @@ const generateInitialData = () => {
   );
   dims["Health"].goals.push(
     { id: 104, name: "Have a healthy body", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 105, name: "Have a healthy youthfull appeareance", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 105, name: "Have a healthy appeareance", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
     { id: 106, name: "Have good sleep habits", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
     { id: 107, name: "Exercise regularly", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
     { id: 108, name: "Take care of mental health", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" }
   );
   dims["Health"].routines.daily.push(
-    { id: 109, name: "Sleep routine", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" },
+    { id: 113, name: "Deep sleep", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" },
     { id: 110, name: "Yoga", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
     { id: 111, name: "Meditation", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
-    { id: 112, name: "Skin care routine", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
-    { id: 113, name: "Deep sleep", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" }
+    { id: 112, name: "Skin care routine", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" }
   );
 
   // 2. Family
@@ -806,6 +805,29 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           </div>
         )}
 
+        {formData.category === 'money' && (
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('type')}</label>
+              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.moneyType || 'income'} onChange={e => handleChange('moneyType', e.target.value)}>
+                <option value="income">{t('income') || 'Income'}</option>
+                <option value="expense">{t('expense') || 'Expense'}</option>
+                <option value="investment">{t('investment') || 'Investment'}</option>
+                <option value="debt">{t('debt') || 'Debt'}</option>
+              </select>
+            </div>
+            {(formData.moneyType === 'income' || formData.moneyType === 'expense') && (
+              <div>
+                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('frequency')}</label>
+                <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.frequency || 'monthly'} onChange={e => handleChange('frequency', e.target.value)}>
+                  <option value="monthly">{t('monthly') || 'Monthly'}</option>
+                  <option value="one_time">{t('oneTime') || 'One Time / Extra'}</option>
+                </select>
+              </div>
+            )}
+          </div>
+        )}
+
         {isSkill && (
           <div className={`${colors.bgTertiary} p-4 rounded-lg border ${colors.border}`}>
             <div className="flex justify-between items-center mb-4">
@@ -1226,7 +1248,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
                 setDraggingImage({ id: img.id, startX: e.clientX, startY: e.clientY, originalX: img.x, originalY: img.y });
               }}
             >
-              <img src={img.src} className={`w-full h-auto rounded shadow-2xl select-none ${selectedId === img.id ? 'ring-4 ring-blue-500' : 'hover:ring-2 hover:ring-white/50'}`} />
+              <img src={img.src} draggable={false} className={`w-full h-auto rounded shadow-2xl select-none ${selectedId === img.id ? 'ring-4 ring-blue-500' : 'hover:ring-2 hover:ring-white/50'}`} />
 
               {selectedId === img.id && (
                 <>
@@ -1925,12 +1947,22 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
   const colors = THEMES[theme];
 
   const financials = useMemo(() => {
-    const moneyItems = (data.resources || []).filter(r => r.category === 'money');
-    const assets = moneyItems.filter(i => i.value > 0).reduce((a, b) => a + b.value, 0);
-    const liabilities = moneyItems.filter(i => i.value < 0).reduce((a, b) => a + b.value, 0);
-    const income = moneyItems.filter(i => i.type === 'income').reduce((a, b) => a + (b.monthlyValue || 0), 0);
-    const expenses = moneyItems.filter(i => i.type === 'expense').reduce((a, b) => a + (b.monthlyValue || 0), 0);
-    return { netWorth: assets + liabilities, income, expenses };
+    const allResources = data.resources || [];
+    const moneyItems = allResources.filter(r => r.category === 'money');
+    const otherResources = allResources.filter(r => r.category !== 'money');
+
+    // Assets: All physical resources + Investments
+    const physicalAssets = otherResources.reduce((sum, r) => sum + (Number(r.value) || 0), 0);
+    const financialAssets = moneyItems.filter(i => i.moneyType === 'investment').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
+
+    // Liabilities: Debts
+    const liabilities = moneyItems.filter(i => i.moneyType === 'debt').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
+
+    // Monthly Cashflow
+    const income = moneyItems.filter(i => i.moneyType === 'income' && i.frequency === 'monthly').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
+    const expenses = moneyItems.filter(i => i.moneyType === 'expense' && i.frequency === 'monthly').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
+
+    return { netWorth: physicalAssets + financialAssets - liabilities, income, expenses };
   }, [data.resources]);
 
   const handleSaveItem = (updatedItem) => {
