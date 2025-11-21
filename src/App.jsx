@@ -262,7 +262,7 @@ const TRANSLATIONS = {
     roleLibraryTitle: "Role Library", allRolesActive: "All available roles are currently active.", createCustomRoleTitle: "Create Custom Role",
     roleName: "Role Name", roleNamePlaceholder: "e.g. Musician, Gamer, Chef...", createRole: "Create Role", dueToday: "Due Today",
     weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
-    description: "Description"
+    description: "Description", connectedGoal: "Connected Goal", connectedChallenge: "Connected Challenge", connectedSkill: "Connected Skill", select: "Select"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -304,7 +304,7 @@ const TRANSLATIONS = {
     exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
     notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
-    description: "Descripción"
+    description: "Descripción", connectedGoal: "Meta Conectada", connectedChallenge: "Desafío Conectado", connectedSkill: "Habilidad Conectada", select: "Seleccionar"
 
   },
   fr: {
@@ -704,6 +704,9 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
   const [uploading, setUploading] = useState(false);
   const colors = THEMES[theme] || THEMES['dark'];
 
+  const allGoals = data?.dimensions ? Object.values(data.dimensions).flatMap(d => d.goals || []) : [];
+  const allChallenges = data?.dimensions ? Object.values(data.dimensions).flatMap(d => d.challenges || []) : [];
+
   useEffect(() => { setFormData(item || {}); }, [item]);
 
   const handleChange = (field, value) => { setFormData(prev => ({ ...prev, [field]: value })); };
@@ -879,6 +882,32 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('description') || "Description"}</label>
           <textarea className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} h-24 resize-none focus:outline-none focus:border-blue-500`} value={formData.description || ''} onChange={e => handleChange('description', e.target.value)} />
         </div>
+
+        {(type === 'projects' || type === 'routines') && (
+          <div className="space-y-3 pt-4 border-t border-gray-700/50">
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedGoal')}</label>
+              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedGoalId || ''} onChange={e => handleChange('linkedGoalId', e.target.value)}>
+                <option value="">-- {t('select')} --</option>
+                {allGoals.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedChallenge')}</label>
+              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedChallengeId || ''} onChange={e => handleChange('linkedChallengeId', e.target.value)}>
+                <option value="">-- {t('select')} --</option>
+                {allChallenges.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedSkill')}</label>
+              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedSkillId || ''} onChange={e => handleChange('linkedSkillId', e.target.value)}>
+                <option value="">-- {t('select')} --</option>
+                {skills && skills.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+              </select>
+            </div>
+          </div>
+        )}
       </div>
     </Modal>
   );
