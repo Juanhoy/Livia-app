@@ -118,6 +118,7 @@ const uploadToCloudinary = async (file) => {
 };
 
 // Helper to generate realistic initial data
+// Helper to generate realistic initial data
 const generateInitialData = () => {
   const dims = {};
 
@@ -127,102 +128,94 @@ const generateInitialData = () => {
 
   // 1. Health
   dims["Health"].challenges.push(
-    { id: 101, name: "Quit Vices (Smoking/Alcohol)", status: 0, importance: "High", roleKey: "athlete", dueDate: "", linkedSkillIds: [103] },
-    { id: 102, name: "No Sugar for 30 Days", status: 60, importance: "Medium", roleKey: "athlete", dueDate: "", linkedSkillIds: [103] }
+    { id: 101, name: "Leave vices", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 102, name: "Sleep well", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 103, name: "Good posture", status: 0, importance: "Medium", roleKey: "health_enthusiast", dueDate: "" }
   );
   dims["Health"].goals.push(
-    { id: 103, name: "Keep a healthy body (15% Body Fat)", status: 40, importance: "High", roleKey: "athlete", dueDate: "2024-12-31", linkedSkillIds: [101] },
-    { id: 104, name: "Keep a healthy appearance", status: 70, importance: "Medium", roleKey: "athlete", dueDate: "", linkedSkillIds: [] }
+    { id: 104, name: "Have a healthy body", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 105, name: "Have a healthy youthfull appeareance", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 106, name: "Have good sleep habits", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 107, name: "Exercise regularly", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
+    { id: 108, name: "Take care of mental health", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" }
   );
   dims["Health"].routines.daily.push(
-    { id: 105, name: "Sleep 8 Hours", status: 100, completionHistory: generateHistory(0.8), importance: "High", roleKey: "athlete", linkedSkillIds: [103] },
-    { id: 106, name: "Eat Healthy (Whole Foods)", status: 80, completionHistory: generateHistory(0.6), importance: "High", roleKey: "athlete", linkedSkillIds: [103] },
-    { id: 107, name: "Morning Stretch/Exercise", status: 90, completionHistory: generateHistory(0.9), importance: "High", roleKey: "athlete", linkedSkillIds: [101] }
+    { id: 109, name: "Sleep routine", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" },
+    { id: 110, name: "Yoga", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
+    { id: 111, name: "Meditation", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
+    { id: 112, name: "Skin care routine", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
+    { id: 113, name: "Deep sleep", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" }
   );
 
   // 2. Family
   dims["Family"].challenges.push(
-    { id: 201, name: "No Phones at Dinner", status: 90, importance: "High", roleKey: "parent", dueDate: "" }
+    { id: 201, name: "Have important uncomfortable conversations in family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
   );
   dims["Family"].goals.push(
-    { id: 202, name: "Have quality time in family", status: 50, importance: "High", roleKey: "parent", dueDate: "" },
-    { id: 203, name: "Organize Family Reunion", status: 20, importance: "Medium", roleKey: "parent", dueDate: "2024-08-15" }
+    { id: 202, name: "Take care of my family's health and mental health", status: 0, importance: "High", roleKey: "family_member", dueDate: "" },
+    { id: 203, name: "Share time on family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" },
+    { id: 204, name: "Have fun experiences in family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
   );
-  dims["Family"].routines.weekly.push(
-    { id: 204, name: "Call Parents", status: 100, completionHistory: [], importance: "High", roleKey: "son" },
-    { id: 205, name: "Family Game Night", status: 60, completionHistory: [], importance: "Medium", roleKey: "parent" }
+  dims["Family"].projects.push(
+    { id: 205, name: "Family trip", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
   );
 
   // 3. Freedom
   dims["Freedom"].challenges.push(
-    { id: 301, name: "Reduce Screen Time to 2h/day", status: 30, importance: "High", roleKey: "free_spirit", dueDate: "" }
+    { id: 301, name: "Have free time", status: 0, importance: "High", roleKey: "free_spirit", dueDate: "" }
   );
   dims["Freedom"].goals.push(
-    { id: 302, name: "Have free time to do whatever you please", status: 40, importance: "High", roleKey: "free_spirit", dueDate: "" },
-    { id: 303, name: "Achieve Financial Independence", status: 25, importance: "High", roleKey: "investor", dueDate: "2030-01-01", linkedSkillIds: [102] }
-  );
-  dims["Freedom"].routines.monthly.push(
-    { id: 304, name: "Review Passive Income Sources", status: 50, completionHistory: [], importance: "High", roleKey: "investor", linkedSkillIds: [102] }
+    { id: 302, name: "Be able to manage my own time", status: 0, importance: "High", roleKey: "free_spirit", dueDate: "" }
   );
 
   // 4. Community
   dims["Community"].challenges.push(
-    { id: 401, name: "Meet 1 new person a week", status: 10, importance: "Medium", roleKey: "friend", dueDate: "" }
+    { id: 401, name: "Help the community", status: 0, importance: "High", roleKey: "community_member", dueDate: "" }
   );
   dims["Community"].goals.push(
-    { id: 402, name: "Spend time with friends", status: 60, importance: "High", roleKey: "friend", dueDate: "" },
-    { id: 403, name: "Volunteer at local shelter", status: 0, importance: "Medium", roleKey: "volunteer", dueDate: "" }
-  );
-  dims["Community"].routines.weekly.push(
-    { id: 404, name: "Call a friend", status: 70, completionHistory: [], importance: "Medium", roleKey: "friend" }
+    { id: 402, name: "Share time with close friends", status: 0, importance: "High", roleKey: "friend", dueDate: "" },
+    { id: 403, name: "Volunteer", status: 0, importance: "Medium", roleKey: "volunteer", dueDate: "" }
   );
 
   // 5. Management
   dims["Management"].challenges.push(
-    { id: 501, name: "Track every penny for a month", status: 80, importance: "High", roleKey: "manager", dueDate: "" }
+    { id: 501, name: "Have a possitive account balance", status: 0, importance: "High", roleKey: "manager", dueDate: "" }
   );
   dims["Management"].goals.push(
-    { id: 502, name: "Manage resources and money correctly", status: 55, importance: "High", roleKey: "manager", dueDate: "" },
-    { id: 503, name: "Organize Digital Workspace", status: 90, importance: "Medium", roleKey: "manager", dueDate: "" }
-  );
-  dims["Management"].routines.daily.push(
-    { id: 504, name: "Morning Planning/Review", status: 100, completionHistory: generateHistory(0.95), importance: "High", roleKey: "manager" }
+    { id: 502, name: "Have a regular high income", status: 0, importance: "High", roleKey: "manager", dueDate: "" },
+    { id: 503, name: "Pay debts", status: 0, importance: "High", roleKey: "manager", dueDate: "" },
+    { id: 504, name: "Invest", status: 0, importance: "High", roleKey: "investor", dueDate: "" }
   );
 
   // 6. Learning
   dims["Learning"].challenges.push(
-    { id: 601, name: "Finish a course in 1 week", status: 0, importance: "Medium", roleKey: "student", dueDate: "" }
+    { id: 601, name: "Learn to dance", status: 0, importance: "Medium", roleKey: "learner", dueDate: "" }
   );
   dims["Learning"].goals.push(
-    { id: 602, name: "Learn new stuff (Language/Skill)", status: 30, importance: "High", roleKey: "student", dueDate: "" },
-    { id: 603, name: "Read 24 Books this year", status: 45, importance: "Medium", roleKey: "student", dueDate: "2024-12-31" }
+    { id: 602, name: "Learn a new language", status: 0, importance: "High", roleKey: "learner", dueDate: "" },
+    { id: 603, name: "Learn a new recipe", status: 0, importance: "Medium", roleKey: "learner", dueDate: "" }
   );
   dims["Learning"].routines.daily.push(
-    { id: 604, name: "Read for 30 mins", status: 70, completionHistory: generateHistory(0.4), importance: "Medium", roleKey: "student" }
+    { id: 604, name: "Read daily", status: 0, completionHistory: [], importance: "High", roleKey: "learner" }
   );
 
   // 7. Creation
   dims["Creation"].challenges.push(
-    { id: 701, name: "Post daily for 30 days", status: 15, importance: "Medium", roleKey: "creator", dueDate: "" }
+    { id: 701, name: "Find a creative hobbie", status: 0, importance: "Medium", roleKey: "creator", dueDate: "" }
   );
   dims["Creation"].goals.push(
-    { id: 702, name: "Launch Personal Brand", status: 40, importance: "High", roleKey: "creator", dueDate: "" },
-    { id: 703, name: "Build a side project", status: 60, importance: "High", roleKey: "entrepreneur", dueDate: "" }
-  );
-  dims["Creation"].routines.daily.push(
-    { id: 704, name: "Deep Work Session (2h)", status: 50, completionHistory: generateHistory(0.5), importance: "High", roleKey: "creator" }
+    { id: 702, name: "Write on a journal", status: 0, importance: "High", roleKey: "creator", dueDate: "" }
   );
 
   // 8. Fun
   dims["Fun"].challenges.push(
-    { id: 801, name: "Try a new hobby every month", status: 20, importance: "Low", roleKey: "explorer", dueDate: "" }
+    { id: 801, name: "Have autentic fun", status: 0, importance: "High", roleKey: "fun_seeker", dueDate: "" }
   );
   dims["Fun"].goals.push(
-    { id: 802, name: "Plan a Dream Vacation", status: 10, importance: "High", roleKey: "traveler", dueDate: "" },
-    { id: 803, name: "Attend a Concert", status: 0, importance: "Medium", roleKey: "music_lover", dueDate: "" }
-  );
-  dims["Fun"].routines.weekly.push(
-    { id: 804, name: "Movie/Game Night", status: 90, completionHistory: [], importance: "Medium", roleKey: "partner" }
+    { id: 802, name: "Know new places", status: 0, importance: "High", roleKey: "explorer", dueDate: "" },
+    { id: 803, name: "Taste new foods", status: 0, importance: "Medium", roleKey: "foodie", dueDate: "" },
+    { id: 804, name: "Hear new songs", status: 0, importance: "Medium", roleKey: "music_lover", dueDate: "" },
+    { id: 805, name: "Play a fun game", status: 0, importance: "Medium", roleKey: "gamer", dueDate: "" }
   );
 
   return dims;
@@ -554,7 +547,7 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
         {/* Left Side - Hero Image (Desktop Only) */}
         <div className="hidden lg:block relative shrink-0">
           <img
-            src="/hero-collage.png"
+            src="/hero-new.jpg"
             alt="Livia Life Balance"
             className="h-[650px] w-auto object-contain drop-shadow-2xl"
           />
