@@ -547,43 +547,36 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
   };
 
   return (
-    <div className="h-screen w-screen bg-[#0a0a0a] text-white flex overflow-hidden">
-      {/* Left Side - Hero Image (Desktop Only) */}
-      <div className="hidden lg:block w-1/2 h-full relative">
-        <div className="absolute inset-0 bg-blue-900/20 z-10 mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0a] z-20"></div>
-        <img
-          src="/hero-collage.png"
-          alt="Livia Life Balance"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute bottom-12 left-12 z-30 max-w-md">
-          <h2 className="text-4xl font-bold mb-4 text-white leading-tight">Design a life you actually love living.</h2>
-          <p className="text-lg text-gray-200 opacity-90">Balance your health, wealth, and happiness with Livia's holistic coaching system.</p>
+    <div className="min-h-screen w-full bg-black text-white flex items-center justify-center p-4 overflow-hidden relative">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000_100%)]"></div>
+
+      <div className="z-10 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-32 max-w-7xl w-full">
+        {/* Left Side - Hero Image (Desktop Only) */}
+        <div className="hidden lg:block relative shrink-0">
+          <img
+            src="/hero-collage.png"
+            alt="Livia Life Balance"
+            className="h-[650px] w-auto object-contain drop-shadow-2xl"
+          />
         </div>
-      </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 h-full flex items-center justify-center relative bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000_100%)] opacity-50"></div>
-
-        <div className="relative z-10 w-full max-w-md p-8">
-          <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-6 shadow-2xl shadow-blue-900/50 transform rotate-3">
-              <span className="text-3xl font-bold">L</span>
+        {/* Right Side - Login Form */}
+        <div className="w-full max-w-[400px] shrink-0">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-blue-600 rounded-xl mx-auto flex items-center justify-center mb-4 shadow-xl shadow-blue-900/50 transform rotate-3">
+              <span className="text-2xl font-bold">L</span>
             </div>
-            <h1 className="text-4xl font-bold mb-2 tracking-tight">Livia</h1>
-            <p className="text-gray-400">{t('welcome')}</p>
+            <h1 className="text-3xl font-bold mb-2 tracking-tight">Livia</h1>
+            <p className="text-gray-400 text-sm">{t('welcome')}</p>
           </div>
 
-          <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-2xl border border-gray-800/50 backdrop-blur-sm">
-            <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="bg-[#121212] p-8 rounded-xl border border-gray-800 shadow-2xl">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div>
-                  <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('name')}</label>
                   <input
                     type="text"
-                    className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                    className="w-full bg-[#1e1e1e] border border-gray-700 rounded-[3px] px-3 py-2.5 text-sm text-white focus:border-gray-500 focus:outline-none transition-colors placeholder-gray-500"
                     placeholder={t('yourNamePlaceholder')}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -591,42 +584,45 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
                 </div>
               )}
               <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('email')}</label>
                 <input
                   type="email"
-                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
-                  placeholder="you@example.com"
+                  className="w-full bg-[#1e1e1e] border border-gray-700 rounded-[3px] px-3 py-2.5 text-sm text-white focus:border-gray-500 focus:outline-none transition-colors placeholder-gray-500"
+                  placeholder={t('email')} // Simplified placeholder for cleaner look
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1.5 ml-1">{t('password')}</label>
                 <input
                   type="password"
-                  className="w-full bg-[#2a2a2a] border border-gray-700 rounded-xl p-3.5 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
-                  placeholder="••••••••"
+                  className="w-full bg-[#1e1e1e] border border-gray-700 rounded-[3px] px-3 py-2.5 text-sm text-white focus:border-gray-500 focus:outline-none transition-colors placeholder={t('password')}"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-900/20 active:scale-95">
+              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-1.5 rounded-[4px] transition-colors text-sm mt-2">
                 {isLogin ? t('login') : t('createAccount')}
               </button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-gray-700/50">
-              <button onClick={onGuest} className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors py-2.5 rounded-xl hover:bg-gray-800/50 group">
-                <UserX size={18} className="group-hover:text-blue-400 transition-colors" />
-                {t('continueGuest')}
-              </button>
+            <div className="flex items-center my-6">
+              <div className="h-px bg-gray-700 flex-1"></div>
+              <span className="px-4 text-xs text-gray-500 font-semibold uppercase">OR</span>
+              <div className="h-px bg-gray-700 flex-1"></div>
             </div>
 
-            <div className="mt-6 text-center">
-              <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-blue-400 hover:text-blue-300 font-medium hover:underline decoration-blue-400/30 underline-offset-4">
-                {isLogin ? t('needAccount') : t('haveAccount')}
+            <div className="space-y-4">
+              <button onClick={onGuest} className="w-full flex items-center justify-center gap-2 text-[#385185] hover:text-white transition-colors text-sm font-semibold">
+                <UserX size={16} />
+                {t('continueGuest')}
               </button>
+
+              <div className="text-center">
+                <button onClick={() => setIsLogin(!isLogin)} className="text-xs text-gray-400 hover:text-gray-200 transition-colors">
+                  {isLogin ? t('needAccount') : t('haveAccount')}
+                </button>
+              </div>
             </div>
           </div>
         </div>
