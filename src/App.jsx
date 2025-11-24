@@ -256,7 +256,11 @@ const TRANSLATIONS = {
     weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
     weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
     description: "Description", connectedGoal: "Connected Goal", connectedChallenge: "Connected Challenge", connectedSkill: "Connected Skill", select: "Select",
-    vehicles: "Vehicles", houses: "Houses", studio: "Studio", electronics: "Electronics", furniture: "Furniture", gym_and_sports: "Gym & Sports", musical_instruments: "Instruments", wishlist: "Wishlist", clothes: "Clothes"
+    vehicles: "Vehicles", houses: "Houses", studio: "Studio", electronics: "Electronics", furniture: "Furniture", gym_and_sports: "Gym & Sports", musical_instruments: "Instruments", wishlist: "Wishlist", clothes: "Clothes",
+    moneyThisMonth: "MONEY THIS MONTH", thisMonthIncomes: "This month Incomes", addMonthlyIncome: "Add monthly income",
+    thisMonthExpenses: "This month Expenses", addMonthlyExpense: "Add monthly expense",
+    totalInvestedMoney: "TOTAL INVESTED MONEY", noInvestmentsYet: "No investments yet", addInvestment: "Add Investment",
+    totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -299,7 +303,11 @@ const TRANSLATIONS = {
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
     notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
     description: "Descripción", connectedGoal: "Meta Conectada", connectedChallenge: "Desafío Conectado", connectedSkill: "Habilidad Conectada", select: "Seleccionar",
-    vehicles: "Vehículos", houses: "Casas", studio: "Estudio", electronics: "Electrónica", furniture: "Muebles", gym_and_sports: "Gimnasio y Deportes", musical_instruments: "Instrumentos", wishlist: "Lista de Deseos", clothes: "Ropa"
+    vehicles: "Vehículos", houses: "Casas", studio: "Estudio", electronics: "Electrónica", furniture: "Muebles", gym_and_sports: "Gimnasio y Deportes", musical_instruments: "Instrumentos", wishlist: "Lista de Deseos", clothes: "Ropa",
+    moneyThisMonth: "DINERO ESTE MES", thisMonthIncomes: "Ingresos de este mes", addMonthlyIncome: "Agregar ingreso mensual",
+    thisMonthExpenses: "Gastos de este mes", addMonthlyExpense: "Agregar gasto mensual",
+    totalInvestedMoney: "DINERO TOTAL INVERTIDO", noInvestmentsYet: "Aún no hay inversiones", addInvestment: "Agregar Inversión",
+    totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda"
 
   },
   fr: {
@@ -2068,14 +2076,14 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
       {/* Money Section Content */}
       {activeCategory === 'money' ? (
         <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 content-start custom-scrollbar">
-          
+
           {/* Left Column: Monthly & Weekly */}
           <div className="space-y-8">
-            
+
             {/* Monthly Money */}
             <div>
               <div className="mb-4">
-                <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>MONEY THIS MONTH</div>
+                <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('moneyThisMonth')}</div>
                 <div className={`text-3xl font-bold ${financials.income - financials.expenses >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {financials.income - financials.expenses > 0 ? '+' : ''}{(financials.income - financials.expenses).toLocaleString()} COP
                 </div>
@@ -2083,14 +2091,14 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This month Incomes</h4>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>{t('thisMonthIncomes')}</h4>
                   {monthlyIncomes.map(item => <MoneyItem key={item.id} item={item} />)}
                   <button onClick={() => createResource({ moneyType: 'income', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
                     <Plus size={14} /> Add monthly income
                   </button>
                 </div>
                 <div>
-                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This month Expenses</h4>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>{t('thisMonthExpenses')}</h4>
                   {monthlyExpenses.map(item => <MoneyItem key={item.id} item={item} />)}
                   <button onClick={() => createResource({ moneyType: 'expense', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
                     <Plus size={14} /> Add monthly expense
@@ -2099,70 +2107,48 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
               </div>
             </div>
 
-            {/* Weekly Money (Divided by 4) */}
-            <div>
-              <div className="mb-4">
-                <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>MONEY THIS WEEK</div>
-                <div className="text-xl font-bold text-emerald-400 uppercase">MONTHLY MONEY DIVIDED BY 4</div>
-              </div>
+            {/* Weekly Money Section Removed */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This week Incomes</h4>
-                  {monthlyIncomes.map(item => <MoneyItem key={item.id} item={item} dividedBy={4} />)}
-                  <button onClick={() => createResource({ moneyType: 'income', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
-                    <Plus size={14} /> Add monthly income
-                  </button>
-                </div>
-                <div>
-                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This week Expenses</h4>
-                  {monthlyExpenses.map(item => <MoneyItem key={item.id} item={item} dividedBy={4} />)}
-                  <button onClick={() => createResource({ moneyType: 'expense', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
-                    <Plus size={14} /> Add monthly expense
-                  </button>
-                </div>
-              </div>
-            </div>
 
           </div>
 
           {/* Right Column: Investments & Debts */}
           <div className={`space-y-8 lg:border-l ${colors.border} lg:pl-8`}>
-            
+
             {/* Investments */}
             <div>
-              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>TOTAL INVESTED MONEY</div>
+              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>{t('totalInvestedMoney')}</div>
               <div className="text-3xl font-bold text-white mb-4">{financials.financialAssets.toLocaleString()} COP</div>
-              
+
               <div className="space-y-2">
                 {investments.length === 0 && (
-                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>No investments yet</div>
+                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>{t('noInvestmentsYet')}</div>
                 )}
                 {investments.map(item => <MoneyItem key={item.id} item={item} />)}
               </div>
-              
+
               <div className="mt-4 flex justify-end">
                 <button onClick={() => createResource({ moneyType: 'investment' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
-                  <Plus size={18} /> Add Investment
+                  <Plus size={18} /> {t('addInvestment')}
                 </button>
               </div>
             </div>
 
             {/* Debts */}
             <div>
-              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>TOTAL INDEBTED MONEY</div>
+              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>{t('totalIndebtedMoney')}</div>
               <div className="text-3xl font-bold text-red-400 mb-4">-{financials.liabilities.toLocaleString()} COP</div>
-              
+
               <div className="space-y-2">
                 {debts.length === 0 && (
-                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>No debts yet</div>
+                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>{t('noDebtsYet')}</div>
                 )}
                 {debts.map(item => <MoneyItem key={item.id} item={item} />)}
               </div>
 
               <div className="mt-4 flex justify-end">
                 <button onClick={() => createResource({ moneyType: 'debt' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
-                  <Plus size={18} /> Add Debt
+                  <Plus size={18} /> {t('addDebt')}
                 </button>
               </div>
             </div>
