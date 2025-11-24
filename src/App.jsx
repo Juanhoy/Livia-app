@@ -1962,7 +1962,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
     const income = moneyItems.filter(i => i.moneyType === 'income' && i.frequency === 'monthly').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
     const expenses = moneyItems.filter(i => i.moneyType === 'expense' && i.frequency === 'monthly').reduce((sum, i) => sum + (Number(i.value) || 0), 0);
 
-    return { netWorth: physicalAssets + financialAssets - liabilities, income, expenses };
+    return { netWorth: physicalAssets + financialAssets - liabilities, income, expenses, financialAssets, liabilities };
   }, [data.resources]);
 
   const handleSaveItem = (updatedItem) => {
@@ -1980,7 +1980,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
     }
   };
 
-  const createResource = () => {
+  const createResource = (overrides = {}) => {
     setEditingItem({
       id: Date.now(),
       name: '',
@@ -1988,9 +1988,28 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
       value: 0,
       image: null,
       condition: 'Good',
-      description: ''
+      description: '',
+      ...overrides
     });
   };
+
+  const MoneyItem = ({ item, dividedBy = 1 }) => (
+    <div onClick={() => setEditingItem(item)} className={`flex justify-between items-center p-3 ${colors.bgQuaternary} rounded-lg border border-transparent hover:border-blue-500 cursor-pointer group transition-all mb-2`}>
+      <span className={`font-medium ${colors.text}`}>{item.name}</span>
+      <div className="flex items-center gap-3">
+        <span className={`font-mono font-bold ${item.moneyType === 'income' || item.moneyType === 'investment' ? 'text-emerald-400' : 'text-red-400'}`}>
+          {(Number(item.value) / dividedBy).toLocaleString()} COP
+        </span>
+        <button onClick={(e) => { e.stopPropagation(); deleteResource(item.id); }} className="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><X size={14} /></button>
+      </div>
+    </div>
+  );
+
+  const moneyItems = (data.resources || []).filter(r => r.category === 'money');
+  const monthlyIncomes = moneyItems.filter(i => i.moneyType === 'income' && i.frequency === 'monthly');
+  const monthlyExpenses = moneyItems.filter(i => i.moneyType === 'expense' && i.frequency === 'monthly');
+  const investments = moneyItems.filter(i => i.moneyType === 'investment');
+  const debts = moneyItems.filter(i => i.moneyType === 'debt');
 
   return (
     <div className={`h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
@@ -2010,30 +2029,31 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
 
       <div className="flex justify-between items-center mb-6">
         <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Briefcase size={32} className="text-blue-400" /> {t('lifeResources')}</h2>
-        <button onClick={createResource} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
-          <Plus size={18} /> {t('addResource')}
-        </button>
+        {activeCategory !== 'money' && (
+          <button onClick={() => createResource()} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+            <Plus size={18} /> {t('addResource')}
+          </button>
+        )}
       </div>
 
-      {/* Financial Overview (Only for Money) */}
-      {activeCategory === 'money' && (
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
-            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('netWorth')}</div>
-            <div className={`text-2xl font-bold ${financials.netWorth >= 0 ? 'text-green-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div>
-          </div>
-          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
-            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyIncome')}</div>
-            <div className="text-2xl font-bold text-green-400">+${financials.income.toLocaleString()}</div>
-          </div>
-          <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
-            <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyExpenses')}</div>
-            <div className="text-2xl font-bold text-red-400">-${financials.expenses.toLocaleString()}</div>
-          </div>
+      {/* Financial Overview Cards */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+          <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('netWorth')}</div>
+          <div className={`text-2xl font-bold ${financials.netWorth >= 0 ? 'text-green-400' : 'text-red-400'}`}>${financials.netWorth.toLocaleString()}</div>
         </div>
-      )}
+        <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+          <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyIncome')}</div>
+          <div className="text-2xl font-bold text-green-400">+${financials.income.toLocaleString()}</div>
+        </div>
+        <div className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border}`}>
+          <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>{t('monthlyExpenses')}</div>
+          <div className="text-2xl font-bold text-red-400">-${financials.expenses.toLocaleString()}</div>
+        </div>
+      </div>
 
-      <div className={`flex gap-4 border-b ${colors.border} mb-4 overflow-x-auto pb-2 custom-scrollbar`}>
+      {/* Categories Tabs */}
+      <div className={`flex gap-4 border-b ${colors.border} mb-6 overflow-x-auto pb-2 custom-scrollbar`}>
         {RESOURCE_CATEGORIES.map(cat => (
           <button
             key={cat.id}
@@ -2045,39 +2065,147 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
-        {(data.resources || []).filter(r => r.category === activeCategory).map(item => (
-          <div key={item.id} onClick={() => setEditingItem(item)} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative cursor-pointer transition-all`}>
-            <button onClick={(e) => { e.stopPropagation(); deleteResource(item.id); }} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity z-10"><X size={14} /></button>
-
-            <div className="flex gap-4">
-              <div className={`w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 ${colors.bgQuaternary} flex items-center justify-center`}>
-                {item.image ? (
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className={RESOURCE_CATEGORIES.find(c => c.id === item.category)?.color || 'text-gray-400'}>
-                    {React.cloneElement(RESOURCE_CATEGORIES.find(c => c.id === item.category)?.icon || <Briefcase />, { size: 24 })}
-                  </div>
-                )}
+      {/* Money Section Content */}
+      {activeCategory === 'money' ? (
+        <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 content-start custom-scrollbar">
+          
+          {/* Left Column: Monthly & Weekly */}
+          <div className="space-y-8">
+            
+            {/* Monthly Money */}
+            <div>
+              <div className="mb-4">
+                <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>MONEY THIS MONTH</div>
+                <div className={`text-3xl font-bold ${financials.income - financials.expenses >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {financials.income - financials.expenses > 0 ? '+' : ''}{(financials.income - financials.expenses).toLocaleString()} COP
+                </div>
               </div>
 
-              <div className="flex-1 min-w-0">
-                <div className={`font-bold ${colors.text} truncate mb-1`}>{item.name}</div>
-                <div className={`text-sm font-mono ${item.value >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  ${(item.value || 0).toLocaleString()}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This month Incomes</h4>
+                  {monthlyIncomes.map(item => <MoneyItem key={item.id} item={item} />)}
+                  <button onClick={() => createResource({ moneyType: 'income', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
+                    <Plus size={14} /> Add monthly income
+                  </button>
                 </div>
-                {item.condition && <div className={`text-xs ${colors.textSecondary} mt-1`}>{t(item.condition.toLowerCase()) || item.condition}</div>}
+                <div>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This month Expenses</h4>
+                  {monthlyExpenses.map(item => <MoneyItem key={item.id} item={item} />)}
+                  <button onClick={() => createResource({ moneyType: 'expense', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
+                    <Plus size={14} /> Add monthly expense
+                  </button>
+                </div>
               </div>
             </div>
+
+            {/* Weekly Money (Divided by 4) */}
+            <div>
+              <div className="mb-4">
+                <div className={`text-xs font-bold ${colors.textSecondary} uppercase`}>MONEY THIS WEEK</div>
+                <div className="text-xl font-bold text-emerald-400 uppercase">MONTHLY MONEY DIVIDED BY 4</div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This week Incomes</h4>
+                  {monthlyIncomes.map(item => <MoneyItem key={item.id} item={item} dividedBy={4} />)}
+                  <button onClick={() => createResource({ moneyType: 'income', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
+                    <Plus size={14} /> Add monthly income
+                  </button>
+                </div>
+                <div>
+                  <h4 className={`text-lg font-bold ${colors.text} mb-3`}>This week Expenses</h4>
+                  {monthlyExpenses.map(item => <MoneyItem key={item.id} item={item} dividedBy={4} />)}
+                  <button onClick={() => createResource({ moneyType: 'expense', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
+                    <Plus size={14} /> Add monthly expense
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
-        ))}
-        {(data.resources || []).filter(r => r.category === activeCategory).length === 0 && (
-          <div className={`col-span-full text-center py-12 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}>
-            <p>{t('noResourcesLinked')}</p>
-            <button onClick={createResource} className="text-blue-400 hover:text-blue-300 text-sm mt-2">{t('addResource')}</button>
+
+          {/* Right Column: Investments & Debts */}
+          <div className={`space-y-8 lg:border-l ${colors.border} lg:pl-8`}>
+            
+            {/* Investments */}
+            <div>
+              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>TOTAL INVESTED MONEY</div>
+              <div className="text-3xl font-bold text-white mb-4">{financials.financialAssets.toLocaleString()} COP</div>
+              
+              <div className="space-y-2">
+                {investments.length === 0 && (
+                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>No investments yet</div>
+                )}
+                {investments.map(item => <MoneyItem key={item.id} item={item} />)}
+              </div>
+              
+              <div className="mt-4 flex justify-end">
+                <button onClick={() => createResource({ moneyType: 'investment' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
+                  <Plus size={18} /> Add Investment
+                </button>
+              </div>
+            </div>
+
+            {/* Debts */}
+            <div>
+              <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>TOTAL INDEBTED MONEY</div>
+              <div className="text-3xl font-bold text-red-400 mb-4">-{financials.liabilities.toLocaleString()} COP</div>
+              
+              <div className="space-y-2">
+                {debts.length === 0 && (
+                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>No debts yet</div>
+                )}
+                {debts.map(item => <MoneyItem key={item.id} item={item} />)}
+              </div>
+
+              <div className="mt-4 flex justify-end">
+                <button onClick={() => createResource({ moneyType: 'debt' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
+                  <Plus size={18} /> Add Debt
+                </button>
+              </div>
+            </div>
+
           </div>
-        )}
-      </div>
+
+        </div>
+      ) : (
+        /* Standard Resource Grid for other categories */
+        <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
+          {(data.resources || []).filter(r => r.category === activeCategory).map(item => (
+            <div key={item.id} onClick={() => setEditingItem(item)} className={`p-4 rounded-xl ${colors.bgSecondary} border ${colors.border} hover:border-blue-500/50 group relative cursor-pointer transition-all`}>
+              <button onClick={(e) => { e.stopPropagation(); deleteResource(item.id); }} className="absolute top-2 right-2 p-1 text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity z-10"><X size={14} /></button>
+
+              <div className="flex gap-4">
+                <div className={`w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 ${colors.bgQuaternary} flex items-center justify-center`}>
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className={RESOURCE_CATEGORIES.find(c => c.id === item.category)?.color || 'text-gray-400'}>
+                      {React.cloneElement(RESOURCE_CATEGORIES.find(c => c.id === item.category)?.icon || <Briefcase />, { size: 24 })}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className={`font-bold ${colors.text} truncate mb-1`}>{item.name}</div>
+                  <div className={`text-sm font-mono ${item.value >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    ${(item.value || 0).toLocaleString()}
+                  </div>
+                  {item.condition && <div className={`text-xs ${colors.textSecondary} mt-1`}>{t(item.condition.toLowerCase()) || item.condition}</div>}
+                </div>
+              </div>
+            </div>
+          ))}
+          {(data.resources || []).filter(r => r.category === activeCategory).length === 0 && (
+            <div className={`col-span-full text-center py-12 ${colors.textSecondary} border-2 border-dashed ${colors.border} rounded-xl`}>
+              <p>{t('noResourcesLinked')}</p>
+              <button onClick={() => createResource()} className="text-blue-400 hover:text-blue-300 text-sm mt-2">{t('addResource')}</button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
