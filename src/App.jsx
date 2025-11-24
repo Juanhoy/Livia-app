@@ -797,7 +797,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           <input className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:border-blue-500 focus:outline-none`} value={formData.name || ''} onChange={e => handleChange('name', e.target.value)} />
         </div>
 
-        {isResource && (
+        {isResource && formData.category !== 'money' && (
           <div>
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-2`}>{t('categoryWidget')}</label>
             <div className="grid grid-cols-5 gap-2">
