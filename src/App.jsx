@@ -771,7 +771,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
       }
     >
       <div className={`space-y-5 ${colors.text}`}>
-        {isResource && (
+        {isResource && formData.category !== 'money' && (
           <div className="flex justify-center mb-4">
             <label className={`relative w-full h-48 ${colors.bgSecondary} border-2 border-dashed ${colors.border} rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors overflow-hidden group ${isGuest ? 'opacity-50 cursor-not-allowed' : ''}`}>
               {formData.image ? (
@@ -905,16 +905,18 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
 
         {isResource && (
           <div className="grid grid-cols-2 gap-4">
-            <div>
+            <div className={formData.category === 'money' ? "col-span-2" : ""}>
               <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('value')} ($)</label>
               <input type="number" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.value || ''} onChange={e => handleChange('value', e.target.value)} placeholder="0.00" />
             </div>
-            <div>
-              <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('condition')}</label>
-              <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.condition || 'Good'} onChange={e => handleChange('condition', e.target.value)}>
-                <option>{t('new')}</option><option>{t('likeNew')}</option><option>{t('good')}</option><option>{t('fair')}</option><option>{t('poor')}</option>
-              </select>
-            </div>
+            {formData.category !== 'money' && (
+              <div>
+                <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('condition')}</label>
+                <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.condition || 'Good'} onChange={e => handleChange('condition', e.target.value)}>
+                  <option>{t('new')}</option><option>{t('likeNew')}</option><option>{t('good')}</option><option>{t('fair')}</option><option>{t('poor')}</option>
+                </select>
+              </div>
+            )}
           </div>
         )}
 
