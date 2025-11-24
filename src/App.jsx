@@ -732,7 +732,9 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
   const colors = THEMES[theme] || THEMES['dark'];
 
   const allGoals = data?.dimensions ? Object.values(data.dimensions).flatMap(d => d.goals || []) : [];
+  const allProjects = data?.dimensions ? Object.values(data.dimensions).flatMap(d => d.projects || []) : [];
   const allChallenges = data?.dimensions ? Object.values(data.dimensions).flatMap(d => d.challenges || []) : [];
+
 
   useEffect(() => { setFormData(item || {}); }, [item]);
 
@@ -920,12 +922,22 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           </div>
         )}
 
-        {roles && !formData.roleKey && (
+        {roles && !formData.roleKey && formData.category !== 'money' && (
           <div>
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
             <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.roleKey || ''} onChange={e => handleChange('roleKey', e.target.value)}>
               <option value="">-- No Role Linked --</option>
               {roles && roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
+            </select>
+          </div>
+        )}
+
+        {formData.category === 'money' && (
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Project</label>
+            <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedProjectId || ''} onChange={e => handleChange('linkedProjectId', e.target.value)}>
+              <option value="">-- No Project Linked --</option>
+              {allProjects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
           </div>
         )}
