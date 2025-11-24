@@ -2108,14 +2108,14 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
                   <h4 className={`text-lg font-bold ${colors.text} mb-3`}>{t('thisMonthIncomes')}</h4>
                   {monthlyIncomes.map(item => <MoneyItem key={item.id} item={item} />)}
                   <button onClick={() => createResource({ moneyType: 'income', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
-                    <Plus size={14} /> Add monthly income
+                    <Plus size={14} /> {t('addMonthlyIncome')}
                   </button>
                 </div>
                 <div>
                   <h4 className={`text-lg font-bold ${colors.text} mb-3`}>{t('thisMonthExpenses')}</h4>
                   {monthlyExpenses.map(item => <MoneyItem key={item.id} item={item} />)}
                   <button onClick={() => createResource({ moneyType: 'expense', frequency: 'monthly' })} className={`w-full py-2 mt-2 border border-dashed ${colors.border} rounded-lg text-sm ${colors.textSecondary} hover:text-white hover:border-gray-500 transition-colors flex items-center justify-center gap-2`}>
-                    <Plus size={14} /> Add monthly expense
+                    <Plus size={14} /> {t('addMonthlyExpense')}
                   </button>
                 </div>
               </div>
