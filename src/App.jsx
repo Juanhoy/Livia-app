@@ -1255,7 +1255,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
     if (isGuest) { alert(t('exportDisabledGuest')); return; }
     try {
       const canvas = await import('html2canvas').then(m => m.default(containerRef.current, {
-        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#f3f4f6',
         scale: 1, // Export at 1:1 scale of the container (which is huge, 5000x5000)
         logging: false,
         useCORS: true // For Cloudinary images
@@ -1289,13 +1289,13 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
 
       <div
         ref={containerRef}
-        className={`w-full h-full overflow-hidden bg-[#1a1a1a] cursor-${isSpacePressed ? 'grab' : 'default'}`}
+        className={`w-full h-full overflow-hidden ${theme === 'dark' ? 'bg-[#1a1a1a]' : 'bg-gray-100'} cursor-${isSpacePressed ? 'grab' : 'default'}`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className="relative bg-[radial-gradient(#333_1px,transparent_1px)] bg-[length:50px_50px]">
+        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className={`relative ${theme === 'dark' ? 'bg-[radial-gradient(#333_1px,transparent_1px)]' : 'bg-[radial-gradient(#ccc_1px,transparent_1px)]'} bg-[length:50px_50px]`}>
 
           {renderRadialGuide()}
 
@@ -1421,18 +1421,18 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
   };
 
   const LibraryItemCard = ({ item, onDelete, onClick }) => (
-    <div onClick={onClick} className={`bg-[#1a1a1a] p-4 rounded-xl mb-3 border border-gray-800 hover:border-gray-700 transition-all cursor-pointer group relative shadow-sm`}>
+    <div onClick={onClick} className={`${colors.bgSecondary} p-4 rounded-xl mb-3 border ${colors.border} hover:border-gray-500 transition-all cursor-pointer group relative shadow-sm`}>
       <div className="flex justify-between items-start mb-2">
-        <h4 className={`font-bold text-gray-200 pr-8 text-lg`}>{item.name}</h4>
+        <h4 className={`font-bold ${colors.text} pr-8 text-lg`}>{item.name}</h4>
         <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
       </div>
       <div className={`flex items-center gap-3 text-xs mb-4`}>
-        <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] bg-white/10 text-white flex items-center gap-1`}>
+        <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] ${colors.bgQuaternary} ${colors.text} flex items-center gap-1`}>
           {getImportanceConfig(item.importance).icon} {item.importance || 'Medium'}
         </span>
         {item.dueDate && <span className="flex items-center gap-1 text-gray-400"><Calendar size={12} /> {item.dueDate}</span>}
       </div>
-      <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden relative">
+      <div className={`w-full h-2 ${colors.bgQuaternary} rounded-full overflow-hidden relative`}>
         <div className={`h-full rounded-full ${getScoreColor(item.status || 0).bg}`} style={{ width: `${item.status || 0}%` }}></div>
       </div>
     </div>
@@ -1495,36 +1495,37 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
       </Modal>
 
       {/* Left Sidebar */}
-      <div className={`w-80 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar flex flex-col bg-[#0f0f0f]`}>
+      <div className={`w-80 p-6 border-r ${colors.border} overflow-y-auto custom-scrollbar flex flex-col ${colors.bgSecondary}`}>
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-xl font-bold text-white`}>{t('lifeBalance')}</h2>
-          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:bg-gray-800 rounded text-gray-400 hover:text-white transition-colors`}><Settings size={18} /></button>
+          <h2 className={`text-xl font-bold ${colors.text}`}>{t('lifeBalance')}</h2>
+          <button onClick={() => setIsEditingDims(true)} className={`p-2 hover:${colors.bgQuaternary} rounded ${colors.textSecondary} hover:${colors.text} transition-colors`}><Settings size={18} /></button>
         </div>
 
         {/* Overall Score Card */}
         {/* Overall Score Card */}
-        <div className={`mb-8 p-5 rounded-2xl bg-[#141414] border border-blue-900/30 flex items-center justify-between shadow-lg`}>
+        {/* Overall Score Card */}
+        <div className={`mb-8 p-5 rounded-2xl ${colors.bg} border ${colors.border} flex items-center justify-between shadow-lg`}>
           <div>
             <div className={`text-[10px] ${getScoreColor(overallScore).color} font-bold uppercase tracking-widest mb-1`}>{t('overallScore')}</div>
             <div className={`text-4xl font-bold ${getScoreColor(overallScore).color}`}>{overallScore}%</div>
           </div>
-          <div className={`h-14 w-14 rounded-full border-4 ${getScoreColor(overallScore).border} flex items-center justify-center text-sm font-bold text-white shadow-[0_0_15px_rgba(0,0,0,0.3)]`}>
+          <div className={`h-14 w-14 rounded-full border-4 ${getScoreColor(overallScore).border} flex items-center justify-center text-sm font-bold ${colors.text} shadow-[0_0_15px_rgba(0,0,0,0.3)]`}>
             {overallScore}
           </div>
         </div>
 
-        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar dataKey="A" stroke={getScoreColor(overallScore).hex} fill={getScoreColor(overallScore).hex} fillOpacity={0.5} /></RadarChart></ResponsiveContainer></div>
+        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke={theme === 'dark' ? "#333" : "#e5e7eb"} /><PolarAngleAxis dataKey="subject" tick={{ fill: theme === 'dark' ? '#666' : '#9ca3af', fontSize: 9 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar dataKey="A" stroke={getScoreColor(overallScore).hex} fill={getScoreColor(overallScore).hex} fillOpacity={0.5} /></RadarChart></ResponsiveContainer></div>
 
         <div className="space-y-4 flex-1">
           {calculatedDimensions.map(dim => (
             <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`group cursor-pointer`}>
               <div className="flex justify-between items-end mb-1">
-                <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>{t(dim.name.toLowerCase()) || dim.name}</span>
-                <span className={`text-xs font-bold ${activeDimension === dim.name ? 'text-white' : getScoreColor(dim.score).color}`}>{dim.score}%</span>
+                <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? colors.text : `${colors.textSecondary} group-hover:${colors.text}`}`}>{t(dim.name.toLowerCase()) || dim.name}</span>
+                <span className={`text-xs font-bold ${activeDimension === dim.name ? colors.text : getScoreColor(dim.score).color}`}>{dim.score}%</span>
               </div>
-              <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+              <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}>
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? 'bg-white shadow-[0_0_10px_rgba(255,255,255,0.3)]' : getScoreColor(dim.score).bg}`}
+                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? `${colors.bg} shadow-[0_0_10px_rgba(255,255,255,0.3)]` : getScoreColor(dim.score).bg}`}
                   style={{ width: `${dim.score}%` }}
                 ></div>
               </div>
@@ -1534,8 +1535,8 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 p-8 flex flex-col bg-[#0a0a0a]`}>
-        <h2 className={`text-3xl font-bold text-white mb-8`}>{t(activeDimension.toLowerCase()) || activeDimension}</h2>
+      <div className={`flex-1 p-8 flex flex-col ${colors.bg}`}>
+        <h2 className={`text-3xl font-bold ${colors.text} mb-8`}>{t(activeDimension.toLowerCase()) || activeDimension}</h2>
 
         {/* Tabs */}
         <div className={`flex gap-4 mb-8`}>
@@ -1549,8 +1550,8 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
               key={tab.id}
               onClick={() => setActiveLibTab(tab.id)}
               className={`flex-1 py-4 rounded-xl border-2 transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 ${activeLibTab === tab.id
-                ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 text-white shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
-                : `border-${tab.color}-900/30 bg-[#111] text-gray-500 hover:border-${tab.color}-800 hover:bg-[#151515]`
+                ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 ${colors.text} shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
+                : `border-${tab.color}-900/30 ${colors.bgSecondary} ${colors.textSecondary} hover:border-${tab.color}-800 hover:${colors.bgQuaternary}`
                 }`}
             >
               {tab.icon} {tab.label}
@@ -1670,21 +1671,21 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {userRoles.map(role => (
-            <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 bg-gradient-to-br from-[#333] to-[#222] border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden`}>
+            <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 ${theme === 'dark' ? 'bg-gradient-to-br from-[#333] to-[#222]' : 'bg-gradient-to-br from-white to-gray-100'} border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden shadow-sm`}>
               <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                 <button onClick={(e) => handleDeleteRole(e, role.key)} className="p-2 bg-black/50 hover:bg-red-600 rounded-lg text-white/70 hover:text-white transition-colors">
                   <Trash2 size={18} />
                 </button>
               </div>
               <div className="z-10 relative h-full flex flex-col">
-                <div className="mb-4 p-4 bg-white/5 rounded-2xl w-fit">
+                <div className={`mb-4 p-4 ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'} rounded-2xl w-fit`}>
                   {getRoleIcon(role.icon)}
                 </div>
                 <div className="mt-auto">
-                  <h3 className="text-3xl font-bold text-white mb-2">{role.name}</h3>
+                  <h3 className={`text-3xl font-bold ${colors.text} mb-2`}>{role.name}</h3>
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">{t('level1')}</span>
-                    <span className="text-gray-400 text-sm font-mono">0 {t('xp')}</span>
+                    <span className={`${colors.textSecondary} text-sm font-mono`}>0 {t('xp')}</span>
                   </div>
                 </div>
               </div>
@@ -2223,17 +2224,17 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
             {/* Investments */}
             <div>
               <div className={`text-xs font-bold ${colors.textSecondary} uppercase mb-1`}>{t('totalInvestedMoney')}</div>
-              <div className="text-3xl font-bold text-white mb-4">{financials.financialAssets.toLocaleString()} COP</div>
+              <div className={`text-3xl font-bold ${colors.text} mb-4`}>{financials.financialAssets.toLocaleString()} COP</div>
 
               <div className="space-y-2">
                 {investments.length === 0 && (
-                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>{t('noInvestmentsYet')}</div>
+                  <div className={`p-4 border ${colors.border} rounded-lg text-center ${colors.textSecondary}`}>{t('noInvestmentsYet')}</div>
                 )}
                 {investments.map(item => <MoneyItem key={item.id} item={item} />)}
               </div>
 
               <div className="mt-4 flex justify-end">
-                <button onClick={() => createResource({ moneyType: 'investment' })} className={`flex items-center gap-2 text-white hover:${colors.emphasisText} transition-colors font-bold`}>
+                <button onClick={() => createResource({ moneyType: 'investment' })} className={`flex items-center gap-2 ${colors.text} hover:${colors.emphasisText} transition-colors font-bold`}>
                   <Plus size={18} /> {t('addInvestment')}
                 </button>
               </div>
@@ -2246,13 +2247,13 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
 
               <div className="space-y-2">
                 {debts.length === 0 && (
-                  <div className={`p-4 border border-gray-700 rounded-lg text-center ${colors.textSecondary}`}>{t('noDebtsYet')}</div>
+                  <div className={`p-4 border ${colors.border} rounded-lg text-center ${colors.textSecondary}`}>{t('noDebtsYet')}</div>
                 )}
                 {debts.map(item => <MoneyItem key={item.id} item={item} />)}
               </div>
 
               <div className="mt-4 flex justify-end">
-                <button onClick={() => createResource({ moneyType: 'debt' })} className={`flex items-center gap-2 text-white hover:${colors.emphasisText} transition-colors font-bold`}>
+                <button onClick={() => createResource({ moneyType: 'debt' })} className={`flex items-center gap-2 ${colors.text} hover:${colors.emphasisText} transition-colors font-bold`}>
                   <Plus size={18} /> {t('addDebt')}
                 </button>
               </div>
