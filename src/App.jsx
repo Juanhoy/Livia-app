@@ -922,6 +922,17 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           </div>
         )}
 
+        {(type === 'goals' || type === 'projects' || type === 'challenges' || type === 'routines') && (
+          <div>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('lifePillar') || "Life Pillar"}</label>
+            <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.dimensionKey || ''} onChange={e => handleChange('dimensionKey', e.target.value)}>
+              <option value="">-- {t('selectPillar') || "Select Pillar"} --</option>
+              {data.appSettings.dimensionConfig.map(d => <option key={d.name} value={d.name}>{t(d.name.toLowerCase()) || d.name}</option>)}
+              <option value="general">{t('general') || "General / Not Linked"}</option>
+            </select>
+          </div>
+        )}
+
         {roles && !formData.roleKey && formData.category !== 'money' && (
           <div>
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
@@ -1469,7 +1480,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
           </div>
         </div>
 
-        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.3} /></RadarChart></ResponsiveContainer></div>
+        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.3} /></RadarChart></ResponsiveContainer></div>
 
         <div className="space-y-4 flex-1">
           {calculatedDimensions.map(dim => (
@@ -1708,9 +1719,9 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
 
   const roleItems = useMemo(() => {
     const items = { goals: [], projects: [], challenges: [], routines: [], skills: [], resources: [], wishlist: [] };
-    Object.values(data.dimensions).forEach(dim => {
-      ['goals', 'projects', 'challenges'].forEach(type => { dim[type]?.forEach(i => { if (i.roleKey === role.key) items[type].push(i); }); });
-      ['daily', 'weekly', 'monthly'].forEach(freq => { dim.routines?.[freq]?.forEach(i => { if (i.roleKey === role.key) items.routines.push({ ...i, freq }); }); });
+    Object.entries(data.dimensions).forEach(([dimKey, dim]) => {
+      ['goals', 'projects', 'challenges'].forEach(type => { dim[type]?.forEach(i => { if (i.roleKey === role.key) items[type].push({ ...i, dimensionKey: dimKey }); }); });
+      ['daily', 'weekly', 'monthly'].forEach(freq => { dim.routines?.[freq]?.forEach(i => { if (i.roleKey === role.key) items.routines.push({ ...i, freq, dimensionKey: dimKey }); }); });
     });
     items.skills = data.skills.filter(s => s.roleKey === role.key || s.source?.toLowerCase().includes(role.name.toLowerCase()));
     items.resources = data.resources.filter(r => r.roleKey === role.key);
@@ -1740,15 +1751,42 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
       } else {
         setData(prev => ({ ...prev, wishlist: prev.wishlist.map(r => r.id === updatedItem.id ? updatedItem : r) }));
       }
-    } else if (['goals', 'projects', 'challenges'].includes(editType)) {
+    } else if (['goals', 'projects', 'challenges', 'routines'].includes(editType)) {
       setData(prev => {
         const newData = { ...prev };
+        const targetDimKey = updatedItem.dimensionKey || 'general';
+
+        // Ensure target dimension exists
+        if (!newData.dimensions[targetDimKey]) {
+          newData.dimensions[targetDimKey] = { goals: [], projects: [], challenges: [], routines: { daily: [], weekly: [], monthly: [] } };
+        }
+
+        // Remove from old location if it exists (and if dimension changed)
         Object.keys(newData.dimensions).forEach(dimKey => {
           const dim = newData.dimensions[dimKey];
-          if (dim[editType]) {
-            dim[editType] = dim[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
+          if (editType === 'routines') {
+            ['daily', 'weekly', 'monthly'].forEach(freq => {
+              if (dim.routines?.[freq]) {
+                dim.routines[freq] = dim.routines[freq].filter(i => i.id !== updatedItem.id);
+              }
+            });
+          } else if (dim[editType]) {
+            dim[editType] = dim[editType].filter(i => i.id !== updatedItem.id);
           }
         });
+
+        // Add to new location
+        const targetDim = newData.dimensions[targetDimKey];
+        if (editType === 'routines') {
+          const freq = updatedItem.freq || 'daily';
+          if (!targetDim.routines) targetDim.routines = { daily: [], weekly: [], monthly: [] };
+          if (!targetDim.routines[freq]) targetDim.routines[freq] = [];
+          targetDim.routines[freq].push(updatedItem);
+        } else {
+          if (!targetDim[editType]) targetDim[editType] = [];
+          targetDim[editType].push(updatedItem);
+        }
+
         return newData;
       });
     }
@@ -1765,6 +1803,11 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
     if (['goals', 'projects', 'challenges'].includes(type)) {
       baseItem.status = 0;
       baseItem.importance = 'Medium';
+      baseItem.dimensionKey = ''; // User must select
+    }
+    if (type === 'routines') {
+      baseItem.freq = 'daily';
+      baseItem.dimensionKey = '';
     }
     setEditingItem(baseItem);
     setEditType(type);
@@ -1800,7 +1843,14 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
 
           {/* Column 1: Active Missions */}
           <div className="space-y-6">
-            <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> {t('activeMissions')}</h3>
+            <div className="flex justify-between items-center">
+              <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> {t('activeMissions')}</h3>
+              <div className="flex gap-2">
+                <button onClick={() => createItem('challenges')} className="text-xs bg-red-900/30 text-red-400 px-2 py-1 rounded hover:bg-red-900/50 transition-colors">+ {t('challenge')}</button>
+                <button onClick={() => createItem('goals')} className="text-xs bg-purple-900/30 text-purple-400 px-2 py-1 rounded hover:bg-purple-900/50 transition-colors">+ {t('goal')}</button>
+                <button onClick={() => createItem('projects')} className="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded hover:bg-green-900/50 transition-colors">+ {t('project')}</button>
+              </div>
+            </div>
             <div className="space-y-3">
               {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
                 <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
@@ -1837,7 +1887,10 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
 
             {/* Routines Section */}
             <div className={`${colors.bgTertiary} rounded-xl p-4 border ${colors.border}`}>
-              <h4 className={`text-sm font-bold ${colors.text} mb-3`}>{t('routines')}</h4>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className={`text-sm font-bold ${colors.text}`}>{t('routines')}</h4>
+                <button onClick={() => createItem('routines')} className="text-blue-400 hover:text-white text-xs flex items-center gap-1"><Plus size={12} /> {t('add')}</button>
+              </div>
               <div className="space-y-2">{roleItems.routines.map(r => <div key={r.id} className={`flex items-center justify-between text-sm ${colors.textSecondary} border-b ${colors.border} pb-2 last:border-0`}><span>{r.name}</span><span className={`text-xs ${colors.bgQuaternary} px-2 rounded text-blue-400 capitalize`}>{r.freq}</span></div>)}</div>
             </div>
           </div>
