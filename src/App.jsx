@@ -287,7 +287,8 @@ const TRANSLATIONS = {
     totalInvestedMoney: "TOTAL INVESTED MONEY", noInvestmentsYet: "No investments yet", addInvestment: "Add Investment",
     totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt",
     type: "Type", income: "Income", expense: "Expense", investment: "Investment", debt: "Debt",
-    frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra"
+    frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
+    profilePicture: "Profile Picture", changeAvatar: "Change Avatar"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -336,7 +337,8 @@ const TRANSLATIONS = {
     totalInvestedMoney: "DINERO TOTAL INVERTIDO", noInvestmentsYet: "Aún no hay inversiones", addInvestment: "Agregar Inversión",
     totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda",
     type: "Tipo", income: "Ingreso", expense: "Gasto", investment: "Inversión", debt: "Deuda",
-    frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra"
+    frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra",
+    profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar"
 
   },
   fr: {
@@ -734,6 +736,31 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
               <option value="zh">中文</option>
               <option value="ja">日本語</option>
             </select>
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>{t('profilePicture')}</label>
+            <div className="flex items-center gap-4">
+              <div className={`w-16 h-16 rounded-full overflow-hidden border-2 ${colors.border}`}>
+                {appSettings.userAvatar ? (
+                  <img src={appSettings.userAvatar} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <div className={`w-full h-full ${colors.bgQuaternary} flex items-center justify-center text-xl font-bold ${colors.text}`}>
+                    {appSettings.userName?.[0]?.toUpperCase()}
+                  </div>
+                )}
+              </div>
+              <label className={`cursor-pointer px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:${colors.bgQuaternary} ${colors.text} transition-colors`}>
+                {t('changeAvatar')}
+                <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const url = await uploadToCloudinary(file);
+                    handleChange('userAvatar', url);
+                  }
+                }} />
+              </label>
+            </div>
           </div>
 
           <div>
