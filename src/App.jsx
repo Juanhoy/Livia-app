@@ -41,15 +41,15 @@ const getImportanceConfig = (imp) => {
   }
 };
 
-const DIMENSIONS = [
-  { key: "health", name: "Health", max: 50, color: "#4caf50" },
-  { key: "family", name: "Family", max: 12, color: "#2196f3" },
-  { key: "freedom", name: "Freedom", max: 5, color: "#00bcd4" },
-  { key: "community", name: "Community", max: 8, color: "#9c27b0" },
-  { key: "management", name: "Management", max: 10, color: "#ff9800" },
-  { key: "learning", name: "Learning", max: 5, color: "#795548" },
-  { key: "creation", name: "Creation", max: 5, color: "#e91e63" },
-  { key: "fun", name: "Fun", max: 5, color: "#ffeb3b" }
+const DEFAULT_DIMENSIONS = [
+  { key: "health", name: "Health", max: 50, color: "#4caf50", weight: 15 },
+  { key: "family", name: "Family", max: 12, color: "#2196f3", weight: 15 },
+  { key: "freedom", name: "Freedom", max: 5, color: "#00bcd4", weight: 10 },
+  { key: "community", name: "Community", max: 8, color: "#9c27b0", weight: 10 },
+  { key: "management", name: "Management", max: 10, color: "#ff9800", weight: 15 },
+  { key: "learning", name: "Learning", max: 5, color: "#795548", weight: 10 },
+  { key: "creation", name: "Creation", max: 5, color: "#e91e63", weight: 15 },
+  { key: "fun", name: "Fun", max: 5, color: "#ffeb3b", weight: 10 }
 ];
 
 const RESOURCE_CATEGORIES = [
@@ -146,8 +146,7 @@ const uploadToCloudinary = async (file) => {
 // Helper to generate realistic initial data
 const generateInitialData = () => {
   const dims = {};
-
-  DIMENSIONS.forEach(d => {
+  DEFAULT_DIMENSIONS.forEach(d => {
     dims[d.name] = { challenges: [], goals: [], projects: [], routines: { daily: [], weekly: [], monthly: [] } };
   });
 
@@ -289,7 +288,8 @@ const TRANSLATIONS = {
     type: "Type", income: "Income", expense: "Expense", investment: "Investment", debt: "Debt",
     frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
     profilePicture: "Profile Picture", changeAvatar: "Change Avatar",
-    editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library."
+    editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
+    deleteDimensionConfirm: "Delete this dimension? This action cannot be undone."
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -340,7 +340,8 @@ const TRANSLATIONS = {
     type: "Tipo", income: "Ingreso", expense: "Gasto", investment: "Inversión", debt: "Deuda",
     frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra",
     profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar",
-    editRole: "Editar Rol", active: "Activo", noRolesAvailable: "No hay roles disponibles en la biblioteca."
+    editRole: "Editar Rol", active: "Activo", noRolesAvailable: "No hay roles disponibles en la biblioteca.",
+    deleteDimensionConfirm: "¿Eliminar esta dimensión? Esta acción no se puede deshacer."
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -508,16 +509,31 @@ const calculateDimensionScore = (dimData) => {
   if (!dimData) return 0;
   let totalItems = 0;
   let totalScore = 0;
-  const processList = (list) => {
+
+  const processList = (list, type) => {
     if (!list) return;
-    list.forEach(item => { totalItems++; totalScore += (item.status || 0); });
+    list.forEach(item => {
+      // Projects only contribute if they have progress (>0)
+      if (type === 'projects') {
+        if ((item.status || 0) > 0) {
+          totalItems++;
+          totalScore += item.status;
+        }
+      } else {
+        // Routines, Goals, Challenges always contribute (0 or 100/value)
+        totalItems++;
+        totalScore += (item.status || 0);
+      }
+    });
   };
-  processList(dimData.goals);
-  processList(dimData.projects);
-  processList(dimData.challenges);
-  processList(dimData.routines?.daily);
-  processList(dimData.routines?.weekly);
-  processList(dimData.routines?.monthly);
+
+  processList(dimData.goals, 'goals');
+  processList(dimData.projects, 'projects');
+  processList(dimData.challenges, 'challenges');
+  processList(dimData.routines?.daily, 'routines');
+  processList(dimData.routines?.weekly, 'routines');
+  processList(dimData.routines?.monthly, 'routines');
+
   return totalItems === 0 ? 0 : Math.round(totalScore / totalItems);
 };
 
@@ -1388,14 +1404,23 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
   const [isEditingDims, setIsEditingDims] = useState(false);
   const colors = THEMES[theme];
 
-  // Ensure dimensionConfig exists (migration for old data)
-  const dimensions = data.appSettings.dimensionConfig || DIMENSIONS.map(d => ({ ...d, weight: 12.5 }));
+  // Ensure dimensions exist in settings
+  useEffect(() => {
+    if (!data.appSettings.dimensionConfig) {
+      setData(prev => ({
+        ...prev,
+        appSettings: { ...prev.appSettings, dimensionConfig: DEFAULT_DIMENSIONS }
+      }));
+    }
+  }, []);
 
-  // ... calculations same as before ...
+  const dimensions = data.appSettings.dimensionConfig || DEFAULT_DIMENSIONS;
+
   const calculatedDimensions = useMemo(() => {
     return dimensions.map(dim => {
-      const rawScore = calculateDimensionScore(data.dimensions[dim.name]);
-      return { ...dim, score: rawScore };
+      const dimData = data.dimensions[dim.name];
+      const score = calculateDimensionScore(dimData);
+      return { ...dim, score };
     });
   }, [data.dimensions, dimensions]);
 
@@ -1448,11 +1473,33 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
     });
   };
 
-  const LibraryItemCard = ({ item, onDelete, onClick }) => (
-    <div onClick={onClick} className={`${colors.bgSecondary} p-4 rounded-xl mb-3 border ${colors.border} hover:border-gray-500 transition-all cursor-pointer group relative shadow-sm`}>
+  const toggleItemStatus = (e, item, type, freq) => {
+    e.stopPropagation();
+    const newStatus = item.status === 100 ? 0 : 100;
+    const updatedItem = { ...item, status: newStatus };
+
+    setData(prev => {
+      const dimData = prev.dimensions[activeDimension];
+      let updatedField;
+      if (type === 'routines') {
+        const list = dimData.routines[freq].map(i => i.id === item.id ? updatedItem : i);
+        updatedField = { ...dimData.routines, [freq]: list };
+      } else {
+        // For other types, we might want different logic, but for now this is mainly for routines
+        updatedField = dimData[type].map(i => i.id === item.id ? updatedItem : i);
+      }
+      return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type === 'routines' ? 'routines' : type]: updatedField } } };
+    });
+  };
+
+  const LibraryItemCard = ({ item, onDelete, onClick, onEdit, type, freq }) => (
+    <div onClick={onClick} className={`${colors.bgSecondary} p-4 rounded-xl mb-3 border ${colors.border} hover:${colors.emphasisBorder} transition-all cursor-pointer group relative shadow-sm hover:shadow-md`}>
       <div className="flex justify-between items-start mb-2">
-        <h4 className={`font-bold ${colors.text} pr-8 text-lg`}>{item.name}</h4>
-        <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
+        <h4 className={`font-bold ${colors.text} pr-16 text-lg`}>{item.name}</h4>
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button onClick={(e) => { e.stopPropagation(); onEdit(); }} className={`p-1.5 ${colors.bgQuaternary} rounded hover:bg-blue-500 hover:text-white text-gray-400 transition-colors`}><Edit size={14} /></button>
+          <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`p-1.5 ${colors.bgQuaternary} rounded hover:bg-red-500 hover:text-white text-gray-400 transition-colors`}><Trash2 size={14} /></button>
+        </div>
       </div>
       <div className={`flex items-center gap-3 text-xs mb-4`}>
         <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] ${colors.bgQuaternary} ${colors.text} flex items-center gap-1`}>
@@ -1460,8 +1507,19 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         </span>
         {item.dueDate && <span className="flex items-center gap-1 text-gray-400"><Calendar size={12} /> {item.dueDate}</span>}
       </div>
-      <div className={`w-full h-2 ${colors.bgQuaternary} rounded-full overflow-hidden relative`}>
-        <div className={`h-full rounded-full ${getScoreColor(item.status || 0).bg}`} style={{ width: `${item.status || 0}%` }}></div>
+
+      <div className="flex items-center gap-3">
+        <div className={`flex-1 h-2 ${colors.bgQuaternary} rounded-full overflow-hidden relative`}>
+          <div className={`h-full rounded-full ${getScoreColor(item.status || 0).bg}`} style={{ width: `${item.status || 0}%` }}></div>
+        </div>
+        {type === 'routines' && (
+          <button
+            onClick={(e) => toggleItemStatus(e, item, type, freq)}
+            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${item.status === 100 ? 'bg-green-500 border-green-500' : `border-gray-500 hover:border-green-500`}`}
+          >
+            {item.status === 100 && <Check size={14} className="text-white" />}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -1510,10 +1568,33 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
                   className={`w-16 ${colors.input} border ${colors.border} rounded px-2 py-1 text-sm text-right`}
                 />
                 <span className="text-xs">%</span>
+                {dimensions.length > 3 && (
+                  <button onClick={() => {
+                    if (window.confirm(t('deleteDimensionConfirm'))) {
+                      setData(prev => {
+                        const newDims = prev.appSettings.dimensionConfig.filter((_, i) => i !== idx);
+                        const newDimensionsData = { ...prev.dimensions };
+                        delete newDimensionsData[dim.name];
+                        return { ...prev, appSettings: { ...prev.appSettings, dimensionConfig: newDims }, dimensions: newDimensionsData };
+                      });
+                    }
+                  }} className="text-gray-500 hover:text-red-500 ml-2"><Trash2 size={14} /></button>
+                )}
               </div>
             </div>
           ))}
           <div className={`flex justify-between items-center pt-4 border-t ${colors.border}`}>
+            <button onClick={() => {
+              const newName = `New Dimension ${dimensions.length + 1}`;
+              setData(prev => ({
+                ...prev,
+                appSettings: { ...prev.appSettings, dimensionConfig: [...prev.appSettings.dimensionConfig, { key: newName.toLowerCase().replace(/\s/g, '_'), name: newName, weight: 0, color: '#999' }] },
+                dimensions: { ...prev.dimensions, [newName]: { challenges: [], goals: [], projects: [], routines: { daily: [], weekly: [], monthly: [] } } }
+              }));
+            }} className={`px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded hover:${colors.bgQuaternary} ${colors.text} text-xs`}>
+              <Plus size={14} className="inline mr-1" /> {t('add')}
+            </button>
+
             <span className={`font-bold ${dimensions.reduce((a, b) => a + (b.weight || 0), 0) === 100 ? 'text-green-400' : 'text-orange-400'}`}>
               {t('totalWeight')}: {dimensions.reduce((a, b) => a + (b.weight || 0), 0)}%
             </span>
@@ -1594,7 +1675,15 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
                 <h4 className={`text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 pl-1`}>{t(freq)}</h4>
                 <div className="space-y-3">
                   {currentDimData.routines?.[freq]?.map(item => (
-                    <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem('routines', item.id, freq)} onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }} />
+                    <LibraryItemCard
+                      key={item.id}
+                      item={item}
+                      type="routines"
+                      freq={freq}
+                      onDelete={() => removeItem('routines', item.id, freq)}
+                      onClick={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }}
+                      onEdit={() => { setEditingItem(item); setEditType('routines'); setEditFreq(freq); }}
+                    />
                   ))}
                 </div>
                 <div className="mt-3">
@@ -1605,7 +1694,14 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
           ) : (
             <div className="space-y-3">
               {currentDimData[activeLibTab]?.map(item => (
-                <LibraryItemCard key={item.id} item={item} onDelete={() => removeItem(activeLibTab, item.id)} onClick={() => { setEditingItem(item); setEditType(activeLibTab); }} />
+                <LibraryItemCard
+                  key={item.id}
+                  item={item}
+                  type={activeLibTab}
+                  onDelete={() => removeItem(activeLibTab, item.id)}
+                  onClick={() => { setEditingItem(item); setEditType(activeLibTab); }}
+                  onEdit={() => { setEditingItem(item); setEditType(activeLibTab); }}
+                />
               ))}
               <div className="mt-4">
                 <AddItemInput onAdd={(v) => addItem(activeLibTab, v)} placeholder={`${t('add')} ${t(activeLibTab)}...`} theme={theme} />
