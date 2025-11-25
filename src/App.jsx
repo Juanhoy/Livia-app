@@ -927,7 +927,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('lifePillar') || "Life Pillar"}</label>
             <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.dimensionKey || ''} onChange={e => handleChange('dimensionKey', e.target.value)}>
               <option value="">-- {t('selectPillar') || "Select Pillar"} --</option>
-              {data.appSettings.dimensionConfig.map(d => <option key={d.name} value={d.name}>{t(d.name.toLowerCase()) || d.name}</option>)}
+              {(data.appSettings.dimensionConfig || DIMENSIONS).map(d => <option key={d.name} value={d.name}>{t(d.name.toLowerCase()) || d.name}</option>)}
               <option value="general">{t('general') || "General / Not Linked"}</option>
             </select>
           </div>
