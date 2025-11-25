@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -983,7 +983,13 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           <div className="grid grid-cols-2 gap-4">
             <div className={formData.category === 'money' ? "col-span-2" : ""}>
               <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('value')} ($)</label>
-              <input type="number" className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.value || ''} onChange={e => handleChange('value', e.target.value)} placeholder="0.00" />
+              <NumberInput
+                value={formData.value || ''}
+                onChange={e => handleChange('value', e.target.value)}
+                placeholder="0.00"
+                className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`}
+                theme={theme}
+              />
             </div>
             {formData.category !== 'money' && (
               <div>
@@ -1059,6 +1065,50 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
         )}
       </div>
     </Modal>
+  );
+};
+
+const NumberInput = ({ value, onChange, placeholder, className, theme }) => {
+  const colors = THEMES[theme || 'dark'];
+  const inputRef = useRef(null);
+
+  const handleIncrement = () => {
+    const currentVal = parseFloat(value) || 0;
+    onChange({ target: { value: currentVal + 1 } });
+  };
+
+  const handleDecrement = () => {
+    const currentVal = parseFloat(value) || 0;
+    onChange({ target: { value: currentVal - 1 } });
+  };
+
+  return (
+    <div className="relative w-full">
+      <input
+        ref={inputRef}
+        type="number"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`${className} pr-8`} // Add padding for the buttons
+      />
+      <div className="absolute right-1 top-1/2 -translate-y-1/2 flex flex-col gap-1">
+        <button
+          type="button"
+          onClick={handleIncrement}
+          className={`p-0.5 rounded-sm hover:${colors.bgQuaternary} ${colors.textSecondary} hover:${colors.text} transition-colors`}
+        >
+          <ChevronUp size={12} strokeWidth={3} />
+        </button>
+        <button
+          type="button"
+          onClick={handleDecrement}
+          className={`p-0.5 rounded-sm hover:${colors.bgQuaternary} ${colors.textSecondary} hover:${colors.text} transition-colors`}
+        >
+          <ChevronDown size={12} strokeWidth={3} />
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -1634,7 +1684,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
               </div>
               <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}>
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? `${colors.bg} shadow-[0_0_10px_rgba(255,255,255,0.3)]` : getScoreColor(dim.score).bg}`}
+                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? `${getScoreColor(dim.score).bg} shadow-[0_0_10px_rgba(255,255,255,0.3)]` : getScoreColor(dim.score).bg}`}
                   style={{ width: `${dim.score}%` }}
                 ></div>
               </div>
@@ -2767,11 +2817,12 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
             ))}
           </div>
         </div>
-
       </div>
 
+
+
       <div className={`flex-1 h-full flex flex-col ${colors.bg} p-6 overflow-hidden`}>
-        <div className="flex justify-end items-center mb-6">
+        <div className="flex justify-end items-center mb-6 h-[88px] flex-col justify-center"> {/* Match height of left header roughly or align center */}
           <div className="flex items-center gap-2">
             <button onClick={() => setSelectedDate(prev => { const d = new Date(prev); d.setDate(prev.getDate() - 1); return d; })} className={`p-2 rounded-lg ${colors.bgSecondary} hover:${colors.bgQuaternary} ${colors.text}`}><ChevronLeft size={20} /></button>
             <div className={`text-lg font-bold ${colors.text} w-32 text-center`}>{selectedDate.toLocaleDateString()}</div>
@@ -2811,7 +2862,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
 
   );
 };
