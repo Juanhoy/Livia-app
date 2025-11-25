@@ -17,6 +17,9 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
   AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip
 } from 'recharts';
+import logo from './assets/logo.png';
+import logoText from './assets/logo_text.png';
+import logoFull from './assets/logo_full.png';
 
 // --- Constants & Configuration ---
 
@@ -75,6 +78,10 @@ const THEMES = {
     input: 'bg-[#1e1e1e]',
     sidebar: 'bg-[#1e1e1e]',
     sidebarHover: 'hover:bg-gray-800',
+    emphasis: '#86FCDA', // Mint Green
+    emphasisText: 'text-[#86FCDA]',
+    emphasisBg: 'bg-[#86FCDA]',
+    emphasisBorder: 'border-[#86FCDA]',
   },
   light: {
     bg: 'bg-gray-100',
@@ -87,6 +94,10 @@ const THEMES = {
     input: 'bg-white',
     sidebar: 'bg-white',
     sidebarHover: 'hover:bg-gray-100',
+    emphasis: '#218CC4', // Blue
+    emphasisText: 'text-[#218CC4]',
+    emphasisBg: 'bg-[#218CC4]',
+    emphasisBorder: 'border-[#218CC4]',
   }
 };
 
@@ -274,7 +285,9 @@ const TRANSLATIONS = {
     moneyThisMonth: "MONEY THIS MONTH", thisMonthIncomes: "This month Incomes", addMonthlyIncome: "Add monthly income",
     thisMonthExpenses: "This month Expenses", addMonthlyExpense: "Add monthly expense",
     totalInvestedMoney: "TOTAL INVESTED MONEY", noInvestmentsYet: "No investments yet", addInvestment: "Add Investment",
-    totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt"
+    totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt",
+    type: "Type", income: "Income", expense: "Expense", investment: "Investment", debt: "Debt",
+    frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -321,7 +334,9 @@ const TRANSLATIONS = {
     moneyThisMonth: "DINERO ESTE MES", thisMonthIncomes: "Ingresos de este mes", addMonthlyIncome: "Agregar ingreso mensual",
     thisMonthExpenses: "Gastos de este mes", addMonthlyExpense: "Agregar gasto mensual",
     totalInvestedMoney: "DINERO TOTAL INVERTIDO", noInvestmentsYet: "Aún no hay inversiones", addInvestment: "Agregar Inversión",
-    totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda"
+    totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda",
+    type: "Tipo", income: "Ingreso", expense: "Gasto", investment: "Inversión", debt: "Deuda",
+    frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra"
 
   },
   fr: {
@@ -549,7 +564,7 @@ const calculateSkillLevel = (skill, allData) => {
 
 // --- Components ---
 
-const LandingPage = ({ onLogin, onGuest, t }) => {
+const LandingPage = ({ onLogin, onGuest, t, theme }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -577,8 +592,8 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
         {/* Right Side - Login Form */}
         <div className="w-full max-w-[400px] shrink-0">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-blue-600 rounded-xl mx-auto flex items-center justify-center mb-4 shadow-xl shadow-blue-900/50 transform rotate-3">
-              <span className="text-2xl font-bold">L</span>
+            <div className="mb-4 flex justify-center">
+              <img src={logoFull} alt="Livia" className="h-24 object-contain" />
             </div>
             <h1 className="text-3xl font-bold mb-2 tracking-tight">Livia</h1>
             <p className="text-gray-400 text-sm">{t('welcome')}</p>
@@ -615,7 +630,7 @@ const LandingPage = ({ onLogin, onGuest, t }) => {
                 />
               </div>
 
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-1.5 rounded-[4px] transition-colors text-sm mt-2">
+              <button type="submit" className={`w-full ${THEMES[theme || 'dark'].emphasisBg} hover:opacity-90 text-black font-bold py-1.5 rounded-[4px] transition-colors text-sm mt-2`}>
                 {isLogin ? t('login') : t('createAccount')}
               </button>
             </form>
@@ -699,8 +714,8 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
           <div>
             <label className={`block text-sm font-medium ${colors.textSecondary} mb-2`}>{t('theme')}</label>
             <div className="flex gap-2">
-              <button onClick={() => handleChange('theme', 'dark')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'dark' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>{t('dark')}</button>
-              <button onClick={() => handleChange('theme', 'light')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'light' ? 'bg-blue-600 border-blue-600 text-white' : `border-gray-600 ${colors.text}`}`}>{t('light')}</button>
+              <button onClick={() => handleChange('theme', 'dark')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'dark' ? `${colors.emphasisBg} ${colors.emphasisBorder} text-black` : `border-gray-600 ${colors.text}`}`}>{t('dark')}</button>
+              <button onClick={() => handleChange('theme', 'light')} className={`flex-1 py-2 rounded-lg border ${appSettings.theme === 'light' ? `${colors.emphasisBg} ${colors.emphasisBorder} text-black` : `border-gray-600 ${colors.text}`}`}>{t('light')}</button>
             </div>
           </div>
 
@@ -782,7 +797,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
       footer={
         <div className="flex justify-end gap-3">
           <button onClick={onClose} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text} transition-colors`}>{t('cancel')}</button>
-          <button onClick={() => onSave(formData)} className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium flex items-center gap-2 transition-colors"><Save size={16} /> {t('saveChanges')}</button>
+          <button onClick={() => onSave(formData)} className={`px-6 py-2 ${colors.emphasisBg} hover:opacity-90 text-black rounded-lg font-medium flex items-center gap-2 transition-colors`}><Save size={16} /> {t('saveChanges')}</button>
         </div>
       }
     >
@@ -819,7 +834,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
                 <div
                   key={cat.id}
                   onClick={() => handleChange('category', cat.id)}
-                  className={`cursor-pointer rounded-lg p-2 flex flex-col items-center justify-center gap-1 border transition-all ${formData.category === cat.id ? 'border-blue-500 bg-[#333]' : `border-transparent hover:${colors.bgTertiary}`}`}
+                  className={`cursor-pointer rounded-lg p-2 flex flex-col items-center justify-center gap-1 border transition-all ${formData.category === cat.id ? `${colors.emphasisBorder} bg-[#333]` : `border-transparent hover:${colors.bgTertiary}`}`}
                 >
                   <div className={`${cat.color}`}>{cat.icon && React.isValidElement(cat.icon) ? React.cloneElement(cat.icon, { size: 20 }) : null}</div>
                   <span className={`text-[9px] ${colors.textSecondary} text-center leading-tight`}>{cat.label}</span>
@@ -860,7 +875,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
                 <span className={!formData.manualMode ? "text-blue-400 font-bold" : "text-gray-500"}>{t('auto')}</span>
                 <button
                   onClick={() => handleChange('manualMode', !formData.manualMode)}
-                  className={`w-10 h-5 rounded-full p-1 transition-colors relative ${formData.manualMode ? 'bg-blue-600' : 'bg-gray-600'}`}
+                  className={`w-10 h-5 rounded-full p-1 transition-colors relative ${formData.manualMode ? colors.emphasisBg : 'bg-gray-600'}`}
                 >
                   <div className={`w-3 h-3 bg-white rounded-full transition-transform duration-200 ${formData.manualMode ? 'translate-x-5' : ''}`} />
                 </button>
@@ -877,7 +892,8 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
                 min="0"
                 max="100"
                 disabled={!formData.manualMode}
-                className={`flex-1 h-2 rounded-lg appearance-none cursor-pointer ${formData.manualMode ? 'bg-gray-700 accent-blue-500' : 'bg-gray-800 accent-gray-500'}`}
+                className={`flex-1 h-2 rounded-lg appearance-none cursor-pointer ${formData.manualMode ? 'bg-gray-700' : 'bg-gray-800'}`}
+                style={{ accentColor: colors.emphasis }}
                 value={formData.manualMode ? (formData.level || 0) : autoCalculatedLevel}
                 onChange={e => handleChange('level', parseInt(e.target.value))}
               />
@@ -907,7 +923,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
               <div>
                 <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('status')} (%)</label>
                 <div className="flex items-center gap-2">
-                  <input type="range" min="0" max="100" className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500" value={formData.status || 0} onChange={e => handleChange('status', parseInt(e.target.value))} />
+                  <input type="range" min="0" max="100" className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" style={{ accentColor: colors.emphasis }} value={formData.status || 0} onChange={e => handleChange('status', parseInt(e.target.value))} />
                   <span className="w-10 text-right text-sm text-blue-400">{formData.status}%</span>
                 </div>
               </div>
@@ -1009,7 +1025,7 @@ const AddItemInput = ({ onAdd, placeholder, theme }) => {
     <div className="w-full flex gap-2">
       <input type="text" value={val} onChange={(e) => setVal(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { onAdd(val); setVal(""); } }}
         placeholder={placeholder} className={`flex-1 ${colors.input} border ${colors.border} rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 ${colors.text}`} />
-      <button onClick={() => { onAdd(val); setVal(""); }} className="bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-blue-500"><Plus size={16} /></button>
+      <button onClick={() => { onAdd(val); setVal(""); }} className={`${colors.emphasisBg} text-black px-3 py-2 rounded text-sm font-medium hover:opacity-90`}><Plus size={16} /></button>
     </div>
   );
 };
@@ -1029,7 +1045,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
   return (
     <div className={`${isOpen ? 'w-64' : 'w-20'} h-full ${colors.sidebar} border-r ${colors.border} flex flex-col transition-all duration-300 z-50`}>
       <div className="h-14 flex items-center px-6 border-b border-gray-800/50">
-        <div className={`w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold mr-3 flex-shrink-0`}>L</div>
+        <img src={logo} alt="Livia" className="w-8 h-8 mr-3 rounded-lg" />
         {isOpen && <span className={`font-bold text-lg ${colors.text}`}>Livia</span>}
       </div>
 
@@ -1053,7 +1069,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
           <button
             key={item.id}
             onClick={() => setActiveTab(item.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === item.id ? `${colors.emphasisBg} text-black shadow-lg` : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}
           >
             {item.icon}
             {isOpen && <span className="text-sm font-medium">{item.label}</span>}
@@ -1257,7 +1273,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
   return (
     <div className={`flex flex-col h-full ${colors.bg} ${colors.text} overflow-hidden relative`}>
       <div className={`absolute top-4 left-4 z-20 flex gap-2`}>
-        <label className={`flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded cursor-pointer text-sm text-white shadow-lg ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+        <label className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} hover:opacity-90 rounded cursor-pointer text-sm text-black shadow-lg ${isGuest || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
           <Upload size={16} /> {uploading ? t('uploading') : t('addImage')}
           <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isGuest || uploading} />
         </label>
@@ -1473,7 +1489,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
             <span className={`font-bold ${dimensions.reduce((a, b) => a + (b.weight || 0), 0) === 100 ? 'text-green-400' : 'text-orange-400'}`}>
               {t('totalWeight')}: {dimensions.reduce((a, b) => a + (b.weight || 0), 0)}%
             </span>
-            <button onClick={() => setIsEditingDims(false)} className="bg-blue-600 text-white px-4 py-2 rounded">{t('done')}</button>
+            <button onClick={() => setIsEditingDims(false)} className={`${colors.emphasisBg} text-black px-4 py-2 rounded`}>{t('done')}</button>
           </div>
         </div>
       </Modal>
@@ -1647,7 +1663,7 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
             <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:border-blue-500 transition-colors ${colors.text}`}>
               <BookOpen size={18} /> {t('roleLibrary')}
             </button>
-            <button onClick={() => setIsCreating(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+            <button onClick={() => setIsCreating(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} text-black rounded-lg hover:opacity-90 transition-colors`}>
               <Plus size={18} /> {t('createCustom')}
             </button>
           </div>
@@ -1699,7 +1715,7 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
                   </div>
                   <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg"><Plus size={18} /></button>
+                <button className={`${colors.emphasisBg} hover:opacity-90 text-black p-2 rounded-lg`}><Plus size={18} /></button>
               </div>
             ))
           )}
@@ -1721,7 +1737,7 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
           </div>
           <div className="flex justify-end gap-3 pt-4">
             <button onClick={() => setIsCreating(false)} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text}`}>{t('cancel')}</button>
-            <button onClick={createCustomRole} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">{t('createRole')}</button>
+            <button onClick={createCustomRole} className={`${colors.emphasisBg} hover:opacity-90 text-black px-6 py-2 rounded-lg font-medium`}>{t('createRole')}</button>
           </div>
         </div>
       </Modal>
@@ -1999,7 +2015,7 @@ const SkillsPage = ({ data, setData, theme, isGuest, t }) => {
 
       <div className="flex justify-between items-center mb-6">
         <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><BookOpen size={32} className="text-blue-400" /> {t('lifeSkills')}</h2>
-        <button onClick={() => { setEditingSkill({ id: Date.now(), name: '', level: 0, roleKey: '', source: 'Manual', manualMode: true }); setEditType('skills'); }} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+        <button onClick={() => { setEditingSkill({ id: Date.now(), name: '', level: 0, roleKey: '', source: 'Manual', manualMode: true }); setEditType('skills'); }} className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} text-black rounded-lg hover:opacity-90 transition-colors`}>
           <Plus size={18} /> {t('addSkill')}
         </button>
       </div>
@@ -2127,7 +2143,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
       <div className="flex justify-between items-center mb-6">
         <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><Briefcase size={32} className="text-blue-400" /> {t('lifeResources')}</h2>
         {activeCategory !== 'money' && (
-          <button onClick={() => createResource()} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
+          <button onClick={() => createResource()} className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} text-black rounded-lg hover:opacity-90 transition-colors`}>
             <Plus size={18} /> {t('addResource')}
           </button>
         )}
@@ -2155,7 +2171,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors whitespace-nowrap ${activeCategory === cat.id ? `${colors.emphasisBorder} ${colors.emphasisText}` : 'border-transparent text-gray-500 hover:text-gray-300'}`}
           >
             {React.cloneElement(cat.icon, { size: 18 })} {t(cat.id)}
           </button>
@@ -2217,7 +2233,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
               </div>
 
               <div className="mt-4 flex justify-end">
-                <button onClick={() => createResource({ moneyType: 'investment' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
+                <button onClick={() => createResource({ moneyType: 'investment' })} className={`flex items-center gap-2 text-white hover:${colors.emphasisText} transition-colors font-bold`}>
                   <Plus size={18} /> {t('addInvestment')}
                 </button>
               </div>
@@ -2236,7 +2252,7 @@ const ResourcesPage = ({ data, setData, theme, isGuest, t }) => {
               </div>
 
               <div className="mt-4 flex justify-end">
-                <button onClick={() => createResource({ moneyType: 'debt' })} className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors font-bold">
+                <button onClick={() => createResource({ moneyType: 'debt' })} className={`flex items-center gap-2 text-white hover:${colors.emphasisText} transition-colors font-bold`}>
                   <Plus size={18} /> {t('addDebt')}
                 </button>
               </div>
@@ -2567,7 +2583,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
           <div className="grid grid-cols-7 gap-1 text-center text-sm">
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className={`${colors.textSecondary} py-1`}>{d}</div>)}
             {Array.from({ length: new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map(d => (
-              <div key={d} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d))} className={`py-2 rounded cursor-pointer hover:${colors.bgQuaternary} ${d === selectedDate.getDate() ? 'bg-blue-600 text-white font-bold' : colors.textSecondary}`}>{d}</div>
+              <div key={d} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d))} className={`py-2 rounded cursor-pointer hover:${colors.bgQuaternary} ${d === selectedDate.getDate() ? `${colors.emphasisBg} text-black font-bold` : colors.textSecondary}`}>{d}</div>
             ))}
           </div>
         </div>
@@ -2685,7 +2701,7 @@ export default function LiviaApp() {
   };
 
   if (!isAuthenticated) {
-    return <LandingPage onLogin={handleLogin} onGuest={handleGuest} t={t} />;
+    return <LandingPage onLogin={handleLogin} onGuest={handleGuest} t={t} theme={theme} />;
   }
 
   const handleRoleSelect = (role) => { setSelectedRole(role); setActiveTab('role_detail'); };
