@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft, Swords, Target
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -28,6 +28,14 @@ const getScoreColor = (score) => {
   if (score < 50) return { color: 'text-red-500', bg: 'bg-red-500', border: 'border-red-500', hex: '#ef4444' };
   if (score < 85) return { color: 'text-yellow-500', bg: 'bg-yellow-500', border: 'border-yellow-500', hex: '#eab308' };
   return { color: 'text-emerald-500', bg: 'bg-emerald-500', border: 'border-emerald-500', hex: '#10b981' };
+};
+
+const getImportanceConfig = (imp) => {
+  switch (imp) {
+    case 'High': return { icon: <ChevronsUp size={12} />, label: 'High' };
+    case 'Low': return { icon: <ChevronsDown size={12} />, label: 'Low' };
+    default: return { icon: <Minus size={12} />, label: 'Medium' };
+  }
 };
 
 const DIMENSIONS = [
@@ -1403,7 +1411,9 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 absolute top-4 right-4 transition-opacity`}><Trash2 size={16} /></button>
       </div>
       <div className={`flex items-center gap-3 text-xs mb-4`}>
-        <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] ${item.importance === 'High' ? 'bg-red-900/30 text-red-500' : item.importance === 'Medium' ? 'bg-blue-900/30 text-blue-500' : 'bg-gray-800 text-gray-400'}`}>{item.importance || 'Medium'}</span>
+        <span className={`px-2 py-1 rounded-md font-bold uppercase tracking-wider text-[10px] bg-white/10 text-white flex items-center gap-1`}>
+          {getImportanceConfig(item.importance).icon} {item.importance || 'Medium'}
+        </span>
         {item.dueDate && <span className="flex items-center gap-1 text-gray-400"><Calendar size={12} /> {item.dueDate}</span>}
       </div>
       <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden relative">
@@ -1861,7 +1871,12 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
             <div className="space-y-3">
               {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
                 <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
-                  <div className="flex justify-between items-start mb-2"><span className={`font-bold ${colors.text}`}>{item.name}</span><span className={`text-xs px-2 py-0.5 rounded ${item.importance === 'High' ? 'bg-red-900/50 text-red-400' : 'bg-gray-700 text-gray-400'}`}>{item.importance}</span></div>
+                  <div className="flex justify-between items-start mb-2">
+                    <span className={`font-bold ${colors.text}`}>{item.name}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded bg-white/10 text-white flex items-center gap-1`}>
+                      {getImportanceConfig(item.importance).icon} {item.importance}
+                    </span>
+                  </div>
                   <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className={`h-full ${getScoreColor(item.status).bg}`} style={{ width: `${item.status}%` }}></div></div>
                 </div>
               ))}
