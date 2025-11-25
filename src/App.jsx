@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -23,6 +23,12 @@ import {
 // CLOUDINARY CONFIGURATION
 const CLOUD_NAME = "df0idzqak"; // Extracted from your provided URL
 const UPLOAD_PRESET = "livia_unsigned"; // IMPORTANT: Create an "Unsigned" upload preset in Cloudinary settings and name it this, or change this value.
+
+const getScoreColor = (score) => {
+  if (score < 50) return { color: 'text-red-500', bg: 'bg-red-500', border: 'border-red-500', hex: '#ef4444' };
+  if (score < 85) return { color: 'text-yellow-500', bg: 'bg-yellow-500', border: 'border-yellow-500', hex: '#eab308' };
+  return { color: 'text-emerald-500', bg: 'bg-emerald-500', border: 'border-emerald-500', hex: '#10b981' };
+};
 
 const DIMENSIONS = [
   { key: "health", name: "Health", max: 50, color: "#4caf50" },
@@ -1401,7 +1407,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         {item.dueDate && <span className="flex items-center gap-1 text-gray-400"><Calendar size={12} /> {item.dueDate}</span>}
       </div>
       <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden relative">
-        <div className={`h-full rounded-full ${item.status >= 100 ? 'bg-emerald-500' : 'bg-blue-600'}`} style={{ width: `${item.status || 0}%` }}></div>
+        <div className={`h-full rounded-full ${getScoreColor(item.status || 0).bg}`} style={{ width: `${item.status || 0}%` }}></div>
       </div>
     </div>
   );
@@ -1470,28 +1476,29 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         </div>
 
         {/* Overall Score Card */}
+        {/* Overall Score Card */}
         <div className={`mb-8 p-5 rounded-2xl bg-[#141414] border border-blue-900/30 flex items-center justify-between shadow-lg`}>
           <div>
-            <div className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">{t('overallScore')}</div>
-            <div className="text-4xl font-bold text-white">{overallScore}%</div>
+            <div className={`text-[10px] ${getScoreColor(overallScore).color} font-bold uppercase tracking-widest mb-1`}>{t('overallScore')}</div>
+            <div className={`text-4xl font-bold ${getScoreColor(overallScore).color}`}>{overallScore}%</div>
           </div>
-          <div className="h-14 w-14 rounded-full border-4 border-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_15px_rgba(37,99,235,0.3)]">
+          <div className={`h-14 w-14 rounded-full border-4 ${getScoreColor(overallScore).border} flex items-center justify-center text-sm font-bold text-white shadow-[0_0_15px_rgba(0,0,0,0.3)]`}>
             {overallScore}
           </div>
         </div>
 
-        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar dataKey="A" stroke="#10b981" fill="#10b981" fillOpacity={0.3} /></RadarChart></ResponsiveContainer></div>
+        <div className="h-48 w-full mb-8 opacity-80 hover:opacity-100 transition-opacity"><ResponsiveContainer><RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}><PolarGrid stroke="#333" /><PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar dataKey="A" stroke={getScoreColor(overallScore).hex} fill={getScoreColor(overallScore).hex} fillOpacity={0.5} /></RadarChart></ResponsiveContainer></div>
 
         <div className="space-y-4 flex-1">
           {calculatedDimensions.map(dim => (
             <div key={dim.key} onClick={() => setActiveDimension(dim.name)} className={`group cursor-pointer`}>
               <div className="flex justify-between items-end mb-1">
                 <span className={`text-sm font-medium transition-colors ${activeDimension === dim.name ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>{t(dim.name.toLowerCase()) || dim.name}</span>
-                <span className={`text-xs font-bold ${activeDimension === dim.name ? 'text-yellow-500' : 'text-gray-600'}`}>{dim.score}%</span>
+                <span className={`text-xs font-bold ${activeDimension === dim.name ? 'text-white' : getScoreColor(dim.score).color}`}>{dim.score}%</span>
               </div>
               <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.3)]' : 'bg-gray-700 group-hover:bg-gray-600'}`}
+                  className={`h-full rounded-full transition-all duration-500 ${activeDimension === dim.name ? 'bg-white shadow-[0_0_10px_rgba(255,255,255,0.3)]' : getScoreColor(dim.score).bg}`}
                   style={{ width: `${dim.score}%` }}
                 ></div>
               </div>
@@ -1507,20 +1514,20 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
         {/* Tabs */}
         <div className={`flex gap-4 mb-8`}>
           {[
-            { id: 'challenges', color: 'red', label: t('challenges') },
-            { id: 'goals', color: 'purple', label: t('goals') },
-            { id: 'projects', color: 'green', label: t('projects') },
-            { id: 'routines', color: 'yellow', label: t('routines') }
+            { id: 'challenges', color: 'red', label: t('challenges'), icon: <Swords size={16} /> },
+            { id: 'goals', color: 'purple', label: t('goals'), icon: <Target size={16} /> },
+            { id: 'projects', color: 'green', label: t('projects'), icon: <Rocket size={16} /> },
+            { id: 'routines', color: 'yellow', label: t('routines'), icon: <Calendar size={16} /> }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveLibTab(tab.id)}
-              className={`flex-1 py-4 rounded-xl border-2 transition-all duration-300 font-bold text-sm uppercase tracking-wider ${activeLibTab === tab.id
+              className={`flex-1 py-4 rounded-xl border-2 transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 ${activeLibTab === tab.id
                 ? `border-${tab.color}-500/50 bg-${tab.color}-900/10 text-white shadow-[0_0_20px_rgba(${tab.color === 'red' ? '239,68,68' : tab.color === 'purple' ? '168,85,247' : tab.color === 'green' ? '34,197,94' : '234,179,8'},0.15)]`
                 : `border-${tab.color}-900/30 bg-[#111] text-gray-500 hover:border-${tab.color}-800 hover:bg-[#151515]`
                 }`}
             >
-              {tab.label}
+              {tab.icon} {tab.label}
             </button>
           ))}
         </div>
@@ -1846,16 +1853,16 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
             <div className="flex justify-between items-center">
               <h3 className={`text-lg font-bold ${colors.textSecondary} uppercase tracking-wider flex items-center gap-2`}><Rocket size={16} /> {t('activeMissions')}</h3>
               <div className="flex gap-2">
-                <button onClick={() => createItem('challenges')} className="text-xs bg-red-900/30 text-red-400 px-2 py-1 rounded hover:bg-red-900/50 transition-colors">+ {t('challenge')}</button>
-                <button onClick={() => createItem('goals')} className="text-xs bg-purple-900/30 text-purple-400 px-2 py-1 rounded hover:bg-purple-900/50 transition-colors">+ {t('goal')}</button>
-                <button onClick={() => createItem('projects')} className="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded hover:bg-green-900/50 transition-colors">+ {t('project')}</button>
+                <button onClick={() => createItem('challenges')} className="text-xs bg-red-900/30 text-red-400 px-2 py-1 rounded hover:bg-red-900/50 transition-colors flex items-center gap-1"><Swords size={12} /> {t('challenge')}</button>
+                <button onClick={() => createItem('goals')} className="text-xs bg-purple-900/30 text-purple-400 px-2 py-1 rounded hover:bg-purple-900/50 transition-colors flex items-center gap-1"><Target size={12} /> {t('goal')}</button>
+                <button onClick={() => createItem('projects')} className="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded hover:bg-green-900/50 transition-colors flex items-center gap-1"><Rocket size={12} /> {t('project')}</button>
               </div>
             </div>
             <div className="space-y-3">
               {roleItems.goals.concat(roleItems.projects).concat(roleItems.challenges).map(item => (
                 <div key={item.id} onClick={() => { setEditingItem(item); setEditType('goals'); }} className={`${colors.bgSecondary} p-4 rounded-xl border ${colors.border} hover:border-blue-500 cursor-pointer group`}>
                   <div className="flex justify-between items-start mb-2"><span className={`font-bold ${colors.text}`}>{item.name}</span><span className={`text-xs px-2 py-0.5 rounded ${item.importance === 'High' ? 'bg-red-900/50 text-red-400' : 'bg-gray-700 text-gray-400'}`}>{item.importance}</span></div>
-                  <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className="h-full bg-blue-500" style={{ width: `${item.status}%` }}></div></div>
+                  <div className={`w-full h-1.5 ${colors.bgQuaternary} rounded-full overflow-hidden`}><div className={`h-full ${getScoreColor(item.status).bg}`} style={{ width: `${item.status}%` }}></div></div>
                 </div>
               ))}
               {roleItems.goals.length === 0 && roleItems.projects.length === 0 && roleItems.challenges.length === 0 && <div className={`text-sm italic ${colors.textSecondary}`}>{t('noActiveMissions')}</div>}
