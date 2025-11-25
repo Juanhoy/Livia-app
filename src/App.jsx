@@ -3,7 +3,7 @@ import {
   LayoutDashboard, User, Settings, Download, Upload, Plus, X,
   Search, Globe, Smile, Meh, Frown, Image as ImageIcon,
   Rocket, Calendar, BookOpen, Briefcase, Star, Menu,
-  ChevronRight, Check, MoreHorizontal, Trash2, Edit2, Filter,
+  ChevronRight, Check, MoreHorizontal, Trash2, Edit2, Filter, Edit,
   ArrowLeft, DollarSign, Users, PenTool, Link as LinkIcon,
   Clock, AlertCircle, Save, Home, Car, Music, Monitor,
   Dumbbell, Shirt, Sofa, Wallet, TrendingUp, TrendingDown,
@@ -288,7 +288,8 @@ const TRANSLATIONS = {
     totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt",
     type: "Type", income: "Income", expense: "Expense", investment: "Investment", debt: "Debt",
     frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
-    profilePicture: "Profile Picture", changeAvatar: "Change Avatar"
+    profilePicture: "Profile Picture", changeAvatar: "Change Avatar",
+    editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library."
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -338,8 +339,8 @@ const TRANSLATIONS = {
     totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda",
     type: "Tipo", income: "Ingreso", expense: "Gasto", investment: "Inversión", debt: "Deuda",
     frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra",
-    profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar"
-
+    profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar",
+    editRole: "Editar Rol", active: "Activo", noRolesAvailable: "No hay roles disponibles en la biblioteca."
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -1621,10 +1622,11 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
   const { userRoles, roleLibrary } = data.appSettings;
   const [showLibrary, setShowLibrary] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [newRoleName, setNewRoleName] = useState("");
+  const [editingRole, setEditingRole] = useState(null);
   const colors = THEMES[theme];
 
-  const availableRoles = roleLibrary ? roleLibrary.filter(r => !userRoles.find(ur => ur.key === r.key)) : [];
+  // Show all roles in library, but mark which ones are active
+  const availableRoles = roleLibrary || [];
 
   const toggleRole = (role, isAdding) => {
     setData(prev => {
@@ -1635,17 +1637,54 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
 
   const createCustomRole = () => {
     if (!newRoleName) return;
-    const newRole = { key: newRoleName.toLowerCase().replace(/\s/g, '_'), name: newRoleName, icon: 'User' };
-    setData(prev => ({
-      ...prev,
-      appSettings: {
-        ...prev.appSettings,
-        userRoles: [...prev.appSettings.userRoles, newRole],
-        roleLibrary: [...prev.appSettings.roleLibrary, newRole]
-      }
-    }));
+
+    if (editingRole) {
+      // Update existing role
+      const updatedRole = { ...editingRole, name: newRoleName };
+      setData(prev => ({
+        ...prev,
+        appSettings: {
+          ...prev.appSettings,
+          userRoles: prev.appSettings.userRoles.map(r => r.key === editingRole.key ? updatedRole : r),
+          roleLibrary: prev.appSettings.roleLibrary.map(r => r.key === editingRole.key ? updatedRole : r)
+        }
+      }));
+      setEditingRole(null);
+    } else {
+      // Create new role
+      const newRole = { key: newRoleName.toLowerCase().replace(/\s/g, '_'), name: newRoleName, icon: 'User', isCustom: true };
+      setData(prev => ({
+        ...prev,
+        appSettings: {
+          ...prev.appSettings,
+          userRoles: [...prev.appSettings.userRoles, newRole],
+          roleLibrary: [...prev.appSettings.roleLibrary, newRole]
+        }
+      }));
+    }
     setNewRoleName("");
     setIsCreating(false);
+  };
+
+  const deleteCustomRole = (e, roleKey) => {
+    e.stopPropagation();
+    if (window.confirm(t('deleteRoleConfirm'))) {
+      setData(prev => ({
+        ...prev,
+        appSettings: {
+          ...prev.appSettings,
+          userRoles: prev.appSettings.userRoles.filter(r => r.key !== roleKey),
+          roleLibrary: prev.appSettings.roleLibrary.filter(r => r.key !== roleKey)
+        }
+      }));
+    }
+  };
+
+  const openEditModal = (e, role) => {
+    e.stopPropagation();
+    setEditingRole(role);
+    setNewRoleName(role.name);
+    setIsCreating(true);
   };
 
   const handleDeleteRole = (e, roleKey) => {
@@ -1656,16 +1695,17 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
     }
   };
 
-  const getRoleIcon = (iconName) => {
+  const getRoleIcon = (iconName, className) => {
+    const iconClass = className || colors.emphasisText;
     switch (iconName) {
-      case 'Dumbbell': return <Dumbbell size={48} className="text-blue-400" />;
-      case 'Briefcase': return <Briefcase size={48} className="text-blue-400" />;
-      case 'User': return <User size={48} className="text-blue-400" />;
-      case 'Heart': return <Heart size={48} className="text-blue-400" />;
-      case 'Flag': return <Flag size={48} className="text-blue-400" />;
-      case 'Users': return <Users size={48} className="text-blue-400" />;
-      case 'GraduationCap': return <GraduationCap size={48} className="text-blue-400" />;
-      default: return <User size={48} className="text-blue-400" />;
+      case 'Dumbbell': return <Dumbbell size={48} className={iconClass} />;
+      case 'Briefcase': return <Briefcase size={48} className={iconClass} />;
+      case 'User': return <User size={48} className={iconClass} />;
+      case 'Heart': return <Heart size={48} className={iconClass} />;
+      case 'Flag': return <Flag size={48} className={iconClass} />;
+      case 'Users': return <Users size={48} className={iconClass} />;
+      case 'GraduationCap': return <GraduationCap size={48} className={iconClass} />;
+      default: return <User size={48} className={iconClass} />;
     }
   };
 
@@ -1686,19 +1726,19 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
     <div className={`h-full overflow-y-auto ${colors.bg} p-8 custom-scrollbar flex flex-col`}>
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><User size={32} className="text-blue-400" /> {t('yourRoles')}</h2>
+          <h2 className={`text-3xl font-bold ${colors.text} flex items-center gap-3`}><User size={32} className={colors.emphasisText} /> {t('yourRoles')}</h2>
           <div className="flex gap-3">
-            <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:border-blue-500 transition-colors ${colors.text}`}>
+            <button onClick={() => setShowLibrary(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.bgSecondary} border ${colors.border} rounded-lg hover:${colors.emphasisBorder} transition-colors ${colors.text}`}>
               <BookOpen size={18} /> {t('roleLibrary')}
             </button>
-            <button onClick={() => setIsCreating(true)} className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} text-black rounded-lg hover:opacity-90 transition-colors`}>
+            <button onClick={() => { setEditingRole(null); setNewRoleName(""); setIsCreating(true); }} className={`flex items-center gap-2 px-4 py-2 ${colors.emphasisBg} text-black rounded-lg hover:opacity-90 transition-colors`}>
               <Plus size={18} /> {t('createCustom')}
             </button>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {userRoles.map(role => (
-            <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 ${theme === 'dark' ? 'bg-gradient-to-br from-[#333] to-[#222]' : 'bg-gradient-to-br from-white to-gray-100'} border ${colors.border} rounded-2xl cursor-pointer hover:border-blue-500 transition-all group flex flex-col justify-between overflow-hidden shadow-sm`}>
+            <div key={role.key} onClick={() => onSelectRole(role)} className={`h-64 relative p-6 ${theme === 'dark' ? 'bg-gradient-to-br from-[#333] to-[#222]' : 'bg-gradient-to-br from-white to-gray-100'} border ${colors.border} rounded-2xl cursor-pointer hover:${colors.emphasisBorder} transition-all group flex flex-col justify-between overflow-hidden shadow-sm`}>
               <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                 <button onClick={(e) => handleDeleteRole(e, role.key)} className="p-2 bg-black/50 hover:bg-red-600 rounded-lg text-white/70 hover:text-white transition-colors">
                   <Trash2 size={18} />
@@ -1711,19 +1751,19 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
                 <div className="mt-auto">
                   <h3 className={`text-3xl font-bold ${colors.text} mb-2`}>{role.name}</h3>
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-mono font-bold">{t('level1')}</span>
+                    <span className={`px-3 py-1 ${colors.emphasisBg} bg-opacity-20 ${colors.emphasisText} rounded-lg text-sm font-mono font-bold`}>{t('level1')}</span>
                     <span className={`${colors.textSecondary} text-sm font-mono`}>0 {t('xp')}</span>
                   </div>
                 </div>
               </div>
               {/* Decorative background element */}
-              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+              <div className={`absolute -bottom-12 -right-12 w-48 h-48 ${colors.emphasisBg} opacity-10 rounded-full blur-3xl pointer-events-none`}></div>
             </div>
           ))}
           {userRoles.length === 0 && (
             <div className={`col-span-3 h-64 flex flex-col items-center justify-center border-2 border-dashed ${colors.border} rounded-2xl ${colors.textSecondary}`}>
               <p className="mb-4 text-lg">{t('noRolesAdded')}</p>
-              <button onClick={() => setShowLibrary(true)} className="text-blue-400 hover:underline">{t('openLibrary')}</button>
+              <button onClick={() => setShowLibrary(true)} className={`${colors.emphasisText} hover:underline`}>{t('openLibrary')}</button>
             </div>
           )}
         </div>
@@ -1733,39 +1773,52 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
       <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title={t('roleLibraryTitle')} theme={theme}>
         <div className="space-y-2">
           {availableRoles.length === 0 ? (
-            <p className={`${colors.textSecondary} text-center py-8`}>{t('allRolesActive')}</p>
+            <p className={`${colors.textSecondary} text-center py-8`}>{t('noRolesAvailable')}</p>
           ) : (
-            availableRoles.map(role => (
-              <div key={role.key} onClick={() => toggleRole(role, true)} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center cursor-pointer hover:${colors.bgQuaternary} border border-transparent hover:border-blue-500/50 transition-all group`}>
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 ${colors.bgQuaternary} rounded-lg flex items-center justify-center ${colors.textSecondary}`}>
-                    {getSmallRoleIcon(role.icon)}
+            availableRoles.map(role => {
+              const isActive = userRoles.find(r => r.key === role.key);
+              return (
+                <div key={role.key} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center border border-transparent hover:${colors.emphasisBorder} transition-all group`}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 ${colors.bgQuaternary} rounded-lg flex items-center justify-center ${colors.textSecondary}`}>
+                      {getSmallRoleIcon(role.icon)}
+                    </div>
+                    <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
+                    {isActive && <span className={`text-xs ${colors.emphasisText} bg-${colors.emphasis}-900/20 px-2 py-0.5 rounded`}>{t('active')}</span>}
                   </div>
-                  <span className={`font-bold text-lg ${colors.text}`}>{role.name}</span>
+                  <div className="flex gap-2">
+                    {role.isCustom && (
+                      <>
+                        <button onClick={(e) => openEditModal(e, role)} className={`p-2 ${colors.textSecondary} hover:${colors.text} hover:bg-gray-700 rounded-lg`}><Edit size={18} /></button>
+                        <button onClick={(e) => deleteCustomRole(e, role.key)} className={`p-2 ${colors.textSecondary} hover:text-red-400 hover:bg-gray-700 rounded-lg`}><Trash2 size={18} /></button>
+                      </>
+                    )}
+                    {!isActive && (
+                      <button onClick={() => toggleRole(role, true)} className={`${colors.emphasisBg} hover:opacity-90 text-black p-2 rounded-lg`}><Plus size={18} /></button>
+                    )}
+                  </div>
                 </div>
-                <button className={`${colors.emphasisBg} hover:opacity-90 text-black p-2 rounded-lg`}><Plus size={18} /></button>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </Modal>
 
-      {/* Create Role Modal */}
-      <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title={t('createCustomRoleTitle')} theme={theme}>
+      {/* Create/Edit Role Modal */}
+      <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title={editingRole ? t('editRole') : t('createCustomRoleTitle')} theme={theme}>
         <div className="space-y-4">
           <div>
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('roleName')}</label>
             <input
-              className={`w-full ${colors.input} ${colors.text} px-4 py-3 rounded-lg border ${colors.border} focus:border-blue-500 outline-none`}
-              placeholder={t('roleNamePlaceholder')}
               value={newRoleName}
               onChange={(e) => setNewRoleName(e.target.value)}
-              autoFocus
+              placeholder={t('roleNamePlaceholder')}
+              className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none focus:${colors.emphasisBorder}`}
             />
           </div>
           <div className="flex justify-end gap-3 pt-4">
             <button onClick={() => setIsCreating(false)} className={`px-4 py-2 ${colors.textSecondary} hover:${colors.text}`}>{t('cancel')}</button>
-            <button onClick={createCustomRole} className={`${colors.emphasisBg} hover:opacity-90 text-black px-6 py-2 rounded-lg font-medium`}>{t('createRole')}</button>
+            <button onClick={createCustomRole} className={`${colors.emphasisBg} hover:opacity-90 text-black px-6 py-2 rounded-lg font-medium`}>{editingRole ? t('saveChanges') : t('createRole')}</button>
           </div>
         </div>
       </Modal>
