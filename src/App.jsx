@@ -1715,18 +1715,21 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
 };
 
 const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
-  const { userRoles, roleLibrary } = data.appSettings;
+  const userRoles = data?.appSettings?.userRoles || [];
+  const roleLibrary = data?.appSettings?.roleLibrary || [];
   const [showLibrary, setShowLibrary] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [editingRole, setEditingRole] = useState(null);
-  const colors = THEMES[theme];
+  const [newRoleName, setNewRoleName] = useState("");
+  const colors = THEMES[theme] || THEMES.dark;
 
   // Show all roles in library, but mark which ones are active
   const availableRoles = roleLibrary || [];
 
   const toggleRole = (role, isAdding) => {
     setData(prev => {
-      const newRoles = isAdding ? [...prev.appSettings.userRoles, role] : prev.appSettings.userRoles.filter(r => r.key !== role.key);
+      const currentRoles = prev.appSettings.userRoles || [];
+      const newRoles = isAdding ? [...currentRoles, role] : currentRoles.filter(r => r.key !== role.key);
       return { ...prev, appSettings: { ...prev.appSettings, userRoles: newRoles } };
     });
   };
@@ -1741,8 +1744,8 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
         ...prev,
         appSettings: {
           ...prev.appSettings,
-          userRoles: prev.appSettings.userRoles.map(r => r.key === editingRole.key ? updatedRole : r),
-          roleLibrary: prev.appSettings.roleLibrary.map(r => r.key === editingRole.key ? updatedRole : r)
+          userRoles: (prev.appSettings.userRoles || []).map(r => r.key === editingRole.key ? updatedRole : r),
+          roleLibrary: (prev.appSettings.roleLibrary || []).map(r => r.key === editingRole.key ? updatedRole : r)
         }
       }));
       setEditingRole(null);
@@ -1753,8 +1756,8 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
         ...prev,
         appSettings: {
           ...prev.appSettings,
-          userRoles: [...prev.appSettings.userRoles, newRole],
-          roleLibrary: [...prev.appSettings.roleLibrary, newRole]
+          userRoles: [...(prev.appSettings.userRoles || []), newRole],
+          roleLibrary: [...(prev.appSettings.roleLibrary || []), newRole]
         }
       }));
     }
@@ -1769,8 +1772,8 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
         ...prev,
         appSettings: {
           ...prev.appSettings,
-          userRoles: prev.appSettings.userRoles.filter(r => r.key !== roleKey),
-          roleLibrary: prev.appSettings.roleLibrary.filter(r => r.key !== roleKey)
+          userRoles: (prev.appSettings.userRoles || []).filter(r => r.key !== roleKey),
+          roleLibrary: (prev.appSettings.roleLibrary || []).filter(r => r.key !== roleKey)
         }
       }));
     }
