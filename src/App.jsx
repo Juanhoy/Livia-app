@@ -153,6 +153,35 @@ const generateInitialData = () => {
     dims[d.name] = { challenges: [], goals: [], projects: [], routines: { daily: [], weekly: [], monthly: [] } };
   });
 
+  const initialData = {
+    appSettings: {
+      userName: "Guest User",
+      userAvatar: null,
+      theme: "dark",
+      language: getBrowserLanguage(),
+      userRoles: [
+        { key: "health_enthusiast", name: "Health Enthusiast", icon: "Heart" },
+        { key: "learner", name: "Learner", icon: "BookOpen" },
+        { key: "creator", name: "Creator", icon: "PenTool" }
+      ],
+      roleLibrary: [
+        { key: "health_enthusiast", name: "Health Enthusiast", icon: "Heart" },
+        { key: "learner", name: "Learner", icon: "BookOpen" },
+        { key: "creator", name: "Creator", icon: "PenTool" },
+        { key: "family_member", name: "Family Member", icon: "Users" },
+        { key: "professional", name: "Professional", icon: "Briefcase" }
+      ],
+      dimensionConfig: DEFAULT_DIMENSIONS,
+      accountCreationDate: new Date().toISOString() // Set creation date for new accounts
+    },
+    resources: [],
+    skills: [],
+    wishlist: [],
+    visualizationImages: [],
+    dimensions: dims
+  };
+
+
   // 1. Health
   dims["Health"].challenges.push(
     { id: 101, name: "Leave vices", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
@@ -508,22 +537,56 @@ const DEFAULT_DATA = {
 
 // --- Helper Functions ---
 
-const calculateDimensionScore = (dimData) => {
+// Calculate Routine Adherence based on Account Creation Date
+const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'daily') => {
+  if (!routine) return 0;
+
+  const creationDate = new Date(accountCreationDate || new Date());
+  const today = new Date();
+  const history = routine.completionHistory || [];
+
+  // Calculate total expected occurrences since creation
+  let expected = 0;
+  const diffTime = Math.abs(today - creationDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (frequency === 'daily') {
+    expected = Math.max(1, diffDays);
+  } else if (frequency === 'weekly') {
+    expected = Math.max(1, Math.ceil(diffDays / 7));
+  } else if (frequency === 'monthly') {
+    expected = Math.max(1, Math.ceil(diffDays / 30));
+  }
+
+  // Calculate actual completions
+  // Filter history to ensure we only count valid dates (and potentially unique ones if needed, though toggle logic should handle uniqueness)
+  const actual = history.length;
+
+  // Cap at 100%
+  return Math.min(100, Math.round((actual / expected) * 100));
+};
+
+const calculateDimensionScore = (dimData, accountCreationDate) => {
   if (!dimData) return 0;
   let totalItems = 0;
   let totalScore = 0;
 
-  const processList = (list, type) => {
+  const processList = (list, type, freq) => {
     if (!list) return;
     list.forEach(item => {
-      // Projects only contribute if they have progress (>0)
+      // Projects only contribute if they have progress (>0) - Positive impact only
       if (type === 'projects') {
         if ((item.status || 0) > 0) {
           totalItems++;
           totalScore += item.status;
         }
+      } else if (type === 'routines') {
+        // Routines use adherence calculation
+        totalItems++;
+        const adherence = calculateRoutineAdherence(item, accountCreationDate, freq);
+        totalScore += adherence;
       } else {
-        // Routines, Goals, Challenges always contribute (0 or 100/value)
+        // Goals, Challenges always contribute
         totalItems++;
         totalScore += (item.status || 0);
       }
@@ -533,9 +596,9 @@ const calculateDimensionScore = (dimData) => {
   processList(dimData.goals, 'goals');
   processList(dimData.projects, 'projects');
   processList(dimData.challenges, 'challenges');
-  processList(dimData.routines?.daily, 'routines');
-  processList(dimData.routines?.weekly, 'routines');
-  processList(dimData.routines?.monthly, 'routines');
+  processList(dimData.routines?.daily, 'routines', 'daily');
+  processList(dimData.routines?.weekly, 'routines', 'weekly');
+  processList(dimData.routines?.monthly, 'routines', 'monthly');
 
   return totalItems === 0 ? 0 : Math.round(totalScore / totalItems);
 };
@@ -561,23 +624,36 @@ const calculateSkillLevel = (skill, allData) => {
 
   let totalStatus = 0;
   let count = 0;
+  const accountCreationDate = allData.appSettings?.accountCreationDate;
 
-  const checkItem = (item) => {
+  const checkItem = (item, type, freq) => {
     if (!item) return;
     if (item.linkedSkillIds && Array.isArray(item.linkedSkillIds) && item.linkedSkillIds.includes(skill.id)) {
-      totalStatus += (item.status || 0);
-      count++;
+      if (type === 'projects') {
+        // Projects only contribute if they have progress (>0)
+        if ((item.status || 0) > 0) {
+          count++;
+          totalStatus += item.status;
+        }
+      } else {
+        count++;
+        if (type === 'routines') {
+          totalStatus += calculateRoutineAdherence(item, accountCreationDate, freq);
+        } else {
+          totalStatus += (item.status || 0);
+        }
+      }
     }
   };
 
   Object.values(allData.dimensions).forEach(dim => {
     if (!dim) return;
-    dim.goals?.forEach(checkItem);
-    dim.projects?.forEach(checkItem);
-    dim.challenges?.forEach(checkItem);
-    dim.routines?.daily?.forEach(checkItem);
-    dim.routines?.weekly?.forEach(checkItem);
-    dim.routines?.monthly?.forEach(checkItem);
+    dim.goals?.forEach(i => checkItem(i, 'goals'));
+    dim.projects?.forEach(i => checkItem(i, 'projects'));
+    dim.challenges?.forEach(i => checkItem(i, 'challenges'));
+    dim.routines?.daily?.forEach(i => checkItem(i, 'routines', 'daily'));
+    dim.routines?.weekly?.forEach(i => checkItem(i, 'routines', 'weekly'));
+    dim.routines?.monthly?.forEach(i => checkItem(i, 'routines', 'monthly'));
   });
 
   if (count === 0) return skill.level || 0;
@@ -947,6 +1023,22 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           <input className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:border-blue-500 focus:outline-none`} value={formData.name || ''} onChange={e => handleChange('name', e.target.value)} />
         </div>
 
+        {/* Routine Frequency Selector */}
+        {type === 'routines' && (
+          <div className="mt-4">
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('frequency')}</label>
+            <select
+              className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`}
+              value={formData.frequency || 'daily'}
+              onChange={e => handleChange('frequency', e.target.value)}
+            >
+              <option value="daily">{t('daily')}</option>
+              <option value="weekly">{t('weekly')}</option>
+              <option value="monthly">{t('monthly')}</option>
+            </select>
+          </div>
+        )}
+
         {isResource && formData.category !== 'money' && (
           <div>
             <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-2`}>{t('categoryWidget')}</label>
@@ -1308,8 +1400,8 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
     if (container) {
       const { clientWidth, clientHeight } = container;
       setTransform({
-        x: (clientWidth / 2) - 2500, // 2500 is half of 5000 (canvas size)
-        y: (clientHeight / 2) - 2500,
+        x: (clientWidth / 2) - 1500, // 1500 is half of 3000 (canvas size)
+        y: (clientHeight / 2) - 1500,
         scale: 1
       });
 
@@ -1379,7 +1471,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
 
   // Radial Chart Background Generator
   const renderRadialGuide = () => {
-    const size = 5000;
+    const size = 3000;
     const center = size / 2;
     const radius = 250; // 500px diameter as requested
     const dims = dimensions || [];
@@ -1428,7 +1520,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
     try {
       const canvas = await import('html2canvas').then(m => m.default(containerRef.current, {
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#f3f4f6',
-        scale: 1, // Export at 1:1 scale of the container (which is huge, 5000x5000)
+        scale: 1, // Export at 1:1 scale of the container (which is huge, 3000x3000)
         logging: false,
         useCORS: true // For Cloudinary images
       }));
@@ -1467,7 +1559,7 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '5000px', height: '5000px' }} className={`relative ${theme === 'dark' ? 'bg-[radial-gradient(#333_1px,transparent_1px)]' : 'bg-[radial-gradient(#ccc_1px,transparent_1px)]'} bg-[length:50px_50px]`}>
+        <div style={{ transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`, transformOrigin: '0 0', width: '3000px', height: '3000px' }} className={`relative ${theme === 'dark' ? 'bg-[radial-gradient(#333_1px,transparent_1px)]' : 'bg-[radial-gradient(#ccc_1px,transparent_1px)]'} bg-[length:50px_50px]`}>
 
           {renderRadialGuide()}
 
@@ -1543,14 +1635,15 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
   }, []);
 
   const dimensions = data.appSettings.dimensionConfig || DEFAULT_DIMENSIONS;
+  const accountCreationDate = data.appSettings?.accountCreationDate;
 
   const calculatedDimensions = useMemo(() => {
     return dimensions.map(dim => {
       const dimData = data.dimensions[dim.name];
-      const score = calculateDimensionScore(dimData);
+      const score = calculateDimensionScore(dimData, accountCreationDate);
       return { ...dim, score };
     });
-  }, [data.dimensions, dimensions]);
+  }, [data.dimensions, dimensions, accountCreationDate]);
 
   const overallScore = useMemo(() => {
     const totalWeight = dimensions.reduce((acc, dim) => acc + (dim.weight || 0), 0);
@@ -1562,27 +1655,68 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
   const chartData = calculatedDimensions.map(dim => ({ subject: t(dim.name.toLowerCase()) || dim.name, A: dim.score, fullMark: 100 }));
   const currentDimData = data.dimensions[activeDimension] || {};
 
-  const addItem = (type, val) => {
+  const addItem = (type, val, freq = 'daily') => {
     if (!val) return;
-    const newItem = { id: Date.now(), name: val, status: 0, importance: 'Medium', skills: [], roleKey: '', dueDate: '' };
+    const newItem = {
+      id: Date.now(),
+      name: val,
+      status: 0,
+      importance: 'Medium',
+      skills: [],
+      roleKey: '',
+      dueDate: '',
+      frequency: freq, // Store frequency in item
+      completionHistory: []
+    };
+
     setData(prev => {
       const dimData = prev.dimensions[activeDimension];
-      const updatedList = type === 'routine' ? { ...dimData.routines, daily: [...dimData.routines.daily, newItem] } : [...dimData[type], newItem];
-      return { ...prev, dimensions: { ...prev.dimensions, [activeDimension]: { ...dimData, [type === 'routine' ? 'routines' : type]: updatedList } } };
+      const updatedList = type === 'routine'
+        ? { ...dimData.routines, [freq]: [...(dimData.routines[freq] || []), newItem] }
+        : [...dimData[type], newItem];
+
+      return {
+        ...prev,
+        dimensions: {
+          ...prev.dimensions,
+          [activeDimension]: {
+            ...dimData,
+            [type === 'routine' ? 'routines' : type]: updatedList
+          }
+        }
+      };
     });
     // Auto-open modal
     setEditingItem(newItem);
     setEditType(type === 'routine' ? 'routines' : type);
-    if (type === 'routine') setEditFreq('daily'); // Default to daily for quick add
+    if (type === 'routine') setEditFreq(freq);
   };
 
   const saveItem = (updatedItem) => {
     setData(prev => {
       const dimData = prev.dimensions[activeDimension];
       let updatedField;
+
       if (editType === 'routines') {
-        const list = dimData.routines[editFreq].map(i => i.id === updatedItem.id ? updatedItem : i);
-        updatedField = { ...dimData.routines, [editFreq]: list };
+        const newFreq = updatedItem.frequency || editFreq;
+
+        // If frequency changed, move it
+        if (newFreq !== editFreq) {
+          // Remove from old
+          const oldList = dimData.routines[editFreq].filter(i => i.id !== updatedItem.id);
+          // Add to new
+          const newList = [...(dimData.routines[newFreq] || []), updatedItem];
+
+          updatedField = {
+            ...dimData.routines,
+            [editFreq]: oldList,
+            [newFreq]: newList
+          };
+        } else {
+          // Update in place
+          const list = dimData.routines[editFreq].map(i => i.id === updatedItem.id ? updatedItem : i);
+          updatedField = { ...dimData.routines, [editFreq]: list };
+        }
       } else {
         updatedField = dimData[editType].map(i => i.id === updatedItem.id ? updatedItem : i);
       }
@@ -1603,8 +1737,26 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
 
   const toggleItemStatus = (e, item, type, freq) => {
     e.stopPropagation();
-    const newStatus = item.status === 100 ? 0 : 100;
-    const updatedItem = { ...item, status: newStatus };
+
+    let updatedItem;
+
+    if (type === 'routines') {
+      const today = new Date().toISOString().split('T')[0];
+      const history = item.completionHistory || [];
+      const alreadyDone = history.includes(today);
+
+      let newHistory;
+      if (alreadyDone) {
+        newHistory = history.filter(d => d !== today);
+      } else {
+        newHistory = [...history, today];
+      }
+      // Status 100 if done today, 0 otherwise (visual only, score is calculated from history)
+      updatedItem = { ...item, completionHistory: newHistory, status: alreadyDone ? 0 : 100 };
+    } else {
+      const newStatus = item.status === 100 ? 0 : 100;
+      updatedItem = { ...item, status: newStatus };
+    }
 
     setData(prev => {
       const dimData = prev.dimensions[activeDimension];
@@ -1815,7 +1967,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
                   ))}
                 </div>
                 <div className="mt-3">
-                  <AddItemInput onAdd={(v) => addItem('routine', v)} placeholder={`${t('add')} ${t(freq)} ${t('routine')}...`} theme={theme} />
+                  <AddItemInput onAdd={(v) => addItem('routine', v, freq)} placeholder={`${t('add')} ${t(freq)} ${t('routine')}...`} theme={theme} />
                 </div>
               </div>
             ))
@@ -2218,7 +2370,7 @@ const RoleDetailPage = ({ role, data, setData, onBack, theme, isGuest, t }) => {
                 <h4 className={`text-sm font-bold ${colors.text}`}>{t('skills')}</h4>
                 <button onClick={() => createItem('skills')} className="text-blue-400 hover:text-white text-xs flex items-center gap-1"><Plus size={12} /> {t('add')}</button>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {roleItems.skills.map(s => {
                   const dynamicLevel = calculateSkillLevel(s, data);
                   return (
@@ -2963,7 +3115,12 @@ export default function LiviaApp() {
           const docRef = doc(db, "users", currentUser.uid);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            setData(docSnap.data());
+            const loadedData = docSnap.data();
+            // Ensure accountCreationDate exists for existing users
+            if (!loadedData.appSettings.accountCreationDate) {
+              loadedData.appSettings.accountCreationDate = new Date().toISOString();
+            }
+            setData(loadedData);
           } else {
             // New user, save default data
             await setDoc(docRef, DEFAULT_DATA);
