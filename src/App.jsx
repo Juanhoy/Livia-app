@@ -592,11 +592,15 @@ const LandingPage = ({ onGuest, t, theme }) => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const { login, signup } = useAuth();
+  const [message, setMessage] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const { login, signup, googleSignIn, resetPassword } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setMessage("");
     try {
       if (isLogin) {
         await login(email, password);
@@ -605,6 +609,28 @@ const LandingPage = ({ onGuest, t, theme }) => {
       }
     } catch (err) {
       setError("Failed to " + (isLogin ? "login" : "create account") + ": " + err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      setError("");
+      await googleSignIn();
+    } catch (err) {
+      setError("Failed to sign in with Google: " + err.message);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setError("");
+    setMessage("");
+    try {
+      await resetPassword(resetEmail);
+      setMessage("Check your inbox for further instructions");
+      setShowForgotPassword(false);
+    } catch (err) {
+      setError("Failed to reset password: " + err.message);
     }
   };
 
@@ -669,6 +695,19 @@ const LandingPage = ({ onGuest, t, theme }) => {
               </button>
             </form>
 
+            <div className="mt-4 text-center">
+              <button onClick={handleGoogleSignIn} className="w-full bg-white text-black font-bold py-2 rounded-[4px] flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors text-sm">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-4 h-4" />
+                Sign in with Google
+              </button>
+            </div>
+
+            <div className="mt-2 text-center">
+              <button onClick={() => setShowForgotPassword(true)} className="text-xs text-blue-400 hover:text-blue-300">
+                Forgot Password?
+              </button>
+            </div>
+
             <div className="flex items-center my-6">
               <div className="h-px bg-gray-700 flex-1"></div>
               <span className="px-4 text-xs text-gray-500 font-semibold uppercase">OR</span>
@@ -690,6 +729,29 @@ const LandingPage = ({ onGuest, t, theme }) => {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotPassword && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#1e1e1e] p-6 rounded-xl border border-gray-700 w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-4 text-white">Reset Password</h3>
+            <form onSubmit={handleResetPassword} className="space-y-4">
+              <input
+                type="email"
+                className="w-full bg-[#121212] border border-gray-600 rounded p-2 text-white focus:border-blue-500 focus:outline-none"
+                placeholder="Enter your email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+                required
+              />
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={() => setShowForgotPassword(false)} className="px-4 py-2 text-gray-400 hover:text-white">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
