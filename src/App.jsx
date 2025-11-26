@@ -574,10 +574,10 @@ const calculateDimensionScore = (dimData, accountCreationDate) => {
   const processList = (list, type, freq) => {
     if (!list) return;
     list.forEach(item => {
-      // Projects only contribute if they have progress (>0) - Positive impact only
+      // Projects only contribute if they have progress (>0) - Positive impact only (Additive Bonus)
       if (type === 'projects') {
         if ((item.status || 0) > 0) {
-          totalItems++;
+          // Do NOT increment totalItems for projects, they are additive bonuses
           totalScore += item.status;
         }
       } else if (type === 'routines') {
@@ -600,7 +600,9 @@ const calculateDimensionScore = (dimData, accountCreationDate) => {
   processList(dimData.routines?.weekly, 'routines', 'weekly');
   processList(dimData.routines?.monthly, 'routines', 'monthly');
 
-  return totalItems === 0 ? 0 : Math.round(totalScore / totalItems);
+  // If we have items, divide by count. If only projects (count=0), divide by 1.
+  const finalScore = Math.round(totalScore / Math.max(1, totalItems));
+  return Math.min(100, finalScore);
 };
 
 const calculateRoleXP = (roleKey, allData) => {
@@ -632,7 +634,7 @@ const calculateSkillLevel = (skill, allData) => {
       if (type === 'projects') {
         // Projects only contribute if they have progress (>0)
         if ((item.status || 0) > 0) {
-          count++;
+          // Do NOT increment count for projects, they are additive bonuses
           totalStatus += item.status;
         }
       } else {
@@ -656,8 +658,9 @@ const calculateSkillLevel = (skill, allData) => {
     dim.routines?.monthly?.forEach(i => checkItem(i, 'routines', 'monthly'));
   });
 
-  if (count === 0) return skill.level || 0;
-  return Math.round(totalStatus / count);
+  // If we have items, divide by count. If only projects (count=0), divide by 1.
+  const finalScore = Math.round(totalStatus / Math.max(1, count));
+  return Math.min(100, finalScore);
 };
 
 // --- Components ---
