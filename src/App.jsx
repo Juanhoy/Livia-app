@@ -20,6 +20,9 @@ import {
 import logo from './assets/logo.png';
 import logoText from './assets/logo_text.png';
 import logoFull from './assets/logo_full.png';
+import { useAuth } from './context/AuthContext';
+import { db } from './firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 // --- Constants & Configuration ---
 
@@ -583,15 +586,26 @@ const calculateSkillLevel = (skill, allData) => {
 
 // --- Components ---
 
-const LandingPage = ({ onLogin, onGuest, t, theme }) => {
+const LandingPage = ({ onGuest, t, theme }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const { login, signup } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin({ name: name || "User", email });
+    setError("");
+    try {
+      if (isLogin) {
+        await login(email, password);
+      } else {
+        await signup(email, password);
+      }
+    } catch (err) {
+      setError("Failed to " + (isLogin ? "login" : "create account") + ": " + err.message);
+    }
   };
 
   return (
@@ -619,6 +633,7 @@ const LandingPage = ({ onLogin, onGuest, t, theme }) => {
           </div>
 
           <div className="bg-[#121212] p-8 rounded-xl border border-gray-800 shadow-2xl">
+            {error && <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded mb-4 text-sm">{error}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div>
@@ -1125,6 +1140,7 @@ const AddItemInput = ({ onAdd, placeholder, theme }) => {
 };
 
 const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, data, theme, isGuest, t }) => {
+  const { logout } = useAuth();
   const menuItems = [
     { id: 'visualization', icon: <Rocket size={20} />, label: t('visualization') },
     { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: t('lifeBalance') },
@@ -1176,7 +1192,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
           <Settings size={20} />
           {isOpen && <span className="text-sm font-medium">{t('settings')}</span>}
         </button>
-        <button onClick={() => window.location.reload()} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/20 transition-colors`}>
+        <button onClick={logout} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/20 transition-colors`}>
           <LogOut size={20} />
           {isOpen && <span className="text-sm font-medium">{t('logOut')}</span>}
         </button>
@@ -2870,59 +2886,91 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
 // --- Main App Layout ---
 
 export default function LiviaApp() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
-  const [data, setData] = useState(() => {
-    const saved = localStorage.getItem('livia_data_v8');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // Merge with DEFAULT_DATA to ensure new fields (like resources, skills) exist if missing in old data
-        return {
-          ...DEFAULT_DATA,
-          ...parsed,
-          appSettings: { ...DEFAULT_DATA.appSettings, ...parsed.appSettings },
-          resources: parsed.resources || DEFAULT_DATA.resources,
-          skills: parsed.skills || DEFAULT_DATA.skills,
-          wishlist: parsed.wishlist || DEFAULT_DATA.wishlist,
-          visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
-          dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
-        };
-      } catch (e) {
-        console.error("Error parsing saved data:", e);
-        return DEFAULT_DATA;
+  const { currentUser, logout } = useAuth();
+
+  // Initialize data state
+  const [data, setData] = useState(DEFAULT_DATA);
+
+  // Load data from Firestore or LocalStorage
+  useEffect(() => {
+    const loadData = async () => {
+      if (currentUser) {
+        // Load from Firestore
+        try {
+          const docRef = doc(db, "users", currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setData(docSnap.data());
+          } else {
+            // New user, save default data
+            await setDoc(docRef, DEFAULT_DATA);
+            setData(DEFAULT_DATA);
+          }
+        } catch (error) {
+          console.error("Error loading data from Firestore:", error);
+        }
+      } else if (isGuest) {
+        // Load from LocalStorage (Guest Mode)
+        const saved = localStorage.getItem('livia_data_v8');
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            setData({
+              ...DEFAULT_DATA,
+              ...parsed,
+              appSettings: { ...DEFAULT_DATA.appSettings, ...parsed.appSettings },
+              resources: parsed.resources || DEFAULT_DATA.resources,
+              skills: parsed.skills || DEFAULT_DATA.skills,
+              wishlist: parsed.wishlist || DEFAULT_DATA.wishlist,
+              visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
+              dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
+            });
+          } catch (e) {
+            console.error("Error parsing saved data:", e);
+            setData(DEFAULT_DATA);
+          }
+        } else {
+          setData(DEFAULT_DATA);
+        }
       }
-    }
-    return DEFAULT_DATA;
-  });
+    };
+
+    loadData();
+  }, [currentUser, isGuest]);
+
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
 
+  // Save data to Firestore or LocalStorage
   useEffect(() => {
-    if (!isGuest) {
-      localStorage.setItem('livia_data_v8', JSON.stringify(data));
-    }
-  }, [data, isGuest]);
+    const saveData = async () => {
+      if (currentUser) {
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), data);
+        } catch (error) {
+          console.error("Error saving data to Firestore:", error);
+        }
+      } else if (isGuest) {
+        localStorage.setItem('livia_data_v8', JSON.stringify(data));
+      }
+    };
+
+    // Debounce save? For now, just save on change (might be frequent)
+    // In production, use a debounce hook
+    const timeoutId = setTimeout(saveData, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [data, currentUser, isGuest]);
 
   // Derived state for theme
   const theme = data.appSettings.theme || 'dark';
   const colors = THEMES[theme];
 
-  const handleLogin = (user) => {
-    setData(prev => ({
-      ...prev,
-      appSettings: { ...prev.appSettings, userName: user.name, userEmail: user.email }
-    }));
-    setIsGuest(false);
-    setIsAuthenticated(true);
-  };
-
   const handleGuest = () => {
     setData(JSON.parse(JSON.stringify(DEFAULT_DATA))); // Deep copy to reset
     setIsGuest(true);
-    setIsAuthenticated(true);
   };
 
   // Translation Helper
@@ -2931,8 +2979,8 @@ export default function LiviaApp() {
     return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key] || key;
   };
 
-  if (!isAuthenticated) {
-    return <LandingPage onLogin={handleLogin} onGuest={handleGuest} t={t} theme={theme} />;
+  if (!currentUser && !isGuest) {
+    return <LandingPage onGuest={handleGuest} t={t} theme={theme} />;
   }
 
   const handleRoleSelect = (role) => { setSelectedRole(role); setActiveTab('role_detail'); };
