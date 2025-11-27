@@ -3107,12 +3107,16 @@ export default function LiviaApp() {
   const { currentUser, logout } = useAuth();
 
   // Initialize data state
-  const [data, setData] = useState(DEFAULT_DATA);
+  const [data, setData] = useState(JSON.parse(JSON.stringify(DEFAULT_DATA)));
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // Load data from Firestore or LocalStorage
   useEffect(() => {
     const loadData = async () => {
+      setIsDataLoaded(false); // Prevent saving while loading
+
       if (currentUser) {
+        console.log("Loading data for user:", currentUser.uid);
         // Load from Firestore
         try {
           const docRef = doc(db, "users", currentUser.uid);
@@ -3124,10 +3128,13 @@ export default function LiviaApp() {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
             }
             setData(loadedData);
+            console.log("Data loaded from Firestore");
           } else {
             // New user, save default data
-            await setDoc(docRef, DEFAULT_DATA);
-            setData(DEFAULT_DATA);
+            console.log("New user, creating default data");
+            const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            await setDoc(docRef, initialData);
+            setData(initialData);
           }
         } catch (error) {
           console.error("Error loading data from Firestore:", error);
@@ -3139,7 +3146,7 @@ export default function LiviaApp() {
           try {
             const parsed = JSON.parse(saved);
             setData({
-              ...DEFAULT_DATA,
+              ...JSON.parse(JSON.stringify(DEFAULT_DATA)),
               ...parsed,
               appSettings: { ...DEFAULT_DATA.appSettings, ...parsed.appSettings },
               resources: parsed.resources || DEFAULT_DATA.resources,
@@ -3150,12 +3157,18 @@ export default function LiviaApp() {
             });
           } catch (e) {
             console.error("Error parsing saved data:", e);
-            setData(DEFAULT_DATA);
+            setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
           }
         } else {
-          setData(DEFAULT_DATA);
+          setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
         }
+      } else {
+        // Logged out - reset to defaults
+        console.log("User logged out, resetting data");
+        setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
       }
+
+      setIsDataLoaded(true); // Enable saving
     };
 
     loadData();
@@ -3168,6 +3181,8 @@ export default function LiviaApp() {
 
   // Save data to Firestore or LocalStorage
   useEffect(() => {
+    if (!isDataLoaded) return;
+
     const saveData = async () => {
       if (currentUser) {
         console.log("Attempting to save data to Firestore for user:", currentUser.uid);
@@ -3189,7 +3204,7 @@ export default function LiviaApp() {
     // In production, use a debounce hook
     const timeoutId = setTimeout(saveData, 1000);
     return () => clearTimeout(timeoutId);
-  }, [data, currentUser, isGuest]);
+  }, [data, currentUser, isGuest, isDataLoaded]);
 
   // Derived state for theme
   const theme = data.appSettings.theme || 'dark';
