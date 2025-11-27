@@ -21,8 +21,10 @@ import logo from './assets/logo.png';
 import logoText from './assets/logo_text.png';
 import logoFull from './assets/logo_full.png';
 import { useAuth } from './context/AuthContext';
-import { db } from './firebase';
+import { db, auth } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import OnboardingWizard from './components/OnboardingWizard';
 
 // --- Constants & Configuration ---
 
@@ -3262,6 +3264,98 @@ export default function LiviaApp() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Check for onboarding
+  useEffect(() => {
+    if (isDataLoaded && !data.appSettings.hasCompletedOnboarding) {
+      setShowOnboarding(true);
+    }
+  }, [isDataLoaded, data.appSettings.hasCompletedOnboarding]);
+
+  const generatePillarData = async (pillarName, userInput) => {
+    if (!userInput || userInput.trim().length < 5) return null;
+
+    try {
+      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const prompt = `
+        You are an expert life coach. The user has the following goals/challenges for their "${pillarName}" life pillar: "${userInput}".
+        
+        Based on this, generate a JSON object with the following structure:
+        {
+          "challenges": [{ "name": "Challenge Name", "importance": "High/Medium/Low", "status": 0 }],
+          "goals": [{ "name": "Goal Name", "importance": "High/Medium/Low", "status": 0 }],
+          "routines": {
+            "daily": [{ "name": "Daily Routine Name", "importance": "High/Medium/Low", "status": 0 }],
+            "weekly": [{ "name": "Weekly Routine Name", "importance": "High/Medium/Low", "status": 0 }],
+            "monthly": [{ "name": "Monthly Routine Name", "importance": "High/Medium/Low", "status": 0 }]
+          }
+        }
+        
+        Generate 1-2 items for each category that are specific, actionable, and directly address the user's input.
+        Return ONLY the JSON object, no markdown formatting.
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      // Clean up markdown if present
+      const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+      return JSON.parse(jsonStr);
+    } catch (error) {
+      console.error(`Error generating data for ${pillarName}:`, error);
+      return null;
+    }
+  };
+
+  const handleOnboardingComplete = async (inputs) => {
+    const newData = { ...data };
+
+    // Process each pillar
+    for (const [key, value] of Object.entries(inputs)) {
+      if (!value) continue;
+
+      // Map key to dimension name (e.g., 'health' -> 'Health')
+      const dimConfig = newData.appSettings.dimensionConfig.find(d => d.key === key);
+      if (!dimConfig) continue;
+      const dimName = dimConfig.name;
+
+      // Generate AI data
+      const aiData = await generatePillarData(dimName, value);
+
+      if (aiData) {
+        // Merge into dimensions
+        if (!newData.dimensions[dimName]) {
+          newData.dimensions[dimName] = { challenges: [], goals: [], projects: [], routines: { daily: [], weekly: [], monthly: [] } };
+        }
+
+        const dim = newData.dimensions[dimName];
+
+        // Add IDs and merge
+        if (aiData.challenges) dim.challenges.push(...aiData.challenges.map(i => ({ ...i, id: Date.now() + Math.random() })));
+        if (aiData.goals) dim.goals.push(...aiData.goals.map(i => ({ ...i, id: Date.now() + Math.random() })));
+
+        if (aiData.routines) {
+          if (aiData.routines.daily) dim.routines.daily.push(...aiData.routines.daily.map(i => ({ ...i, id: Date.now() + Math.random() })));
+          if (aiData.routines.weekly) dim.routines.weekly.push(...aiData.routines.weekly.map(i => ({ ...i, id: Date.now() + Math.random() })));
+          if (aiData.routines.monthly) dim.routines.monthly.push(...aiData.routines.monthly.map(i => ({ ...i, id: Date.now() + Math.random() })));
+        }
+      }
+    }
+
+    newData.appSettings.hasCompletedOnboarding = true;
+    setData(newData);
+    setShowOnboarding(false);
+
+    // Save immediately
+    if (currentUser) {
+      await setDoc(doc(db, "users", currentUser.uid), newData);
+    } else if (isGuest) {
+      localStorage.setItem('livia_data_v8', JSON.stringify(newData));
+    }
+  };
 
   // Save data to Firestore or LocalStorage
   useEffect(() => {
@@ -3325,6 +3419,15 @@ export default function LiviaApp() {
         isGuest={isGuest}
         t={t}
       />
+
+      {showOnboarding && (
+        <OnboardingWizard
+          onComplete={handleOnboardingComplete}
+          theme={theme}
+          t={t}
+          logo={logoFull}
+        />
+      )}
 
       <SettingsModal
         isOpen={isSettingsOpen}
