@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
-  LayoutDashboard, User, Settings, Download, Upload, Plus, X,
-  Search, Globe, Smile, Meh, Frown, Image as ImageIcon,
   Rocket, Calendar, BookOpen, Briefcase, Star, Menu,
   ChevronRight, Check, MoreHorizontal, Trash2, Edit2, Filter, Edit,
   ArrowLeft, DollarSign, Users, PenTool, Link as LinkIcon,
@@ -11,7 +9,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -321,7 +319,11 @@ const TRANSLATIONS = {
     frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
     profilePicture: "Profile Picture", changeAvatar: "Change Avatar",
     editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
-    deleteDimensionConfirm: "Delete this dimension? This action cannot be undone."
+    editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
+    deleteDimensionConfirm: "Delete this dimension? This action cannot be undone.",
+    supportUs: "Support Us", supportDesc: "Help us continue gamifying life!",
+    supportStory: "We believe that life can be as engaging as a video game. We are building tools to help you level up your skills, resources, and relationships. If you like what we do, consider supporting us!",
+    donatePaypal: "Donate via PayPal", scanBancolombia: "Scan for Bancolombia", scanNequi: "Scan for Nequi"
   },
   es: {
     dashboard: "Tablero", lifeBalance: "Balance de Vida", lifeRoles: "Roles de Vida", lifeSkills: "Habilidades", lifeResources: "Recursos", myTime: "Mi Tiempo", visualization: "Visualización",
@@ -373,7 +375,10 @@ const TRANSLATIONS = {
     frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra",
     profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar",
     editRole: "Editar Rol", active: "Activo", noRolesAvailable: "No hay roles disponibles en la biblioteca.",
-    deleteDimensionConfirm: "¿Eliminar esta dimensión? Esta acción no se puede deshacer."
+    deleteDimensionConfirm: "¿Eliminar esta dimensión? Esta acción no se puede deshacer.",
+    supportUs: "Apóyanos", supportDesc: "¡Ayúdanos a seguir gamificando la vida!",
+    supportStory: "Creemos que la vida puede ser tan atractiva como un videojuego. Estamos construyendo herramientas para ayudarte a subir de nivel tus habilidades, recursos y relaciones. Si te gusta lo que hacemos, ¡considera apoyarnos!",
+    donatePaypal: "Donar vía PayPal", scanBancolombia: "Escanear Bancolombia", scanNequi: "Escanear Nequi"
   },
   fr: {
     dashboard: "Tableau de bord", lifeBalance: "Équilibre de vie", lifeRoles: "Rôles de vie", lifeSkills: "Compétences", lifeResources: "Ressources", myTime: "Mon temps", visualization: "Visualisation",
@@ -1345,6 +1350,10 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
       </nav>
 
       <div className="p-4 border-t border-gray-800/50 space-y-1">
+        <button onClick={() => setActiveTab('support')} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === 'support' ? `${colors.emphasisBg} text-black shadow-lg` : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}>
+          <Gift size={20} />
+          {isOpen && <span className="text-sm font-medium">{t('supportUs')}</span>}
+        </button>
         <button onClick={onOpenSettings} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} transition-colors`}>
           <Settings size={20} />
           {isOpen && <span className="text-sm font-medium">{t('settings')}</span>}
@@ -3100,6 +3109,65 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
   );
 };
 
+const SupportPage = ({ theme, t }) => {
+  const colors = THEMES[theme];
+
+  return (
+    <div className={`h-full flex flex-col items-center justify-center ${colors.bg} p-6 overflow-y-auto`}>
+      <div className="w-full max-w-md">
+        {/* Header Card */}
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-t-3xl p-8 flex flex-col items-center text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+          <div className="w-24 h-24 bg-white rounded-full border-4 border-white shadow-xl mb-4 overflow-hidden z-10">
+            <img src={logoFull} alt="Livia" className="w-full h-full object-contain p-2" />
+          </div>
+          <h1 className="text-2xl font-bold text-white z-10">Livia - Self Coaching</h1>
+          <p className="text-purple-100 text-sm z-10">@livia_app</p>
+        </div>
+
+        {/* Content Card */}
+        <div className={`${colors.bgSecondary} rounded-b-3xl shadow-2xl p-8 border-x border-b ${colors.border} -mt-4 pt-8 relative z-0`}>
+          <p className={`text-center ${colors.text} mb-8 leading-relaxed`}>
+            {t('supportStory')}
+          </p>
+
+          <div className="space-y-4">
+            <a
+              href="https://paypal.me/juanjhoy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full bg-[#0070BA] hover:bg-[#005ea6] text-white font-bold py-3 px-4 rounded-full text-center transition-transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+            >
+              <DollarSign size={20} /> {t('donatePaypal')}
+            </a>
+
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className={`p-4 rounded-xl ${colors.bgQuaternary} flex flex-col items-center gap-2 border ${colors.border}`}>
+                <div className="w-full aspect-square bg-white rounded-lg flex items-center justify-center">
+                  <span className="text-black text-xs font-bold text-center p-2">Bancolombia QR Placeholder</span>
+                </div>
+                <span className={`text-xs font-bold ${colors.textSecondary}`}>{t('scanBancolombia')}</span>
+              </div>
+              <div className={`p-4 rounded-xl ${colors.bgQuaternary} flex flex-col items-center gap-2 border ${colors.border}`}>
+                <div className="w-full aspect-square bg-white rounded-lg flex items-center justify-center">
+                  <span className="text-black text-xs font-bold text-center p-2">Nequi QR Placeholder</span>
+                </div>
+                <span className={`text-xs font-bold ${colors.textSecondary}`}>{t('scanNequi')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-center gap-4">
+            {/* Social placeholders */}
+            <button className={`p-2 rounded-full ${colors.bgQuaternary} ${colors.textSecondary} hover:text-blue-500 transition-colors`}><Globe size={20} /></button>
+            <button className={`p-2 rounded-full ${colors.bgQuaternary} ${colors.textSecondary} hover:text-blue-400 transition-colors`}><Mail size={20} /></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Main App Layout ---
 
 export default function LiviaApp() {
@@ -3269,6 +3337,7 @@ export default function LiviaApp() {
           {activeTab === 'resources' && <ResourcesPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
           {activeTab === 'skills' && <SkillsPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
           {activeTab === 'my_time' && <TodayPage data={data} setData={setData} theme={theme} isGuest={isGuest} t={t} />}
+          {activeTab === 'support' && <SupportPage theme={theme} t={t} />}
 
           {activeTab === 'role_detail' && selectedRole && (
             <RoleDetailPage role={selectedRole} data={data} setData={setData} onBack={() => setActiveTab('roles')} theme={theme} isGuest={isGuest} t={t} />
