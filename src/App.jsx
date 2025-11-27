@@ -3170,13 +3170,18 @@ export default function LiviaApp() {
   useEffect(() => {
     const saveData = async () => {
       if (currentUser) {
+        console.log("Attempting to save data to Firestore for user:", currentUser.uid);
         try {
           await setDoc(doc(db, "users", currentUser.uid), data);
+          console.log("Data saved successfully to Firestore!");
         } catch (error) {
           console.error("Error saving data to Firestore:", error);
         }
       } else if (isGuest) {
+        console.log("Saving data to LocalStorage (Guest Mode)");
         localStorage.setItem('livia_data_v8', JSON.stringify(data));
+      } else {
+        console.log("No user logged in and not guest mode. Not saving.");
       }
     };
 
