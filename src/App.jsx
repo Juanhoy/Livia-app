@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
+  LayoutDashboard, User, Settings, Download, Upload, Plus, X,
+  Search, Globe, Smile, Meh, Frown, Image as ImageIcon,
   Rocket, Calendar, BookOpen, Briefcase, Star, Menu,
   ChevronRight, Check, MoreHorizontal, Trash2, Edit2, Filter, Edit,
   ArrowLeft, DollarSign, Users, PenTool, Link as LinkIcon,
