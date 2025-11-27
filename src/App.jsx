@@ -321,6 +321,7 @@ const TRANSLATIONS = {
     frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
     profilePicture: "Profile Picture", changeAvatar: "Change Avatar",
     editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
+    selectRole: "Select a Role", selectGoal: "Select a Goal", selectChallenge: "Select a Challenge", selectSkill: "Select a Skill",
     editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
     deleteDimensionConfirm: "Delete this dimension? This action cannot be undone.",
     supportUs: "Support Us", supportDesc: "Help us continue gamifying life!",
@@ -340,6 +341,7 @@ const TRANSLATIONS = {
     health: "Salud", family: "Familia", freedom: "Libertad", community: "Comunidad", management: "Gestión", learning: "Aprendizaje", creation: "Creación", fun: "Diversión",
     done: "Hecho", yourRoles: "Tus Roles", roleLibrary: "Biblioteca de Roles", createCustom: "Crear Personalizado", level1: "Nivel 1", xp: "XP",
     roleLibraryTitle: "Biblioteca de Roles", allRolesActive: "Todos los roles disponibles están activos.", createCustomRoleTitle: "Crear Rol Personalizado",
+    selectRole: "Seleccionar un Rol", selectGoal: "Seleccionar una Meta", selectChallenge: "Seleccionar un Reto", selectSkill: "Seleccionar una Habilidad",
     roleName: "Nombre del Rol", roleNamePlaceholder: "ej. Músico, Gamer, Chef...", createRole: "Crear Rol", dueToday: "Vence Hoy",
     weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensual", money: "Dinero", tools: "Herramientas", knowledge: "Conocimiento", people: "Personas", energy: "Energía",
     newItem: "Nuevo Ítem", addTask: "Añadir nueva tarea", value: "Valor", deleteResourceConfirm: "¿Eliminar este recurso?",
@@ -1192,11 +1194,11 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
           </div>
         )}
 
-        {roles && !formData.roleKey && formData.category !== 'money' && (
+        {roles && formData.category !== 'money' && (
           <div>
-            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>Connected Role</label>
+            <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedRole') || "Connected Role"}</label>
             <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.roleKey || ''} onChange={e => handleChange('roleKey', e.target.value)}>
-              <option value="">-- No Role Linked --</option>
+              <option value="">{t('selectRole')}</option>
               {roles && roles.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
             </select>
           </div>
@@ -1222,21 +1224,21 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
             <div>
               <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedGoal')}</label>
               <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedGoalId || ''} onChange={e => handleChange('linkedGoalId', e.target.value)}>
-                <option value="">-- {t('select')} --</option>
+                <option value="">{t('selectGoal')}</option>
                 {allGoals.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
               </select>
             </div>
             <div>
               <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedChallenge')}</label>
               <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedChallengeId || ''} onChange={e => handleChange('linkedChallengeId', e.target.value)}>
-                <option value="">-- {t('select')} --</option>
+                <option value="">{t('selectChallenge')}</option>
                 {allChallenges.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
             <div>
               <label className={`block text-xs ${colors.textSecondary} uppercase font-bold mb-1`}>{t('connectedSkill')}</label>
               <select className={`w-full ${colors.input} border ${colors.border} rounded p-3 ${colors.text} focus:outline-none`} value={formData.linkedSkillId || ''} onChange={e => handleChange('linkedSkillId', e.target.value)}>
-                <option value="">-- {t('select')} --</option>
+                <option value="">{t('selectSkill')}</option>
                 {skills && skills.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
             </div>
