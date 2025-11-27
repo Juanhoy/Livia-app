@@ -2941,6 +2941,15 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
       const dim = newData.dimensions[item.dimKey];
       if (!dim) return prev; // Safety check
       const dateStr = selectedDate.toISOString().split('T')[0];
+      const accountCreationDate = newData.appSettings?.accountCreationDate ? new Date(newData.appSettings.accountCreationDate) : new Date(0);
+      const selectedDateObj = new Date(selectedDate);
+      selectedDateObj.setHours(0, 0, 0, 0);
+      accountCreationDate.setHours(0, 0, 0, 0);
+
+      if (selectedDateObj < accountCreationDate) {
+        alert("You cannot modify routines before your account creation date.");
+        return prev;
+      }
 
       if (item.category === 'routines') {
         const routines = dim.routines[item.subCategory];
@@ -2952,6 +2961,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
           if (item.subCategory === 'daily') {
             if (history.includes(dateStr)) {
               history = history.filter(h => h !== dateStr);
+              targetRoutine.completionHistory = history; // Fix: Update history in object
               targetRoutine.status = 0;
             } else {
               history.push(dateStr);
@@ -2971,6 +2981,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
                 const d = new Date(hDate);
                 return d < start || d > end;
               });
+              targetRoutine.completionHistory = history; // Fix: Update history in object
               targetRoutine.status = 0;
             } else {
               // Add today as the completion date for this week
@@ -2991,6 +3002,7 @@ const TodayPage = ({ data, setData, theme, isGuest, t }) => {
                 const d = new Date(hDate);
                 return d.getMonth() !== m || d.getFullYear() !== y;
               });
+              targetRoutine.completionHistory = history; // Fix: Update history in object
               targetRoutine.status = 0;
             } else {
               history.push(dateStr);
@@ -3204,6 +3216,7 @@ export default function LiviaApp() {
             // New user, save default data
             console.log("New user, creating default data");
             const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            initialData.appSettings.accountCreationDate = new Date().toISOString();
             await setDoc(docRef, initialData);
             setData(initialData);
           }
