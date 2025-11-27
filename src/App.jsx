@@ -1331,7 +1331,6 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
           {isOpen && (
             <div className="overflow-hidden">
               <div className={`font-bold text-sm truncate ${colors.text}`}>{data.appSettings.userName}</div>
-              <div className={`text-xs ${colors.textSecondary} truncate`}>{isGuest ? t('notSaving') : t('savingToLocal')}</div>
             </div>
           )}
         </div>
