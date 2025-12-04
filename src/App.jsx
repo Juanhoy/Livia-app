@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift, Bot
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -1235,7 +1235,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, o
 
       <div className="p-4 border-t border-gray-800/50 space-y-1">
         <button id="nav-ai-coach" onClick={onOpenAI} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} hover:bg-purple-900/20 hover:text-purple-400`}>
-          <Bot size={20} />
+          <Zap size={20} />
           {isOpen && <span className="text-sm font-medium">AI Coach</span>}
         </button>
         <button onClick={() => setActiveTab('support')} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === 'support' ? `${colors.emphasisBg} text-black shadow-lg` : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}>
