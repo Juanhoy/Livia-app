@@ -3248,12 +3248,24 @@ export default function LiviaApp() {
     }
   }, [isDataLoaded, data.appSettings.hasSeenTour]);
 
-  const handleTourComplete = () => {
+  const handleTourComplete = async () => {
     setShowTour(false);
-    setData(prev => ({
-      ...prev,
-      appSettings: { ...prev.appSettings, hasSeenTour: true }
-    }));
+    const newData = {
+      ...data,
+      appSettings: { ...data.appSettings, hasSeenTour: true }
+    };
+    setData(newData);
+
+    // Persist immediately
+    if (currentUser) {
+      try {
+        await setDoc(doc(db, "users", currentUser.uid), newData);
+      } catch (e) {
+        console.error("Error saving tour status:", e);
+      }
+    } else if (isGuest) {
+      localStorage.setItem('livia_data_v8', JSON.stringify(newData));
+    }
   };
 
   const tourSteps = [
