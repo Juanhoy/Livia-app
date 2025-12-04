@@ -11,7 +11,7 @@ import {
   GraduationCap, HandHeart, Layers, Leaf, Lightbulb,
   Palette, Plane, Shield, Utensils, Video, Wind, Camera, Tag,
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
-  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift
+  UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift, Bot
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -1307,7 +1307,7 @@ const AddItemInput = ({ onAdd, placeholder, theme }) => {
   );
 };
 
-const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, data, theme, isGuest, t }) => {
+const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, onOpenAI, data, theme, isGuest, t }) => {
   const { logout } = useAuth();
   const menuItems = [
     { id: 'visualization', icon: <Rocket size={20} />, label: t('visualization') },
@@ -1355,6 +1355,10 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, d
       </nav>
 
       <div className="p-4 border-t border-gray-800/50 space-y-1">
+        <button onClick={onOpenAI} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} hover:bg-purple-900/20 hover:text-purple-400`}>
+          <Bot size={20} />
+          {isOpen && <span className="text-sm font-medium">AI Coach</span>}
+        </button>
         <button onClick={() => setActiveTab('support')} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === 'support' ? `${colors.emphasisBg} text-black shadow-lg` : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}>
           <Gift size={20} />
           {isOpen && <span className="text-sm font-medium">{t('supportUs')}</span>}
@@ -3212,6 +3216,8 @@ export default function LiviaApp() {
             if (!loadedData.appSettings.accountCreationDate) {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
             }
+            // Force browser language
+            loadedData.appSettings.language = getBrowserLanguage();
             setData(loadedData);
             console.log("Data loaded from Firestore");
           } else {
@@ -3219,6 +3225,8 @@ export default function LiviaApp() {
             console.log("New user, creating default data");
             const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             initialData.appSettings.accountCreationDate = new Date().toISOString();
+            // Force browser language
+            initialData.appSettings.language = getBrowserLanguage();
             await setDoc(docRef, initialData);
             setData(initialData);
           }
@@ -3241,6 +3249,8 @@ export default function LiviaApp() {
               visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
               dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
             });
+            // Force browser language
+            setData(prev => ({ ...prev, appSettings: { ...prev.appSettings, language: getBrowserLanguage() } }));
           } catch (e) {
             console.error("Error parsing saved data:", e);
             setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
@@ -3266,12 +3276,12 @@ export default function LiviaApp() {
   const [selectedRole, setSelectedRole] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
 
-  // Check for onboarding
-  useEffect(() => {
-    if (isDataLoaded && !data.appSettings.hasCompletedOnboarding) {
-      setShowOnboarding(true);
-    }
-  }, [isDataLoaded, data.appSettings.hasCompletedOnboarding]);
+  // Check for onboarding - REMOVED AUTOMATIC TRIGGER
+  // useEffect(() => {
+  //   if (isDataLoaded && !data.appSettings.hasCompletedOnboarding) {
+  //     setShowOnboarding(true);
+  //   }
+  // }, [isDataLoaded, data.appSettings.hasCompletedOnboarding]);
 
   const generatePillarData = async (pillarName, userInput) => {
     if (!userInput || userInput.trim().length < 5) return null;
@@ -3414,6 +3424,7 @@ export default function LiviaApp() {
         isOpen={isSidebarOpen}
         setIsOpen={setIsSidebarOpen}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onOpenAI={() => setShowOnboarding(true)}
         data={data}
         theme={theme}
         isGuest={isGuest}
