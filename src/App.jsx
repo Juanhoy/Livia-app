@@ -3116,13 +3116,20 @@ export default function LiviaApp() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const loadedData = docSnap.data();
+            // Migration: Old users shouldn't see tour
+            let isNewAccount = false;
             // Ensure accountCreationDate exists for existing users
             if (!loadedData.appSettings.accountCreationDate) {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
+              isNewAccount = true; // Just created the date, so treat as potentially new if no content
             }
-            // Migration: Old users shouldn't see tour
-            // If user has content but hasSeenTour is false/undefined, assume they are old user
-            if (loadedData.appSettings.hasSeenTour === undefined || (loadedData.appSettings.hasSeenTour === false && hasUserCreatedContent(loadedData))) {
+
+            const accountAge = new Date() - new Date(loadedData.appSettings.accountCreationDate);
+            const isOldAccount = accountAge > 5 * 60 * 1000; // Older than 5 minutes
+
+            // If user has content OR account is old (and not just assigned date), assume they are old user
+            if (loadedData.appSettings.hasSeenTour === undefined ||
+              (loadedData.appSettings.hasSeenTour === false && (hasUserCreatedContent(loadedData) || (isOldAccount && !isNewAccount)))) {
               loadedData.appSettings.hasSeenTour = true;
             }
             // Force browser language
@@ -3164,7 +3171,10 @@ export default function LiviaApp() {
             };
 
             // Migration check for guest
-            if (mergedData.appSettings.hasSeenTour === false && hasUserCreatedContent(mergedData)) {
+            const accountAge = new Date() - new Date(mergedData.appSettings.accountCreationDate || new Date());
+            const isOldAccount = accountAge > 5 * 60 * 1000;
+
+            if (mergedData.appSettings.hasSeenTour === false && (hasUserCreatedContent(mergedData) || isOldAccount)) {
               mergedData.appSettings.hasSeenTour = true;
             }
 
