@@ -400,7 +400,6 @@ const DEFAULT_DATA = {
       { key: "professional", name: "Professional", icon: "Briefcase" },
       { key: "student", name: "Student", icon: "GraduationCap" },
       { key: "athlete", name: "Athlete", icon: "Dumbbell" },
-      { key: "athlete", name: "Athlete", icon: "Dumbbell" },
     ],
     dimensionConfig: [
       { key: "health", name: "Health", max: 50, color: "#4caf50", weight: 15 },
@@ -3078,6 +3077,12 @@ export default function LiviaApp() {
   const [data, setData] = useState(JSON.parse(JSON.stringify(DEFAULT_DATA)));
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+  // Translation Helper
+  const t = (key) => {
+    const lang = data.appSettings.language || 'en';
+    return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key] || key;
+  };
+
   // Load data from Firestore or LocalStorage
   useEffect(() => {
     const loadData = async () => {
@@ -3302,11 +3307,7 @@ export default function LiviaApp() {
     setIsGuest(true);
   };
 
-  // Translation Helper
-  const t = (key) => {
-    const lang = data.appSettings.language || 'en';
-    return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key] || key;
-  };
+
 
   if (!currentUser && !isGuest) {
     return <LandingPage onGuest={handleGuest} t={t} theme={theme} />;
