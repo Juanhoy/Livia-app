@@ -25,6 +25,7 @@ import { db, auth } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import OnboardingWizard from './components/OnboardingWizard';
+import TourGuide from './components/TourGuide';
 
 // --- Constants & Configuration ---
 
@@ -154,126 +155,6 @@ const generateInitialData = () => {
   DEFAULT_DIMENSIONS.forEach(d => {
     dims[d.name] = { challenges: [], goals: [], projects: [], routines: { daily: [], weekly: [], monthly: [] } };
   });
-
-  const initialData = {
-    appSettings: {
-      userName: "Guest User",
-      userAvatar: null,
-      theme: "dark",
-      language: getBrowserLanguage(),
-      userRoles: [
-        { key: "health_enthusiast", name: "Health Enthusiast", icon: "Heart" },
-        { key: "learner", name: "Learner", icon: "BookOpen" },
-        { key: "creator", name: "Creator", icon: "PenTool" }
-      ],
-      roleLibrary: [
-        { key: "health_enthusiast", name: "Health Enthusiast", icon: "Heart" },
-        { key: "learner", name: "Learner", icon: "BookOpen" },
-        { key: "creator", name: "Creator", icon: "PenTool" },
-        { key: "family_member", name: "Family Member", icon: "Users" },
-        { key: "professional", name: "Professional", icon: "Briefcase" }
-      ],
-      dimensionConfig: DEFAULT_DIMENSIONS,
-      accountCreationDate: new Date().toISOString() // Set creation date for new accounts
-    },
-    resources: [],
-    skills: [],
-    wishlist: [],
-    visualizationImages: [],
-    dimensions: dims
-  };
-
-
-  // 1. Health
-  dims["Health"].challenges.push(
-    { id: 101, name: "Leave vices", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 102, name: "Sleep well", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 103, name: "Good posture", status: 0, importance: "Medium", roleKey: "health_enthusiast", dueDate: "" }
-  );
-  dims["Health"].goals.push(
-    { id: 104, name: "Have a healthy body", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 105, name: "Have a healthy appeareance", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 106, name: "Have good sleep habits", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 107, name: "Exercise regularly", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" },
-    { id: 108, name: "Take care of mental health", status: 0, importance: "High", roleKey: "health_enthusiast", dueDate: "" }
-  );
-  dims["Health"].routines.daily.push(
-    { id: 113, name: "Deep sleep", status: 0, completionHistory: [], importance: "High", roleKey: "health_enthusiast" },
-    { id: 110, name: "Yoga", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
-    { id: 111, name: "Meditation", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" },
-    { id: 112, name: "Skin care routine", status: 0, completionHistory: [], importance: "Medium", roleKey: "health_enthusiast" }
-  );
-
-  // 2. Family
-  dims["Family"].challenges.push(
-    { id: 201, name: "Have important uncomfortable conversations in family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
-  );
-  dims["Family"].goals.push(
-    { id: 202, name: "Take care of my family's health and mental health", status: 0, importance: "High", roleKey: "family_member", dueDate: "" },
-    { id: 203, name: "Share time on family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" },
-    { id: 204, name: "Have fun experiences in family", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
-  );
-  dims["Family"].projects.push(
-    { id: 205, name: "Family trip", status: 0, importance: "High", roleKey: "family_member", dueDate: "" }
-  );
-
-  // 3. Freedom
-  dims["Freedom"].challenges.push(
-    { id: 301, name: "Have free time", status: 0, importance: "High", roleKey: "free_spirit", dueDate: "" }
-  );
-  dims["Freedom"].goals.push(
-    { id: 302, name: "Be able to manage my own time", status: 0, importance: "High", roleKey: "free_spirit", dueDate: "" }
-  );
-
-  // 4. Community
-  dims["Community"].challenges.push(
-    { id: 401, name: "Help the community", status: 0, importance: "High", roleKey: "community_member", dueDate: "" }
-  );
-  dims["Community"].goals.push(
-    { id: 402, name: "Share time with close friends", status: 0, importance: "High", roleKey: "friend", dueDate: "" },
-    { id: 403, name: "Volunteer", status: 0, importance: "Medium", roleKey: "volunteer", dueDate: "" }
-  );
-
-  // 5. Management
-  dims["Management"].challenges.push(
-    { id: 501, name: "Have a possitive account balance", status: 0, importance: "High", roleKey: "manager", dueDate: "" }
-  );
-  dims["Management"].goals.push(
-    { id: 502, name: "Have a regular high income", status: 0, importance: "High", roleKey: "manager", dueDate: "" },
-    { id: 503, name: "Pay debts", status: 0, importance: "High", roleKey: "manager", dueDate: "" },
-    { id: 504, name: "Invest", status: 0, importance: "High", roleKey: "investor", dueDate: "" }
-  );
-
-  // 6. Learning
-  dims["Learning"].challenges.push(
-    { id: 601, name: "Learn to dance", status: 0, importance: "Medium", roleKey: "learner", dueDate: "" }
-  );
-  dims["Learning"].goals.push(
-    { id: 602, name: "Learn a new language", status: 0, importance: "High", roleKey: "learner", dueDate: "" },
-    { id: 603, name: "Learn a new recipe", status: 0, importance: "Medium", roleKey: "learner", dueDate: "" }
-  );
-  dims["Learning"].routines.daily.push(
-    { id: 604, name: "Read daily", status: 0, completionHistory: [], importance: "High", roleKey: "learner" }
-  );
-
-  // 7. Creation
-  dims["Creation"].challenges.push(
-    { id: 701, name: "Find a creative hobbie", status: 0, importance: "Medium", roleKey: "creator", dueDate: "" }
-  );
-  dims["Creation"].goals.push(
-    { id: 702, name: "Write on a journal", status: 0, importance: "High", roleKey: "creator", dueDate: "" }
-  );
-
-  // 8. Fun
-  dims["Fun"].challenges.push(
-    { id: 801, name: "Have autentic fun", status: 0, importance: "High", roleKey: "fun_seeker", dueDate: "" }
-  );
-  dims["Fun"].goals.push(
-    { id: 802, name: "Know new places", status: 0, importance: "High", roleKey: "explorer", dueDate: "" },
-    { id: 803, name: "Taste new foods", status: 0, importance: "Medium", roleKey: "foodie", dueDate: "" },
-    { id: 804, name: "Hear new songs", status: 0, importance: "Medium", roleKey: "music_lover", dueDate: "" },
-    { id: 805, name: "Play a fun game", status: 0, importance: "Medium", roleKey: "gamer", dueDate: "" }
-  );
 
   return dims;
 };
@@ -505,6 +386,7 @@ const DEFAULT_DATA = {
     userAvatar: null,
     theme: 'dark',
     language: getBrowserLanguage(),
+    hasSeenTour: false,
     userRoles: [
       { key: "human", name: "Human", icon: "User" },
       { key: "son", name: "Son/Daughter", icon: "Heart" },
@@ -532,11 +414,7 @@ const DEFAULT_DATA = {
     ]
   },
   dimensions: generateInitialData(),
-  skills: [
-    { id: 101, name: "Running", level: 20, roleKey: "athlete", source: "Run a Marathon", manualMode: false },
-    { id: 102, name: "Financial Planning", level: 45, roleKey: "entrepreneur", source: "Manual", manualMode: true },
-    { id: 103, name: "Discipline", level: 10, roleKey: "athlete", source: "General", manualMode: false }
-  ],
+  skills: [],
   resources: [],
   wishlist: [],
   visualizationImages: [],
@@ -1310,12 +1188,12 @@ const AddItemInput = ({ onAdd, placeholder, theme }) => {
 const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, onOpenAI, data, theme, isGuest, t }) => {
   const { logout } = useAuth();
   const menuItems = [
-    { id: 'visualization', icon: <Rocket size={20} />, label: t('visualization') },
-    { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: t('lifeBalance') },
-    { id: 'roles', icon: <User size={20} />, label: t('lifeRoles') },
-    { id: 'skills', icon: <BookOpen size={20} />, label: t('lifeSkills') },
-    { id: 'resources', icon: <Briefcase size={20} />, label: t('lifeResources') },
-    { id: 'my_time', icon: <Calendar size={20} />, label: t('myTime') },
+    { id: 'visualization', icon: <Rocket size={20} />, label: t('visualization'), tourId: 'nav-visualization' },
+    { id: 'dashboard', icon: <LayoutDashboard size={20} />, label: t('lifeBalance'), tourId: 'nav-dashboard' },
+    { id: 'roles', icon: <User size={20} />, label: t('lifeRoles'), tourId: 'nav-roles' },
+    { id: 'skills', icon: <BookOpen size={20} />, label: t('lifeSkills'), tourId: 'nav-skills' },
+    { id: 'resources', icon: <Briefcase size={20} />, label: t('lifeResources'), tourId: 'nav-resources' },
+    { id: 'my_time', icon: <Calendar size={20} />, label: t('myTime'), tourId: 'nav-time' },
   ];
 
   const colors = THEMES[theme];
@@ -1345,6 +1223,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, o
         {menuItems.map(item => (
           <button
             key={item.id}
+            id={item.tourId}
             onClick={() => setActiveTab(item.id)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeTab === item.id ? `${colors.emphasisBg} text-black shadow-lg` : `${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text}`}`}
           >
@@ -1355,7 +1234,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen, onOpenSettings, o
       </nav>
 
       <div className="p-4 border-t border-gray-800/50 space-y-1">
-        <button onClick={onOpenAI} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} hover:bg-purple-900/20 hover:text-purple-400`}>
+        <button id="nav-ai-coach" onClick={onOpenAI} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${colors.textSecondary} ${colors.sidebarHover} hover:${colors.text} hover:bg-purple-900/20 hover:text-purple-400`}>
           <Bot size={20} />
           {isOpen && <span className="text-sm font-medium">AI Coach</span>}
         </button>
@@ -3275,13 +3154,33 @@ export default function LiviaApp() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showTour, setShowTour] = useState(false);
 
-  // Check for onboarding - REMOVED AUTOMATIC TRIGGER
-  // useEffect(() => {
-  //   if (isDataLoaded && !data.appSettings.hasCompletedOnboarding) {
-  //     setShowOnboarding(true);
-  //   }
-  // }, [isDataLoaded, data.appSettings.hasCompletedOnboarding]);
+  // Check for tour
+  useEffect(() => {
+    if (isDataLoaded && !data.appSettings.hasSeenTour) {
+      // Small delay to ensure UI is rendered
+      setTimeout(() => setShowTour(true), 1000);
+    }
+  }, [isDataLoaded, data.appSettings.hasSeenTour]);
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+    setData(prev => ({
+      ...prev,
+      appSettings: { ...prev.appSettings, hasSeenTour: true }
+    }));
+  };
+
+  const tourSteps = [
+    { targetId: 'nav-visualization', title: t('visualization'), description: "Create your vision board. Upload images, resize them, and visualize your dreams in an infinite canvas." },
+    { targetId: 'nav-dashboard', title: t('lifeBalance'), description: "Track your progress across 8 Life Dimensions. Manage challenges, goals, projects, and routines." },
+    { targetId: 'nav-roles', title: t('lifeRoles'), description: "Define who you want to be. Create roles (e.g., 'Athlete', 'Creator') and link them to your activities." },
+    { targetId: 'nav-skills', title: t('lifeSkills'), description: "Gamify your growth. Add skills and level them up automatically as you complete related tasks." },
+    { targetId: 'nav-resources', title: t('lifeResources'), description: "Manage your inventory. Track money, assets, and wishlist items to support your journey." },
+    { targetId: 'nav-time', title: t('myTime'), description: "Plan your day. View your daily, weekly, and monthly focus tasks in one place." },
+    { targetId: 'nav-ai-coach', title: "AI Coach", description: "Need help? Click here to let our AI analyze your goals and generate a personalized plan for you." },
+  ];
 
   const generatePillarData = async (pillarName, userInput) => {
     if (!userInput || userInput.trim().length < 5) return null;
@@ -3429,6 +3328,13 @@ export default function LiviaApp() {
         theme={theme}
         isGuest={isGuest}
         t={t}
+      />
+
+      <TourGuide
+        steps={tourSteps}
+        isOpen={showTour}
+        onComplete={handleTourComplete}
+        theme={theme}
       />
 
       {showOnboarding && (
