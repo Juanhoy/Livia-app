@@ -559,6 +559,13 @@ const hasUserCreatedContent = (data) => {
   if (data.resources?.length > 0) return true;
   if (data.wishlist?.length > 0) return true;
   if (data.visualizationImages?.length > 0) return true;
+
+  // Check for profile customization
+  if (data.appSettings?.userName && data.appSettings.userName !== "User") return true;
+  if (data.appSettings?.userAvatar) return true;
+
+  // Check for role customization (default has 3 roles)
+  if (data.appSettings?.userRoles?.length !== 3) return true;
   if (data.appSettings?.userRoles?.some(r => r.isCustom)) return true;
 
   // Check dimensions for any items
