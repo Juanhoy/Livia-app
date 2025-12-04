@@ -558,6 +558,8 @@ const hasUserCreatedContent = (data) => {
   if (data.skills?.length > 0) return true;
   if (data.resources?.length > 0) return true;
   if (data.wishlist?.length > 0) return true;
+  if (data.visualizationImages?.length > 0) return true;
+  if (data.appSettings?.userRoles?.some(r => r.isCustom)) return true;
 
   // Check dimensions for any items
   if (data.dimensions) {
@@ -3117,20 +3119,30 @@ export default function LiviaApp() {
           if (docSnap.exists()) {
             const loadedData = docSnap.data();
             // Migration: Old users shouldn't see tour
-            let isNewAccount = false;
-            // Ensure accountCreationDate exists for existing users
-            if (!loadedData.appSettings.accountCreationDate) {
+            const isPreDateUser = !loadedData.appSettings.accountCreationDate;
+            let shouldSave = false;
+
+            // Ensure accountCreationDate exists
+            if (isPreDateUser) {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
-              isNewAccount = true; // Just created the date, so treat as potentially new if no content
+              shouldSave = true;
             }
 
             const accountAge = new Date() - new Date(loadedData.appSettings.accountCreationDate);
             const isOldAccount = accountAge > 5 * 60 * 1000; // Older than 5 minutes
 
-            // If user has content OR account is old (and not just assigned date), assume they are old user
-            if (loadedData.appSettings.hasSeenTour === undefined ||
-              (loadedData.appSettings.hasSeenTour === false && (hasUserCreatedContent(loadedData) || (isOldAccount && !isNewAccount)))) {
-              loadedData.appSettings.hasSeenTour = true;
+            // If user existed before dates (isPreDateUser), OR is old, OR has content -> No Tour
+            // We check for undefined OR false because they might have saved 'false' in a previous buggy session
+            if (isPreDateUser || isOldAccount || hasUserCreatedContent(loadedData)) {
+              if (loadedData.appSettings.hasSeenTour !== true) {
+                loadedData.appSettings.hasSeenTour = true;
+                shouldSave = true;
+              }
+            }
+
+            if (shouldSave) {
+              console.log("Saving migration changes (tour/date) for user...");
+              await setDoc(docRef, loadedData);
             }
             // Force browser language
             loadedData.appSettings.language = getBrowserLanguage();
@@ -3171,17 +3183,37 @@ export default function LiviaApp() {
             };
 
             // Migration check for guest
+            const isPreDateUser = !mergedData.appSettings.accountCreationDate;
+            let shouldSave = false;
+
+            // Ensure date exists (it might come from DEFAULT_DATA if missing in parsed, but we check parsed implicitly via merge)
+            // Actually mergedData has it from DEFAULT_DATA if missing, so we need to check parsed specifically if possible, 
+            // but here we can just rely on age if it was merged from default (which is new).
+            // Wait, if it came from DEFAULT_DATA, it's NEW.
+            // If it came from parsed, it's OLD.
+
+            // Better check: if parsed.appSettings exists but lacks accountCreationDate -> Old Guest
+            const isOldGuestWithoutDate = parsed.appSettings && !parsed.appSettings.accountCreationDate;
+            if (isOldGuestWithoutDate) shouldSave = true;
+
             const accountAge = new Date() - new Date(mergedData.appSettings.accountCreationDate || new Date());
             const isOldAccount = accountAge > 5 * 60 * 1000;
 
-            if (mergedData.appSettings.hasSeenTour === false && (hasUserCreatedContent(mergedData) || isOldAccount)) {
-              mergedData.appSettings.hasSeenTour = true;
+            if (isOldGuestWithoutDate || isOldAccount || hasUserCreatedContent(mergedData)) {
+              if (mergedData.appSettings.hasSeenTour !== true) {
+                mergedData.appSettings.hasSeenTour = true;
+                shouldSave = true;
+              }
             }
 
             // Force browser language
             mergedData.appSettings.language = getBrowserLanguage();
 
             setData(mergedData);
+
+            if (shouldSave) {
+              localStorage.setItem('livia_data_v8', JSON.stringify(mergedData));
+            }
           } catch (e) {
             console.error("Error parsing saved data:", e);
             setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
