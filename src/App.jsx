@@ -553,6 +553,26 @@ const calculateSkillLevel = (skill, allData) => {
 
 // --- Components ---
 
+const hasUserCreatedContent = (data) => {
+  if (!data) return false;
+  if (data.skills?.length > 0) return true;
+  if (data.resources?.length > 0) return true;
+  if (data.wishlist?.length > 0) return true;
+
+  // Check dimensions for any items
+  if (data.dimensions) {
+    for (const dim of Object.values(data.dimensions)) {
+      if (dim.challenges?.length > 0) return true;
+      if (dim.goals?.length > 0) return true;
+      if (dim.projects?.length > 0) return true;
+      if (dim.routines?.daily?.length > 0) return true;
+      if (dim.routines?.weekly?.length > 0) return true;
+      if (dim.routines?.monthly?.length > 0) return true;
+    }
+  }
+  return false;
+};
+
 const LandingPage = ({ onGuest, t, theme }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -3101,7 +3121,8 @@ export default function LiviaApp() {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
             }
             // Migration: Old users shouldn't see tour
-            if (loadedData.appSettings.hasSeenTour === undefined) {
+            // If user has content but hasSeenTour is false/undefined, assume they are old user
+            if (loadedData.appSettings.hasSeenTour === undefined || (loadedData.appSettings.hasSeenTour === false && hasUserCreatedContent(loadedData))) {
               loadedData.appSettings.hasSeenTour = true;
             }
             // Force browser language
@@ -3127,23 +3148,30 @@ export default function LiviaApp() {
         if (saved) {
           try {
             const parsed = JSON.parse(saved);
-            setData({
+            const mergedData = {
               ...JSON.parse(JSON.stringify(DEFAULT_DATA)),
               ...parsed,
               appSettings: {
                 ...DEFAULT_DATA.appSettings,
                 ...parsed.appSettings,
-                // Migration: Old users (undefined flag) shouldn't see tour. New users (false) or seen (true) keep value.
-                hasSeenTour: parsed.appSettings?.hasSeenTour ?? true
+                hasSeenTour: parsed.appSettings?.hasSeenTour ?? false
               },
               resources: parsed.resources || DEFAULT_DATA.resources,
               skills: parsed.skills || DEFAULT_DATA.skills,
               wishlist: parsed.wishlist || DEFAULT_DATA.wishlist,
               visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
               dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
-            });
+            };
+
+            // Migration check for guest
+            if (mergedData.appSettings.hasSeenTour === false && hasUserCreatedContent(mergedData)) {
+              mergedData.appSettings.hasSeenTour = true;
+            }
+
             // Force browser language
-            setData(prev => ({ ...prev, appSettings: { ...prev.appSettings, language: getBrowserLanguage() } }));
+            mergedData.appSettings.language = getBrowserLanguage();
+
+            setData(mergedData);
           } catch (e) {
             console.error("Error parsing saved data:", e);
             setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
