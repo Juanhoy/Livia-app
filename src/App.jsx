@@ -3100,6 +3100,10 @@ export default function LiviaApp() {
             if (!loadedData.appSettings.accountCreationDate) {
               loadedData.appSettings.accountCreationDate = new Date().toISOString();
             }
+            // Migration: Old users shouldn't see tour
+            if (loadedData.appSettings.hasSeenTour === undefined) {
+              loadedData.appSettings.hasSeenTour = true;
+            }
             // Force browser language
             loadedData.appSettings.language = getBrowserLanguage();
             setData(loadedData);
@@ -3126,7 +3130,12 @@ export default function LiviaApp() {
             setData({
               ...JSON.parse(JSON.stringify(DEFAULT_DATA)),
               ...parsed,
-              appSettings: { ...DEFAULT_DATA.appSettings, ...parsed.appSettings },
+              appSettings: {
+                ...DEFAULT_DATA.appSettings,
+                ...parsed.appSettings,
+                // Migration: Old users (undefined flag) shouldn't see tour. New users (false) or seen (true) keep value.
+                hasSeenTour: parsed.appSettings?.hasSeenTour ?? true
+              },
               resources: parsed.resources || DEFAULT_DATA.resources,
               skills: parsed.skills || DEFAULT_DATA.skills,
               wishlist: parsed.wishlist || DEFAULT_DATA.wishlist,
