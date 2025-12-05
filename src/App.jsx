@@ -3125,22 +3125,34 @@ export default function LiviaApp() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const loadedData = docSnap.data();
-            // Migration: Old users shouldn't see tour
-            const isPreDateUser = !loadedData.appSettings.accountCreationDate;
-            let shouldSave = false;
 
-            // Ensure accountCreationDate exists
-
+            // Merge with DEFAULT_DATA to ensure all fields exist
+            const mergedData = {
+              ...JSON.parse(JSON.stringify(DEFAULT_DATA)),
+              ...loadedData,
+              appSettings: {
+                ...DEFAULT_DATA.appSettings,
+                ...loadedData.appSettings,
+                // Ensure hasSeenTour is preserved if it exists, otherwise default to false
+                hasSeenTour: loadedData.appSettings?.hasSeenTour ?? false
+              },
+              // Merge other nested objects if necessary, or trust top-level override
+              dimensions: loadedData.dimensions || DEFAULT_DATA.dimensions,
+              resources: loadedData.resources || DEFAULT_DATA.resources,
+              skills: loadedData.skills || DEFAULT_DATA.skills,
+              wishlist: loadedData.wishlist || DEFAULT_DATA.wishlist,
+              visualizationImages: loadedData.visualizationImages || DEFAULT_DATA.visualizationImages,
+            };
 
             // Ensure accountCreationDate exists (metadata)
-            if (!loadedData.appSettings.accountCreationDate) {
-              loadedData.appSettings.accountCreationDate = new Date().toISOString();
-              await setDoc(docRef, loadedData);
+            if (!mergedData.appSettings.accountCreationDate) {
+              mergedData.appSettings.accountCreationDate = new Date().toISOString();
+              await setDoc(docRef, mergedData);
             }
             // Force browser language
-            loadedData.appSettings.language = getBrowserLanguage();
-            setData(loadedData);
-            console.log("Data loaded from Firestore");
+            mergedData.appSettings.language = getBrowserLanguage();
+            setData(mergedData);
+            console.log("Data loaded from Firestore (Merged)");
           } else {
             // New user, save default data
             console.log("New user, creating default data");
