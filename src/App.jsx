@@ -3125,6 +3125,8 @@ export default function LiviaApp() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const loadedData = docSnap.data();
+            console.log("Raw loaded data:", loadedData);
+            console.log("Loaded hasSeenTour:", loadedData.appSettings?.hasSeenTour);
 
             // Merge with DEFAULT_DATA to ensure all fields exist
             const mergedData = {
@@ -3143,6 +3145,8 @@ export default function LiviaApp() {
               wishlist: loadedData.wishlist || DEFAULT_DATA.wishlist,
               visualizationImages: loadedData.visualizationImages || DEFAULT_DATA.visualizationImages,
             };
+
+            console.log("Merged hasSeenTour:", mergedData.appSettings.hasSeenTour);
 
             // Ensure accountCreationDate exists (metadata)
             if (!mergedData.appSettings.accountCreationDate) {
@@ -3244,9 +3248,12 @@ export default function LiviaApp() {
     setData(newData);
 
     // Persist immediately
+    console.log("Tour completed. Saving hasSeenTour: true");
     if (currentUser) {
       try {
+        console.log("Saving to Firestore for user:", currentUser.uid);
         await setDoc(doc(db, "users", currentUser.uid), newData);
+        console.log("Successfully saved tour status to Firestore");
       } catch (e) {
         console.error("Error saving tour status:", e);
       }
