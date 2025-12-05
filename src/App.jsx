@@ -3231,12 +3231,21 @@ export default function LiviaApp() {
   // Check for tour
   useEffect(() => {
     let timeoutId;
-    if (isDataLoaded && !data.appSettings.hasSeenTour) {
-      // Small delay to ensure UI is rendered
-      timeoutId = setTimeout(() => setShowTour(true), 1000);
+    // Only consider showing tour if we have a valid session (User or Guest) and data is loaded
+    if (isDataLoaded && (currentUser || isGuest)) {
+      if (!data.appSettings.hasSeenTour) {
+        // Small delay to ensure UI is rendered
+        timeoutId = setTimeout(() => setShowTour(true), 1000);
+      } else {
+        // Ensure tour is hidden if seen (fixes persistence state issue)
+        setShowTour(false);
+      }
+    } else {
+      // Reset tour state if not logged in
+      setShowTour(false);
     }
     return () => clearTimeout(timeoutId);
-  }, [isDataLoaded, data.appSettings.hasSeenTour]);
+  }, [isDataLoaded, data.appSettings.hasSeenTour, currentUser, isGuest]);
 
   const handleTourComplete = async () => {
     setShowTour(false);
