@@ -3134,7 +3134,8 @@ export default function LiviaApp() {
                 ...DEFAULT_DATA.appSettings,
                 ...loadedData.appSettings,
                 // Ensure hasSeenTour is preserved if it exists, otherwise default to false
-                hasSeenTour: loadedData.appSettings?.hasSeenTour ?? false
+                hasSeenTour: loadedData.appSettings?.hasSeenTour ?? false,
+                loginCount: (loadedData.appSettings?.loginCount || 0)
               },
               // Merge other nested objects if necessary, or trust top-level override
               dimensions: loadedData.dimensions || DEFAULT_DATA.dimensions,
@@ -3144,15 +3145,37 @@ export default function LiviaApp() {
               visualizationImages: loadedData.visualizationImages || DEFAULT_DATA.visualizationImages,
             };
 
+            // --- LOGIN COUNT LOGIC ---
+            // Check if user has content (Old User Detection)
+            const hasContent = hasUserCreatedContent(mergedData);
+
+            // If old user (has content) and loginCount is low, boost it to skip tour
+            if (hasContent && mergedData.appSettings.loginCount < 2) {
+              mergedData.appSettings.loginCount = 5;
+            }
+
+            // Increment Login Count
+            mergedData.appSettings.loginCount += 1;
+
+            // Suppress Tour if not first login
+            if (mergedData.appSettings.loginCount > 1) {
+              mergedData.appSettings.hasSeenTour = true;
+            }
+
+            console.log(`Login Count: ${mergedData.appSettings.loginCount}. Tour Visible: ${!mergedData.appSettings.hasSeenTour}`);
+
             // Ensure accountCreationDate exists (metadata)
             if (!mergedData.appSettings.accountCreationDate) {
               mergedData.appSettings.accountCreationDate = new Date().toISOString();
-              await setDoc(docRef, mergedData);
             }
+
+            // Save updated login count immediately
+            await setDoc(docRef, mergedData);
+
             // Force browser language
             mergedData.appSettings.language = getBrowserLanguage();
             setData(mergedData);
-            console.log("Data loaded from Firestore (Merged)");
+            console.log("Data loaded from Firestore (Merged & Login Count Updated)");
           } else {
             // New user, save default data
             console.log("New user, creating default data");
@@ -3178,7 +3201,8 @@ export default function LiviaApp() {
               appSettings: {
                 ...DEFAULT_DATA.appSettings,
                 ...parsed.appSettings,
-                hasSeenTour: parsed.appSettings?.hasSeenTour ?? false
+                hasSeenTour: parsed.appSettings?.hasSeenTour ?? false,
+                loginCount: (parsed.appSettings?.loginCount || 0)
               },
               resources: parsed.resources || DEFAULT_DATA.resources,
               skills: parsed.skills || DEFAULT_DATA.skills,
@@ -3187,10 +3211,19 @@ export default function LiviaApp() {
               dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
             };
 
+            // --- LOGIN COUNT LOGIC (GUEST) ---
+            const hasContent = hasUserCreatedContent(mergedData);
+            if (hasContent && mergedData.appSettings.loginCount < 2) {
+              mergedData.appSettings.loginCount = 5;
+            }
+            mergedData.appSettings.loginCount += 1;
+            if (mergedData.appSettings.loginCount > 1) {
+              mergedData.appSettings.hasSeenTour = true;
+            }
+
             // Ensure accountCreationDate exists (metadata)
             if (!mergedData.appSettings.accountCreationDate) {
               mergedData.appSettings.accountCreationDate = new Date().toISOString();
-              localStorage.setItem('livia_data_v8', JSON.stringify(mergedData));
             }
 
             // Force browser language
@@ -3198,9 +3231,8 @@ export default function LiviaApp() {
 
             setData(mergedData);
 
-            if (shouldSave) {
-              localStorage.setItem('livia_data_v8', JSON.stringify(mergedData));
-            }
+            // Save immediately
+            localStorage.setItem('livia_data_v8', JSON.stringify(mergedData));
           } catch (e) {
             console.error("Error parsing saved data:", e);
             setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
