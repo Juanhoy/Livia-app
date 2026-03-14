@@ -138,12 +138,8 @@ const uploadToCloudinary = async (file) => {
     return data.secure_url;
   } catch (error) {
     console.error("Cloudinary upload error:", error);
-    // Fallback to local FileReader if cloud fails or isn't configured
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(file);
-    });
+    alert("Image upload failed! Please ensure you have configured your Cloudinary Upload Preset correctly as 'livia_unsigned'.");
+    return null;
   }
 };
 
@@ -846,7 +842,7 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
                   const file = e.target.files[0];
                   if (file) {
                     const url = await uploadToCloudinary(file);
-                    handleChange('userAvatar', url);
+                    if (url) handleChange('userAvatar', url);
                   }
                 }} />
               </label>
@@ -895,7 +891,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
     if (file) {
       setUploading(true);
       const url = await uploadToCloudinary(file);
-      handleChange('image', url);
+      if (url) handleChange('image', url);
       setUploading(false);
     }
   };
@@ -1379,12 +1375,14 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
     if (file) {
       setUploading(true);
       const url = await uploadToCloudinary(file);
-      // Add to center of current view
-      const rect = containerRef.current.getBoundingClientRect();
-      const centerX = (-transform.x + rect.width / 2) / transform.scale;
-      const centerY = (-transform.y + rect.height / 2) / transform.scale;
+      if (url) {
+        // Add to center of current view
+        const rect = containerRef.current.getBoundingClientRect();
+        const centerX = (-transform.x + rect.width / 2) / transform.scale;
+        const centerY = (-transform.y + rect.height / 2) / transform.scale;
 
-      setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
+        setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
+      }
       setUploading(false);
     }
   };
@@ -3405,6 +3403,7 @@ export default function LiviaApp() {
           console.log("Data saved successfully to Firestore!");
         } catch (error) {
           console.error("Error saving data to Firestore:", error);
+          alert("Autosave failed! Your changes are not being saved. This might be due to a document size limit if you have large images stored. Error: " + error.message);
         }
       } else if (isGuest) {
         console.log("Saving data to LocalStorage (Guest Mode)");
