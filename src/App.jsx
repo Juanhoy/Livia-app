@@ -425,7 +425,7 @@ const DEFAULT_DATA = {
 const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'daily') => {
   if (!routine) return 0;
 
-  const creationDate = new Date(accountCreationDate || new Date());
+  const creationDate = new Date(routine.createdAt || accountCreationDate || new Date());
   const today = new Date();
   const history = routine.completionHistory || [];
 
@@ -452,28 +452,28 @@ const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'da
 
 const calculateDimensionScore = (dimData, accountCreationDate) => {
   if (!dimData) return 0;
-  let totalItems = 0;
-  let totalScore = 0;
+
+  const WEIGHTS = {
+    challenges: 3,
+    goals: 3,
+    routines: 2,
+    projects: 1
+  };
+
+  let totalWeight = 0;
+  let weightedScoreSum = 0;
 
   const processList = (list, type, freq) => {
     if (!list) return;
     list.forEach(item => {
-      // Projects only contribute if they have progress (>0) - Positive impact only (Additive Bonus)
-      if (type === 'projects') {
-        if ((item.status || 0) > 0) {
-          // Do NOT increment totalItems for projects, they are additive bonuses
-          totalScore += item.status;
-        }
-      } else if (type === 'routines') {
-        // Routines use adherence calculation
-        totalItems++;
-        const adherence = calculateRoutineAdherence(item, accountCreationDate, freq);
-        totalScore += adherence;
-      } else {
-        // Goals, Challenges always contribute
-        totalItems++;
-        totalScore += (item.status || 0);
-      }
+      let itemScore = type === 'routines'
+        ? calculateRoutineAdherence(item, accountCreationDate, freq)
+        : (item.status || 0);
+
+      let itemWeight = WEIGHTS[type] || 1;
+
+      weightedScoreSum += itemScore * itemWeight;
+      totalWeight += itemWeight;
     });
   };
 
@@ -484,8 +484,9 @@ const calculateDimensionScore = (dimData, accountCreationDate) => {
   processList(dimData.routines?.weekly, 'routines', 'weekly');
   processList(dimData.routines?.monthly, 'routines', 'monthly');
 
-  // If we have items, divide by count. If only projects (count=0), divide by 1.
-  const finalScore = Math.round(totalScore / Math.max(1, totalItems));
+  if (totalWeight === 0) return 0;
+
+  const finalScore = Math.round(weightedScoreSum / totalWeight);
   return Math.min(100, finalScore);
 };
 
@@ -1592,7 +1593,8 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
       roleKey: '',
       dueDate: '',
       frequency: freq, // Store frequency in item
-      completionHistory: []
+      completionHistory: [],
+      createdAt: new Date().toISOString()
     };
 
     setData(prev => {
