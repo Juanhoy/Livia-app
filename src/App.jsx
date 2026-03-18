@@ -421,30 +421,45 @@ const DEFAULT_DATA = {
 
 // --- Helper Functions ---
 
-// Calculate Routine Adherence based on Account Creation Date
+// Calculate Routine Adherence
 const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'daily') => {
   if (!routine) return 0;
 
-  const creationDate = new Date(routine.createdAt || accountCreationDate || new Date());
-  const today = new Date();
   const history = routine.completionHistory || [];
 
-  // Calculate total expected occurrences since creation
-  let expected = 0;
-  const diffTime = Math.abs(today - creationDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  if (frequency === 'daily') {
-    expected = Math.max(1, diffDays);
-  } else if (frequency === 'weekly') {
-    expected = Math.max(1, Math.ceil(diffDays / 7));
-  } else if (frequency === 'monthly') {
-    expected = Math.max(1, Math.ceil(diffDays / 30));
+  let initialDateStr;
+  if (routine.createdAt) {
+    initialDateStr = routine.createdAt;
+  } else if (history.length > 0) {
+    // Legacy routines without createdAt: use the first completion date as proxy for creation
+    const sortedHistory = [...history].sort();
+    initialDateStr = sortedHistory[0];
+  } else {
+    // Fallback for empty legacy routine
+    initialDateStr = new Date();
   }
 
-  // Calculate actual completions
-  // Filter history to ensure we only count valid dates (and potentially unique ones if needed, though toggle logic should handle uniqueness)
+  const creationDate = new Date(initialDateStr);
+  creationDate.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const diffTime = Math.max(0, today.getTime() - creationDate.getTime());
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include creation day
+
+  let expected = 1;
+  if (frequency === 'daily') {
+    expected = diffDays;
+  } else if (frequency === 'weekly') {
+    expected = Math.ceil(diffDays / 7);
+  } else if (frequency === 'monthly') {
+    expected = Math.ceil(diffDays / 30);
+  }
+
   const actual = history.length;
+
+  if (expected === 0) return 0;
 
   // Cap at 100%
   return Math.min(100, Math.round((actual / expected) * 100));
