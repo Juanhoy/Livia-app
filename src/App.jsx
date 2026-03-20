@@ -13,7 +13,6 @@ import {
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
   UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift
 } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
   AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip
@@ -45,21 +44,6 @@ const getImportanceConfig = (imp) => {
     case 'Low': return { icon: <ChevronsDown size={12} />, label: 'Low' };
     default: return { icon: <Minus size={12} />, label: 'Medium' };
   }
-};
-
-const getImportanceMultiplier = (importance) => {
-  if (!importance) return 1;
-  const imp = String(importance).toLowerCase();
-  
-  // Check if it matches any "high" translation
-  const isHigh = Object.values(TRANSLATIONS).some(lang => lang.high?.toLowerCase() === imp);
-  if (isHigh) return 1.5;
-  
-  // Check if it matches any "low" translation
-  const isLow = Object.values(TRANSLATIONS).some(lang => lang.low?.toLowerCase() === imp);
-  if (isLow) return 0.5;
-  
-  return 1;
 };
 
 const DEFAULT_DIMENSIONS = [
@@ -154,8 +138,12 @@ const uploadToCloudinary = async (file) => {
     return data.secure_url;
   } catch (error) {
     console.error("Cloudinary upload error:", error);
-    alert("Image upload failed! Please ensure you have configured your Cloudinary Upload Preset correctly as 'livia_unsigned'.");
-    return null;
+    // Fallback to local FileReader if cloud fails or isn't configured
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(file);
+    });
   }
 };
 
@@ -187,7 +175,7 @@ const TRANSLATIONS = {
     exportDisabledGuest: "Export disabled in Guest Mode", exportFailed: "Failed to export visualization.", uploading: "Uploading...", addImage: "Add Image",
     panInstruction: "[Space] + Drag to Pan", zoomInstruction: "[Ctrl] + Scroll to Zoom", noRolesAdded: "You haven't added any roles yet.", openLibrary: "Open Library",
     removeItemConfirm: "Remove this item?", backToRoles: "Back to Roles", level: "Level", activeMissions: "Active Missions", noActiveMissions: "No active missions linked to this role.",
-    masteryHabits: "Mastery & Habits", skills: "Skills", routines: "Routines", inventoryHave: "Inventory (Have)", noResourcesLinked: "No resources linked.",
+    masteryHabits: "Mastery & Habits", skills: "Skills", inventoryHave: "Inventory (Have)", noResourcesLinked: "No resources linked.",
     needsWishlist: "Needs (Wishlist)", noItemsNeeded: "No items needed.", roleResources: "Role Resources", item: "Item", saveChanges: "Save Changes",
     uploadPhoto: "Upload Photo", disabledGuest: "Disabled in Guest Mode", changePhoto: "Change Photo", name: "Name", categoryWidget: "Category (Widget)",
     masteryMode: "Mastery Mode", auto: "Auto", manual: "Manual", manualSet: "Manual Set", autoCalculated: "Auto-Calculated",
@@ -204,7 +192,6 @@ const TRANSLATIONS = {
     roleLibraryTitle: "Role Library", allRolesActive: "All available roles are currently active.", createCustomRoleTitle: "Create Custom Role",
     roleName: "Role Name", roleNamePlaceholder: "e.g. Musician, Gamer, Chef...", createRole: "Create Role", dueToday: "Due Today",
     weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
-    weeklyGoal: "Weekly Goal", monthlyGoal: "Monthly Goal", money: "Money", tools: "Tools", knowledge: "Knowledge", people: "People", energy: "Energy",
     description: "Description", connectedGoal: "Connected Goal", connectedChallenge: "Connected Challenge", connectedSkill: "Connected Skill", select: "Select",
     vehicles: "Vehicles", houses: "Houses", studio: "Studio", electronics: "Electronics", furniture: "Furniture", gym_and_sports: "Gym & Sports", musical_instruments: "Instruments", wishlist: "Wishlist", clothes: "Clothes",
     moneyThisMonth: "MONEY THIS MONTH", thisMonthIncomes: "This month Incomes", addMonthlyIncome: "Add monthly income",
@@ -212,11 +199,10 @@ const TRANSLATIONS = {
     totalInvestedMoney: "TOTAL INVESTED MONEY", noInvestmentsYet: "No investments yet", addInvestment: "Add Investment",
     totalIndebtedMoney: "TOTAL INDEBTED MONEY", noDebtsYet: "No debts yet", addDebt: "Add Debt",
     type: "Type", income: "Income", expense: "Expense", investment: "Investment", debt: "Debt",
-    frequency: "Frequency", monthly: "Monthly", oneTime: "One Time / Extra",
+    frequency: "Frequency", oneTime: "One Time / Extra",
     profilePicture: "Profile Picture", changeAvatar: "Change Avatar",
     editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
     selectRole: "Select a Role", selectGoal: "Select a Goal", selectChallenge: "Select a Challenge", selectSkill: "Select a Skill",
-    editRole: "Edit Role", active: "Active", noRolesAvailable: "No roles available in library.",
     deleteDimensionConfirm: "Delete this dimension? This action cannot be undone.",
     supportUs: "Support Us", supportDesc: "Help us continue gamifying life!",
     supportStory: "We believe that life can be as engaging as a video game. We are building tools to help you level up your skills, resources, and relationships. If you like what we do, consider supporting us!",
@@ -262,7 +248,7 @@ const TRANSLATIONS = {
     panInstruction: "[Espacio] + Arrastrar para Panorámica", addImage: "Añadir Imagen", uploading: "Subiendo...",
     exportFailed: "Error al exportar visualización.", exportDisabledGuest: "Exportación deshabilitada en Modo Invitado",
     deleteImageConfirm: "¿Eliminar esta imagen?", uploadsDisabledGuest: "Cargas deshabilitadas en Modo Invitado",
-    notSaving: "No Guardando", savingToLocal: "Guardando en Local", creation: "Creación", learning: "Aprendizaje",
+    notSaving: "No Guardando", savingToLocal: "Guardando en Local",
     description: "Descripción", connectedGoal: "Meta Conectada", connectedChallenge: "Desafío Conectado", connectedSkill: "Habilidad Conectada", select: "Seleccionar",
     vehicles: "Vehículos", houses: "Casas", studio: "Estudio", electronics: "Electrónica", furniture: "Muebles", gym_and_sports: "Gimnasio y Deportes", musical_instruments: "Instrumentos", wishlist: "Lista de Deseos", clothes: "Ropa",
     moneyThisMonth: "DINERO ESTE MES", thisMonthIncomes: "Ingresos de este mes", addMonthlyIncome: "Agregar ingreso mensual",
@@ -270,7 +256,7 @@ const TRANSLATIONS = {
     totalInvestedMoney: "DINERO TOTAL INVERTIDO", noInvestmentsYet: "Aún no hay inversiones", addInvestment: "Agregar Inversión",
     totalIndebtedMoney: "DINERO TOTAL EN DEUDA", noDebtsYet: "Aún no hay deudas", addDebt: "Agregar Deuda",
     type: "Tipo", income: "Ingreso", expense: "Gasto", investment: "Inversión", debt: "Deuda",
-    frequency: "Frecuencia", monthly: "Mensual", oneTime: "Única Vez / Extra",
+    frequency: "Frecuencia", oneTime: "Única Vez / Extra",
     profilePicture: "Foto de Perfil", changeAvatar: "Cambiar Avatar",
     editRole: "Editar Rol", active: "Activo", noRolesAvailable: "No hay roles disponibles en la biblioteca.",
     deleteDimensionConfirm: "¿Eliminar esta dimensión? Esta acción no se puede deshacer.",
@@ -295,7 +281,6 @@ const TRANSLATIONS = {
     weeklyGoal: "Objectif Hebdo", monthlyGoal: "Objectif Mensuel", money: "Argent", tools: "Outils", knowledge: "Savoir", people: "Gens", energy: "Énergie",
     newItem: "Nouvel Élément", addTask: "Ajouter une tâche", value: "Valeur", deleteResourceConfirm: "Supprimer cette ressource ?",
     focusWeek: "Focus de la semaine", focusMonth: "Focus du mois", focusToday: "Focus d'aujourd'hui",
-    focusWeek: "Focus de la semaine", focusMonth: "Focus du mois", focusToday: "Focus d'aujourd'hui",
     noWeeklyRoutines: "Aucune routine hebdomadaire.", noMonthlyRoutines: "Aucune routine mensuelle.", noDailyTasks: "Aucune tâche quotidienne.",
     vehicles: "Véhicules", houses: "Maisons", studio: "Studio", electronics: "Électronique", furniture: "Meubles", gym_and_sports: "Gym et Sports", musical_instruments: "Instruments", wishlist: "Liste de Vœux", clothes: "Vêtements"
   },
@@ -315,7 +300,6 @@ const TRANSLATIONS = {
     roleName: "Rollenname", roleNamePlaceholder: "z.B. Musiker, Gamer, Koch...", createRole: "Rolle erstellen", dueToday: "Heute fällig",
     weeklyGoal: "Wochenziel", monthlyGoal: "Monatsziel", money: "Geld", tools: "Werkzeuge", knowledge: "Wissen", people: "Menschen", energy: "Energie",
     newItem: "Neues Element", addTask: "Neue Aufgabe hinzufügen", value: "Wert", deleteResourceConfirm: "Diese Ressource löschen?",
-    focusWeek: "Fokus für diese Woche", focusMonth: "Fokus für diesen Monat", focusToday: "Fokus für heute",
     focusWeek: "Fokus für diese Woche", focusMonth: "Fokus für diesen Monat", focusToday: "Fokus für heute",
     noWeeklyRoutines: "Keine wöchentlichen Routinen.", noMonthlyRoutines: "Keine monatlichen Routinen.", noDailyTasks: "Keine täglichen Aufgaben.",
     vehicles: "Fahrzeuge", houses: "Häuser", studio: "Studio", electronics: "Elektronik", furniture: "Möbel", gym_and_sports: "Fitness & Sport", musical_instruments: "Instrumente", wishlist: "Wunschliste", clothes: "Kleidung"
@@ -337,202 +321,575 @@ const TRANSLATIONS = {
     weeklyGoal: "Meta Semanal", monthlyGoal: "Meta Mensal", money: "Dinheiro", tools: "Ferramentas", knowledge: "Conhecimento", people: "Pessoas", energy: "Energia",
     newItem: "Novo Item", addTask: "Adicionar nova tarefa", value: "Valor", deleteResourceConfirm: "Excluir este recurso?",
     focusWeek: "Foco desta Semana", focusMonth: "Foco deste Mês", focusToday: "Foco de Hoje",
-    focusWeek: "Foco desta Semana", focusMonth: "Foco deste Mês", focusToday: "Foco de Hoje",
     noWeeklyRoutines: "Sem rotinas semanais.", noMonthlyRoutines: "Sem rotinas mensais.", noDailyTasks: "Sem tarefas diárias.",
     vehicles: "Veículos", houses: "Casas", studio: "Estúdio", electronics: "Eletrônicos", furniture: "Móveis", gym_and_sports: "Academia e Esportes", musical_instruments: "Instrumentos", wishlist: "Lista de Desejos", clothes: "Roupas"
-  },
-  zh: {
-    dashboard: "仪表板", lifeBalance: "生活平衡", lifeRoles: "生活角色", lifeSkills: "生活技能", lifeResources: "生活资源", myTime: "我的时间", visualization: "愿景板",
-    netWorth: "净资产", monthlyIncome: "月收入", monthlyExpenses: "月支出",
-    challenges: "挑战", goals: "目标", projects: "项目", routines: "日常",
-    add: "添加", save: "保存", delete: "删除", cancel: "取消", edit: "编辑", export: "导出",
-    upload: "上传", settings: "设置", logOut: "登出", guestMode: "访客模式",
-    welcome: "欢迎", continueGuest: "以访客身份继续", login: "登录",
-    liquidAssets: "流动资产", liabilities: "负债",
-    daily: "每日", weekly: "每周", monthly: "每月",
-    overallScore: "总分", totalWeight: "总权重",
-    health: "健康", family: "家庭", freedom: "自由", community: "社区", management: "管理", learning: "学习", creation: "创造", fun: "娱乐",
-    done: "完成", yourRoles: "你的角色", roleLibrary: "角色库", createCustom: "创建自定义", level1: "等级 1", xp: "XP",
-    roleLibraryTitle: "角色库", allRolesActive: "所有可用角色均已激活。", createCustomRoleTitle: "创建自定义角色",
-    roleName: "角色名称", roleNamePlaceholder: "例如：音乐家、游戏玩家、厨师...", createRole: "创建角色", dueToday: "今天到期",
-    weeklyGoal: "每周目标", monthlyGoal: "每月目标", money: "金钱", tools: "工具", knowledge: "知识", people: "人脉", energy: "精力",
-    newItem: "新项目", addTask: "添加新任务", value: "价值", deleteResourceConfirm: "删除此资源？",
-    focusWeek: "本周重点", focusMonth: "本月重点", focusToday: "今日重点",
-    focusWeek: "本周重点", focusMonth: "本月重点", focusToday: "今日重点",
-    noWeeklyRoutines: "没有每周例行事务。", noMonthlyRoutines: "没有每月例行事务。", noDailyTasks: "没有每日任务。",
-    vehicles: "车辆", houses: "房屋", studio: "工作室", electronics: "电子产品", furniture: "家具", gym_and_sports: "健身与运动", musical_instruments: "乐器", wishlist: "愿望清单", clothes: "衣服"
-  },
-  ja: {
-    dashboard: "ダッシュボード", lifeBalance: "ライフバランス", lifeRoles: "ライフロール", lifeSkills: "ライフスキル", lifeResources: "ライフリソース", myTime: "マイタイム", visualization: "ビジュアライゼーション",
-    netWorth: "純資産", monthlyIncome: "月収", monthlyExpenses: "月次支出",
-    challenges: "課題", goals: "目標", projects: "プロジェクト", routines: "ルーチン",
-    add: "追加", save: "保存", delete: "削除", cancel: "キャンセル", edit: "編集", export: "エクスポート",
-    upload: "アップロード", settings: "設定", logOut: "ログアウト", guestMode: "ゲストモード",
-    welcome: "ようこそ", continueGuest: "ゲストとして続行", login: "ログイン",
-    liquidAssets: "流動資産", liabilities: "負債",
-    daily: "毎日", weekly: "毎週", monthly: "毎月",
-    overallScore: "総合スコア", totalWeight: "総重量",
-    health: "健康", family: "家族", freedom: "自由", community: "コミュニティ", management: "管理", learning: "学習", creation: "創造", fun: "楽しみ",
-    done: "完了", yourRoles: "あなたの役割", roleLibrary: "役割ライブラリ", createCustom: "カスタム作成", level1: "レベル 1", xp: "XP",
-    roleLibraryTitle: "役割ライブラリ", allRolesActive: "利用可能なすべての役割がアクティブです。", createCustomRoleTitle: "カスタム役割を作成",
-    roleName: "役割名", roleNamePlaceholder: "例：ミュージシャン、ゲーマー、シェフ...", createRole: "役割を�    roleLibrary: [
-      // Human / Core
+  }};
+
+const getBrowserLanguage = () => {
+  const lang = navigator.language.split('-')[0];
+  return TRANSLATIONS[lang] ? lang : 'en';
+};
+
+const DEFAULT_DATA = {
+  appSettings: {
+    userName: "User",
+    userEmail: "user@example.com",
+    userAvatar: null,
+    theme: 'dark',
+    language: getBrowserLanguage(),
+    hasSeenTour: false,
+    loginCount: 0,
+    userRoles: [
       { key: "human", name: "Human", icon: "User" },
-      { key: "citizen", name: "Citizen", icon: "Flag" },
-      { key: "friend", name: "Friend", icon: "Users" },
-
-      // Family & Relationships
-      { key: "parent", name: "Parent", icon: "Baby" },
-      { key: "father", name: "Father", icon: "UserCircle2" },
-      { key: "mother", name: "Mother", icon: "UserCircle" },
-      { key: "son", name: "Son", icon: "Heart" },
-      { key: "daughter", name: "Daughter", icon: "Heart" },
-      { key: "brother", name: "Brother", icon: "User" },
-      { key: "sister", name: "Sister", icon: "User" },
-      { key: "husband", name: "Husband", icon: "HeartHandshake" },
-      { key: "wife", name: "Wife", icon: "HeartHandshake" },
-      { key: "partner", name: "Partner", icon: "Heart" },
-      { key: "caregiver", name: "Caregiver", icon: "HeartHandshake" },
-      { key: "mentor", name: "Mentor", icon: "Lightbulb" },
-      { key: "neighbor", name: "Neighbor", icon: "Home" },
-      { key: "volunteer", name: "Volunteer", icon: "HandHeart" },
-      { key: "pet_owner", name: "Pet Owner", icon: "Dog" },
-
-      // General Types
-      { key: "professional", name: "Professional", icon: "Briefcase" },
-      { key: "student", name: "Student", icon: "GraduationCap" },
-      { key: "athlete", name: "Athlete", icon: "Dumbbell" },
-
-      // Arts & Creativity
-      { key: "designer", name: "Designer", icon: "Palette" },
-      { key: "musician", name: "Musician", icon: "Music" },
-      { key: "music_producer", name: "Music Producer", icon: "Mic" },
-      { key: "dancer", name: "Dancer", icon: "Activity" },
-      { key: "artist", name: "Artist", icon: "Brush" },
-      { key: "animator", name: "Animator", icon: "Film" },
-      { key: "vfx_artist", name: "VFX Artist", icon: "Sparkles" },
-      { key: "photographer", name: "Photographer", icon: "Camera" },
-      { key: "videographer", name: "Videographer", icon: "Video" },
-      { key: "cinematographer", name: "Cinematographer", icon: "Video" },
-      { key: "writer", name: "Writer", icon: "PenTool" },
-      { key: "content_creator", name: "Content Creator", icon: "Clapperboard" },
-      { key: "youtuber", name: "YouTuber", icon: "Video" },
-      { key: "actor", name: "Actor", icon: "Masks" },
-      { key: "sculptor", name: "Sculptor", icon: "Hammer" },
-
-      // Professions
-      { key: "developer", name: "Developer", icon: "Code" },
-      { key: "engineer", name: "Engineer", icon: "Wrench" },
-      { key: "doctor", name: "Doctor", icon: "Stethoscope" },
-      { key: "nurse", name: "Nurse", icon: "HeartPulse" },
-      { key: "teacher", name: "Teacher", icon: "BookOpen" },
-      { key: "lawyer", name: "Lawyer", icon: "Scale" },
-      { key: "accountant", name: "Accountant", icon: "Calculator" },
-      { key: "trader", name: "Trader", icon: "TrendingUp" },
-      { key: "manager", name: "Manager", icon: "ChartBar" },
-      { key: "entrepreneur", name: "Entrepreneur", icon: "Rocket" },
-      { key: "ceo", name: "CEO", icon: "Crown" },
-      { key: "scientist", name: "Scientist", icon: "FlaskConical" },
-      { key: "researcher", name: "Researcher", icon: "Search" },
-      { key: "architect", name: "Architect", icon: "Ruler" },
-      { key: "real_estate", name: "Real Estate Agent", icon: "Home" },
-
-      // Trades / Labor
-      { key: "chef", name: "Chef", icon: "Utensils" },
-      { key: "baker", name: "Baker", icon: "Croissant" },
-      { key: "driver", name: "Driver", icon: "Car" },
-      { key: "pilot", name: "Pilot", icon: "Plane" },
-      { key: "mechanic", name: "Mechanic", icon: "Settings" },
-      { key: "electrician", name: "Electrician", icon: "Zap" },
-      { key: "builder", name: "Builder", icon: "Hammer" },
-      { key: "farmer", name: "Farmer", icon: "Tractor" },
-      { key: "gardener", name: "Gardener", icon: "Leaf" },
-      { key: "police", name: "Police Officer", icon: "Shield" },
-      { key: "firefighter", name: "Firefighter", icon: "Flame" },
-      { key: "soldier", name: "Soldier", icon: "Swords" },
-
-      // Sports & Hobbies
-      { key: "tennis_player", name: "Tennis Player", icon: "Circle" },
-      { key: "soccer_player", name: "Soccer Player", icon: "Goal" },
-      { key: "basketball_player", name: "Basketball Player", icon: "Dribbble" },
-      { key: "golfer", name: "Golfer", icon: "FlagTriangleRight" },
-      { key: "runner", name: "Runner", icon: "Footprints" },
-      { key: "swimmer", name: "Swimmer", icon: "Waves" },
-      { key: "cyclist", name: "Cyclist", icon: "Bike" },
-      { key: "racer", name: "Racer", icon: "Car" },
-      { key: "yogi", name: "Yogi", icon: "Smile" },
-      { key: "gamer", name: "Gamer", icon: "Gamepad2" },
-      { key: "reader", name: "Reader", icon: "BookMarked" },
-      { key: "traveler", name: "Traveler", icon: "Globe2" },
-      { key: "hiker", name: "Hiker", icon: "Mountain" },
-
-      // Personality / Lifestyle
-      { key: "philosopher", name: "Philosopher", icon: "Brain" },
-      { key: "innovator", name: "Innovator", icon: "Sparkles" },
-      { key: "creator", name: "Creator", icon: "Shapes" },
-      { key: "maker", name: "Maker", icon: "Wrench" },
-      { key: "thinker", name: "Thinker", icon: "BrainCircuit" },
-      { key: "coach", name: "Coach", icon: "Speech" },
-      { key: "leader", name: "Leader", icon: "Star" },
-      { key: "speaker", name: "Speaker", icon: "Mic" },
-      { key: "minimalist", name: "Minimalist", icon: "Minus" },
-      { key: "foodie", name: "Foodie", icon: "Pizza" },
-      { key: "investor", name: "Investor", icon: "PiggyBank" },
-      { key: "dj", name: "DJ", icon: "Disc" },
-      { key: "streamer", name: "Streamer", icon: "Radio" },
-      { key: "podcaster", name: "Podcaster", icon: "Headphones" },
-      { key: "collector", name: "Collector", icon: "Archive" },
-      { key: "explorer", name: "Explorer", icon: "Compass" },
-      { key: "dreamer", name: "Dreamer", icon: "Cloud" },
-      { key: "advocate", name: "Advocate", icon: "Megaphone" },
-      { key: "activist", name: "Activist", icon: "Vote" },
-      { key: "historian", name: "Historian", icon: "Landmark" },
-      { key: "comedian", name: "Comedian", icon: "Smile" },
-      { key: "astronomer", name: "Astronomer", icon: "Telescope" },
-      { key: "biologist", name: "Biologist", icon: "Microscope" },
-      { key: "detective", name: "Detective", icon: "Search" },
-      { key: "magician", name: "Magician", icon: "Wand2" },
-      { key: "sailor", name: "Sailor", icon: "Anchor" },
-      { key: "astronaut", name: "Astronaut", icon: "Rocket" },
-      { key: "ninja", name: "Ninja", icon: "Swords" },
-      { key: "samurai", name: "Samurai", icon: "Sword" },
-      { key: "bartender", name: "Bartender", icon: "Wine" },
-      { key: "barista", name: "Barista", icon: "Coffee" },
-      { key: "florist", name: "Florist", icon: "Flower2" },
-      { key: "tailor", name: "Tailor", icon: "Scissors" },
-      { key: "carpenter", name: "Carpenter", icon: "Hammer" },
-      { key: "plumber", name: "Plumber", icon: "Wrench" },
-      { key: "painter", name: "Painter", icon: "Paintbrush" },
-      { key: "makeup_artist", name: "Makeup Artist", icon: "Brush" },
-      { key: "barber", name: "Barber", icon: "ScissorsSquare" },
-    ],odcaster", icon: "Headphones" },
-      { key: "collector", name: "Collector", icon: "Archive" },
-      { key: "explorer", name: "Explorer", icon: "Compass" },
-      { key: "dreamer", name: "Dreamer", icon: "Cloud" },
-      { key: "advocate", name: "Advocate", icon: "Megaphone" },
-      { key: "activist", name: "Activist", icon: "Vote" },
-      { key: "historian", name: "Historian", icon: "Landmark" },
-      { key: "comedian", name: "Comedian", icon: "Smile" },
-      { key: "astronomer", name: "Astronomer", icon: "Telescope" },
-      { key: "biologist", name: "Biologist", icon: "Microscope" },
-      { key: "detective", name: "Detective", icon: "Search" },
-      { key: "magician", name: "Magician", icon: "Wand2" },
-      { key: "sailor", name: "Sailor", icon: "Anchor" },
-      { key: "astronaut", name: "Astronaut", icon: "Rocket" },
-      { key: "ninja", name: "Ninja", icon: "Swords" },
-      { key: "samurai", name: "Samurai", icon: "Sword" },
-      { key: "bartender", name: "Bartender", icon: "Wine" },
-      { key: "barista", name: "Barista", icon: "Coffee" },
-      { key: "florist", name: "Florist", icon: "Flower2" },
-      { key: "tailor", name: "Tailor", icon: "Scissors" },
-      { key: "carpenter", name: "Carpenter", icon: "Hammer" },
-      { key: "plumber", name: "Plumber", icon: "Wrench" },
-      { key: "painter", name: "Painter", icon: "Paintbrush" },
-      { key: "sculptor", name: "Sculptor", icon: "Hammer" },
-      { key: "makeup_artist", name: "Makeup Artist", icon: "Brush" },
-      { key: "barber", name: "Barber", icon: "ScissorsSquare" },
-      { key: "stylist", name: "Stylist", icon: "Shirt" },
-      { key: "referee", name: "Referee", icon: "Whistle" }
+      { key: "son", name: "Son/Daughter", icon: "Heart" },
+      { key: "citizen", name: "Citizen", icon: "Flag" }
+    ],
+    roleLibrary: [
+          {
+                "key": "human",
+                "name": "Human",
+                "icon": "User"
+          },
+          {
+                "key": "citizen",
+                "name": "Citizen",
+                "icon": "Flag"
+          },
+          {
+                "key": "friend",
+                "name": "Friend",
+                "icon": "Users"
+          },
+          {
+                "key": "parent",
+                "name": "Parent",
+                "icon": "Baby"
+          },
+          {
+                "key": "father",
+                "name": "Father",
+                "icon": "UserCircle2"
+          },
+          {
+                "key": "mother",
+                "name": "Mother",
+                "icon": "UserCircle"
+          },
+          {
+                "key": "son",
+                "name": "Son",
+                "icon": "Heart"
+          },
+          {
+                "key": "daughter",
+                "name": "Daughter",
+                "icon": "Heart"
+          },
+          {
+                "key": "brother",
+                "name": "Brother",
+                "icon": "User"
+          },
+          {
+                "key": "sister",
+                "name": "Sister",
+                "icon": "User"
+          },
+          {
+                "key": "husband",
+                "name": "Husband",
+                "icon": "HeartHandshake"
+          },
+          {
+                "key": "wife",
+                "name": "Wife",
+                "icon": "HeartHandshake"
+          },
+          {
+                "key": "partner",
+                "name": "Partner",
+                "icon": "Heart"
+          },
+          {
+                "key": "mentor",
+                "name": "Mentor",
+                "icon": "Lightbulb"
+          },
+          {
+                "key": "neighbor",
+                "name": "Neighbor",
+                "icon": "Home"
+          },
+          {
+                "key": "volunteer",
+                "name": "Volunteer",
+                "icon": "HandHeart"
+          },
+          {
+                "key": "pet_owner",
+                "name": "Pet Owner",
+                "icon": "Dog"
+          },
+          {
+                "key": "professional",
+                "name": "Professional",
+                "icon": "Briefcase"
+          },
+          {
+                "key": "student",
+                "name": "Student",
+                "icon": "GraduationCap"
+          },
+          {
+                "key": "athlete",
+                "name": "Athlete",
+                "icon": "Dumbbell"
+          },
+          {
+                "key": "designer",
+                "name": "Designer",
+                "icon": "Palette"
+          },
+          {
+                "key": "musician",
+                "name": "Musician",
+                "icon": "Music"
+          },
+          {
+                "key": "dancer",
+                "name": "Dancer",
+                "icon": "Activity"
+          },
+          {
+                "key": "artist",
+                "name": "Artist",
+                "icon": "Brush"
+          },
+          {
+                "key": "photographer",
+                "name": "Photographer",
+                "icon": "Camera"
+          },
+          {
+                "key": "videographer",
+                "name": "Videographer",
+                "icon": "Video"
+          },
+          {
+                "key": "writer",
+                "name": "Writer",
+                "icon": "PenTool"
+          },
+          {
+                "key": "content_creator",
+                "name": "Content Creator",
+                "icon": "Clapperboard"
+          },
+          {
+                "key": "actor",
+                "name": "Actor",
+                "icon": "Masks"
+          },
+          {
+                "key": "sculptor",
+                "name": "Sculptor",
+                "icon": "Hammer"
+          },
+          {
+                "key": "makeup_artist",
+                "name": "Makeup Artist",
+                "icon": "Brush"
+          },
+          {
+                "key": "developer",
+                "name": "Developer",
+                "icon": "Code"
+          },
+          {
+                "key": "engineer",
+                "name": "Engineer",
+                "icon": "Wrench"
+          },
+          {
+                "key": "doctor",
+                "name": "Doctor",
+                "icon": "Stethoscope"
+          },
+          {
+                "key": "nurse",
+                "name": "Nurse",
+                "icon": "HeartPulse"
+          },
+          {
+                "key": "teacher",
+                "name": "Teacher",
+                "icon": "BookOpen"
+          },
+          {
+                "key": "lawyer",
+                "name": "Lawyer",
+                "icon": "Scale"
+          },
+          {
+                "key": "accountant",
+                "name": "Accountant",
+                "icon": "Calculator"
+          },
+          {
+                "key": "trader",
+                "name": "Trader",
+                "icon": "TrendingUp"
+          },
+          {
+                "key": "manager",
+                "name": "Manager",
+                "icon": "ChartBar"
+          },
+          {
+                "key": "entrepreneur",
+                "name": "Entrepreneur",
+                "icon": "Rocket"
+          },
+          {
+                "key": "ceo",
+                "name": "CEO",
+                "icon": "Crown"
+          },
+          {
+                "key": "scientist",
+                "name": "Scientist",
+                "icon": "FlaskConical"
+          },
+          {
+                "key": "researcher",
+                "name": "Researcher",
+                "icon": "Search"
+          },
+          {
+                "key": "architect",
+                "name": "Architect",
+                "icon": "Ruler"
+          },
+          {
+                "key": "real_estate",
+                "name": "Real Estate Agent",
+                "icon": "Home"
+          },
+          {
+                "key": "chef",
+                "name": "Chef",
+                "icon": "Utensils"
+          },
+          {
+                "key": "baker",
+                "name": "Baker",
+                "icon": "Croissant"
+          },
+          {
+                "key": "driver",
+                "name": "Driver",
+                "icon": "Car"
+          },
+          {
+                "key": "pilot",
+                "name": "Pilot",
+                "icon": "Plane"
+          },
+          {
+                "key": "mechanic",
+                "name": "Mechanic",
+                "icon": "Settings"
+          },
+          {
+                "key": "electrician",
+                "name": "Electrician",
+                "icon": "Zap"
+          },
+          {
+                "key": "builder",
+                "name": "Builder",
+                "icon": "Hammer"
+          },
+          {
+                "key": "farmer",
+                "name": "Farmer",
+                "icon": "Tractor"
+          },
+          {
+                "key": "gardener",
+                "name": "Gardener",
+                "icon": "Leaf"
+          },
+          {
+                "key": "police",
+                "name": "Police Officer",
+                "icon": "Shield"
+          },
+          {
+                "key": "firefighter",
+                "name": "Firefighter",
+                "icon": "Flame"
+          },
+          {
+                "key": "soldier",
+                "name": "Soldier",
+                "icon": "Swords"
+          },
+          {
+                "key": "bartender",
+                "name": "Bartender",
+                "icon": "Wine"
+          },
+          {
+                "key": "barista",
+                "name": "Barista",
+                "icon": "Coffee"
+          },
+          {
+                "key": "florist",
+                "name": "Florist",
+                "icon": "Flower2"
+          },
+          {
+                "key": "tailor",
+                "name": "Tailor",
+                "icon": "Scissors"
+          },
+          {
+                "key": "carpenter",
+                "name": "Carpenter",
+                "icon": "Hammer"
+          },
+          {
+                "key": "plumber",
+                "name": "Plumber",
+                "icon": "Wrench"
+          },
+          {
+                "key": "painter",
+                "name": "Painter",
+                "icon": "Paintbrush"
+          },
+          {
+                "key": "barber",
+                "name": "Barber",
+                "icon": "ScissorsSquare"
+          },
+          {
+                "key": "stylist",
+                "name": "Stylist",
+                "icon": "Shirt"
+          },
+          {
+                "key": "tennis_player",
+                "name": "Tennis Player",
+                "icon": "Circle"
+          },
+          {
+                "key": "soccer_player",
+                "name": "Soccer Player",
+                "icon": "Goal"
+          },
+          {
+                "key": "basketball_player",
+                "name": "Basketball Player",
+                "icon": "Dribbble"
+          },
+          {
+                "key": "golfer",
+                "name": "Golfer",
+                "icon": "FlagTriangleRight"
+          },
+          {
+                "key": "runner",
+                "name": "Runner",
+                "icon": "Footprints"
+          },
+          {
+                "key": "swimmer",
+                "name": "Swimmer",
+                "icon": "Waves"
+          },
+          {
+                "key": "cyclist",
+                "name": "Cyclist",
+                "icon": "Bike"
+          },
+          {
+                "key": "yogi",
+                "name": "Yogi",
+                "icon": "Smile"
+          },
+          {
+                "key": "gamer",
+                "name": "Gamer",
+                "icon": "Gamepad2"
+          },
+          {
+                "key": "reader",
+                "name": "Reader",
+                "icon": "BookMarked"
+          },
+          {
+                "key": "traveler",
+                "name": "Traveler",
+                "icon": "Globe2"
+          },
+          {
+                "key": "hiker",
+                "name": "Hiker",
+                "icon": "Mountain"
+          },
+          {
+                "key": "philosopher",
+                "name": "Philosopher",
+                "icon": "Brain"
+          },
+          {
+                "key": "innovator",
+                "name": "Innovator",
+                "icon": "Sparkles"
+          },
+          {
+                "key": "creator",
+                "name": "Creator",
+                "icon": "Shapes"
+          },
+          {
+                "key": "maker",
+                "name": "Maker",
+                "icon": "Wrench"
+          },
+          {
+                "key": "thinker",
+                "name": "Thinker",
+                "icon": "BrainCircuit"
+          },
+          {
+                "key": "coach",
+                "name": "Coach",
+                "icon": "Megaphone"
+          },
+          {
+                "key": "leader",
+                "name": "Leader",
+                "icon": "Star"
+          },
+          {
+                "key": "speaker",
+                "name": "Speaker",
+                "icon": "Mic"
+          },
+          {
+                "key": "minimalist",
+                "name": "Minimalist",
+                "icon": "Minus"
+          },
+          {
+                "key": "foodie",
+                "name": "Foodie",
+                "icon": "Pizza"
+          },
+          {
+                "key": "investor",
+                "name": "Investor",
+                "icon": "PiggyBank"
+          },
+          {
+                "key": "dj",
+                "name": "DJ",
+                "icon": "Disc"
+          },
+          {
+                "key": "streamer",
+                "name": "Streamer",
+                "icon": "Radio"
+          },
+          {
+                "key": "podcaster",
+                "name": "Podcaster",
+                "icon": "Headphones"
+          },
+          {
+                "key": "collector",
+                "name": "Collector",
+                "icon": "Archive"
+          },
+          {
+                "key": "explorer",
+                "name": "Explorer",
+                "icon": "Compass"
+          },
+          {
+                "key": "dreamer",
+                "name": "Dreamer",
+                "icon": "Cloud"
+          },
+          {
+                "key": "advocate",
+                "name": "Advocate",
+                "icon": "Megaphone"
+          },
+          {
+                "key": "activist",
+                "name": "Activist",
+                "icon": "Vote"
+          },
+          {
+                "key": "historian",
+                "name": "Historian",
+                "icon": "Landmark"
+          },
+          {
+                "key": "comedian",
+                "name": "Comedian",
+                "icon": "Laugh"
+          },
+          {
+                "key": "astronomer",
+                "name": "Astronomer",
+                "icon": "Telescope"
+          },
+          {
+                "key": "biologist",
+                "name": "Biologist",
+                "icon": "Microscope"
+          },
+          {
+                "key": "detective",
+                "name": "Detective",
+                "icon": "Search"
+          },
+          {
+                "key": "magician",
+                "name": "Magician",
+                "icon": "Wand2"
+          },
+          {
+                "key": "sailor",
+                "name": "Sailor",
+                "icon": "Anchor"
+          },
+          {
+                "key": "astronaut",
+                "name": "Astronaut",
+                "icon": "Rocket"
+          },
+          {
+                "key": "ninja",
+                "name": "Ninja",
+                "icon": "Swords"
+          },
+          {
+                "key": "samurai",
+                "name": "Samurai",
+                "icon": "Sword"
+          },
+          {
+                "key": "referee",
+                "name": "Referee",
+                "icon": "Whistle"
+          }
     ],
     dimensionConfig: [
       { key: "health", name: "Health", max: 50, color: "#4caf50", weight: 15 },
@@ -558,45 +915,30 @@ const TRANSLATIONS = {
 
 // --- Helper Functions ---
 
-// Calculate Routine Adherence
+// Calculate Routine Adherence based on Account Creation Date
 const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'daily') => {
   if (!routine) return 0;
 
+  const creationDate = new Date(accountCreationDate || new Date());
+  const today = new Date();
   const history = routine.completionHistory || [];
 
-  let initialDateStr;
-  if (routine.createdAt) {
-    initialDateStr = routine.createdAt;
-  } else if (history.length > 0) {
-    // Legacy routines without createdAt: use the first completion date as proxy for creation
-    const sortedHistory = [...history].sort();
-    initialDateStr = sortedHistory[0];
-  } else {
-    // Fallback for empty legacy routine
-    initialDateStr = new Date();
-  }
+  // Calculate total expected occurrences since creation
+  let expected = 0;
+  const diffTime = Math.abs(today - creationDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  const creationDate = new Date(initialDateStr);
-  creationDate.setHours(0, 0, 0, 0);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const diffTime = Math.max(0, today.getTime() - creationDate.getTime());
-  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include creation day
-
-  let expected = 1;
   if (frequency === 'daily') {
-    expected = diffDays;
+    expected = Math.max(1, diffDays);
   } else if (frequency === 'weekly') {
-    expected = Math.ceil(diffDays / 7);
+    expected = Math.max(1, Math.ceil(diffDays / 7));
   } else if (frequency === 'monthly') {
-    expected = Math.ceil(diffDays / 30);
+    expected = Math.max(1, Math.ceil(diffDays / 30));
   }
 
+  // Calculate actual completions
+  // Filter history to ensure we only count valid dates (and potentially unique ones if needed, though toggle logic should handle uniqueness)
   const actual = history.length;
-
-  if (expected === 0) return 0;
 
   // Cap at 100%
   return Math.min(100, Math.round((actual / expected) * 100));
@@ -604,28 +946,28 @@ const calculateRoutineAdherence = (routine, accountCreationDate, frequency = 'da
 
 const calculateDimensionScore = (dimData, accountCreationDate) => {
   if (!dimData) return 0;
-
-  const WEIGHTS = {
-    challenges: 3,
-    goals: 3,
-    routines: 2,
-    projects: 1
-  };
-
-  let totalWeight = 0;
-  let weightedScoreSum = 0;
+  let totalItems = 0;
+  let totalScore = 0;
 
   const processList = (list, type, freq) => {
     if (!list) return;
     list.forEach(item => {
-      let itemScore = type === 'routines'
-        ? calculateRoutineAdherence(item, accountCreationDate, freq)
-        : (item.status || 0);
-
-      let itemWeight = (WEIGHTS[type] || 1) * getImportanceMultiplier(item.importance);
-
-      weightedScoreSum += itemScore * itemWeight;
-      totalWeight += itemWeight;
+      // Projects only contribute if they have progress (>0) - Positive impact only (Additive Bonus)
+      if (type === 'projects') {
+        if ((item.status || 0) > 0) {
+          // Do NOT increment totalItems for projects, they are additive bonuses
+          totalScore += item.status;
+        }
+      } else if (type === 'routines') {
+        // Routines use adherence calculation
+        totalItems++;
+        const adherence = calculateRoutineAdherence(item, accountCreationDate, freq);
+        totalScore += adherence;
+      } else {
+        // Goals, Challenges always contribute
+        totalItems++;
+        totalScore += (item.status || 0);
+      }
     });
   };
 
@@ -636,9 +978,8 @@ const calculateDimensionScore = (dimData, accountCreationDate) => {
   processList(dimData.routines?.weekly, 'routines', 'weekly');
   processList(dimData.routines?.monthly, 'routines', 'monthly');
 
-  if (totalWeight === 0) return 0;
-
-  const finalScore = Math.round(weightedScoreSum / totalWeight);
+  // If we have items, divide by count. If only projects (count=0), divide by 1.
+  const finalScore = Math.round(totalScore / Math.max(1, totalItems));
   return Math.min(100, finalScore);
 };
 
@@ -995,7 +1336,7 @@ const SettingsModal = ({ isOpen, onClose, data, setData, t, isGuest }) => {
                   const file = e.target.files[0];
                   if (file) {
                     const url = await uploadToCloudinary(file);
-                    if (url) handleChange('userAvatar', url);
+                    handleChange('userAvatar', url);
                   }
                 }} />
               </label>
@@ -1044,7 +1385,7 @@ const ItemDetailModal = ({ isOpen, onClose, item, type, roles, skills, data, onS
     if (file) {
       setUploading(true);
       const url = await uploadToCloudinary(file);
-      if (url) handleChange('image', url);
+      handleChange('image', url);
       setUploading(false);
     }
   };
@@ -1528,14 +1869,12 @@ const VisualizationPage = ({ images, setImages, theme, isGuest, dimensions, t })
     if (file) {
       setUploading(true);
       const url = await uploadToCloudinary(file);
-      if (url) {
-        // Add to center of current view
-        const rect = containerRef.current.getBoundingClientRect();
-        const centerX = (-transform.x + rect.width / 2) / transform.scale;
-        const centerY = (-transform.y + rect.height / 2) / transform.scale;
+      // Add to center of current view
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = (-transform.x + rect.width / 2) / transform.scale;
+      const centerY = (-transform.y + rect.height / 2) / transform.scale;
 
-        setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
-      }
+      setImages(prev => [...prev, { id: Date.now(), src: url, x: centerX, y: centerY, width: 300 }]);
       setUploading(false);
     }
   };
@@ -1745,8 +2084,7 @@ const LifeBalancePage = ({ data, setData, theme, isGuest, t }) => {
       roleKey: '',
       dueDate: '',
       frequency: freq, // Store frequency in item
-      completionHistory: [],
-      createdAt: new Date().toISOString()
+      completionHistory: []
     };
 
     setData(prev => {
@@ -2081,15 +2419,10 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [editingRole, setEditingRole] = useState(null);
   const [newRoleName, setNewRoleName] = useState("");
-  const [roleSearchTerm, setRoleSearchTerm] = useState("");
   const colors = THEMES[theme] || THEMES.dark;
 
   // Show all roles in library, but mark which ones are active
   const availableRoles = roleLibrary || [];
-  const filteredRoles = availableRoles.filter(role => 
-    role.name.toLowerCase().includes(roleSearchTerm.toLowerCase()) || 
-    (t(role.name) && t(role.name).toLowerCase().includes(roleSearchTerm.toLowerCase()))
-  );
 
   const toggleRole = (role, isAdding) => {
     setData(prev => {
@@ -2161,13 +2494,29 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
 
   const getRoleIcon = (iconName, className) => {
     const iconClass = className || colors.emphasisText;
-    const IconComponent = LucideIcons[iconName] || LucideIcons.User;
-    return <IconComponent size={48} className={iconClass} />;
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={48} className={iconClass} />;
+      case 'Briefcase': return <Briefcase size={48} className={iconClass} />;
+      case 'User': return <User size={48} className={iconClass} />;
+      case 'Heart': return <Heart size={48} className={iconClass} />;
+      case 'Flag': return <Flag size={48} className={iconClass} />;
+      case 'Users': return <Users size={48} className={iconClass} />;
+      case 'GraduationCap': return <GraduationCap size={48} className={iconClass} />;
+      default: return <User size={48} className={iconClass} />;
+    }
   };
 
   const getSmallRoleIcon = (iconName) => {
-    const IconComponent = LucideIcons[iconName] || LucideIcons.User;
-    return <IconComponent size={20} />;
+    switch (iconName) {
+      case 'Dumbbell': return <Dumbbell size={20} />;
+      case 'Briefcase': return <Briefcase size={20} />;
+      case 'User': return <User size={20} />;
+      case 'Heart': return <Heart size={20} />;
+      case 'Flag': return <Flag size={20} />;
+      case 'Users': return <Users size={20} />;
+      case 'GraduationCap': return <GraduationCap size={20} />;
+      default: return <User size={20} />;
+    }
   };
 
   return (
@@ -2219,19 +2568,11 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
 
       {/* Library Modal */}
       <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title={t('roleLibraryTitle')} theme={theme}>
-        <div className="flex flex-col h-full max-h-[60vh]">
-          <input
-            type="text"
-            placeholder={t('searchRoles') || "Search roles..."}
-            value={roleSearchTerm}
-            onChange={(e) => setRoleSearchTerm(e.target.value)}
-            className={`w-full p-3 mb-4 ${colors.input} border ${colors.border} rounded-lg text-sm ${colors.text} focus:outline-none focus:border-blue-500`}
-          />
-          <div className="space-y-2 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            {filteredRoles.length === 0 ? (
-              <p className={`${colors.textSecondary} text-center py-8`}>{availableRoles.length === 0 ? t('noRolesAvailable') : t('noResultsFound') || "No results found"}</p>
-            ) : (
-              filteredRoles.map(role => {
+        <div className="space-y-2">
+          {availableRoles.length === 0 ? (
+            <p className={`${colors.textSecondary} text-center py-8`}>{t('noRolesAvailable')}</p>
+          ) : (
+            availableRoles.map(role => {
               const isActive = userRoles.find(r => r.key === role.key);
               return (
                 <div key={role.key} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center border border-transparent hover:${colors.emphasisBorder} transition-all group`}>
@@ -2257,7 +2598,6 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
               );
             })
           )}
-          </div>
         </div>
       </Modal>
 
@@ -3295,11 +3635,6 @@ export default function LiviaApp() {
               visualizationImages: loadedData.visualizationImages || DEFAULT_DATA.visualizationImages,
             };
 
-            // --- ROLE LIBRARY MIGRATION ---
-            const loadedRolesF = loadedData.appSettings?.roleLibrary || [];
-            const customRolesF = loadedRolesF.filter(r => r.isCustom);
-            mergedData.appSettings.roleLibrary = [...DEFAULT_DATA.appSettings.roleLibrary, ...customRolesF];
-
             // --- LOGIN COUNT LOGIC ---
             // Check if user has content (Old User Detection)
             const hasContent = hasUserCreatedContent(mergedData);
@@ -3365,11 +3700,6 @@ export default function LiviaApp() {
               visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
               dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
             };
-
-            // --- ROLE LIBRARY MIGRATION (GUEST) ---
-            const loadedRolesG = parsed.appSettings?.roleLibrary || [];
-            const customRolesG = loadedRolesG.filter(r => r.isCustom);
-            mergedData.appSettings.roleLibrary = [...DEFAULT_DATA.appSettings.roleLibrary, ...customRolesG];
 
             // --- LOGIN COUNT LOGIC (GUEST) ---
             const hasContent = hasUserCreatedContent(mergedData);
@@ -3565,7 +3895,6 @@ export default function LiviaApp() {
           console.log("Data saved successfully to Firestore!");
         } catch (error) {
           console.error("Error saving data to Firestore:", error);
-          alert("Autosave failed! Your changes are not being saved. This might be due to a document size limit if you have large images stored. Error: " + error.message);
         }
       } else if (isGuest) {
         console.log("Saving data to LocalStorage (Guest Mode)");
