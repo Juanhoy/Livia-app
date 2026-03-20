@@ -13,6 +13,7 @@ import {
   Baby, PieChart, BarChart3, LogOut, Moon, Sun, Globe2, Mail, Lock,
   UserX, Wrench, Zap, ChevronLeft, Swords, Target, ChevronsUp, ChevronsDown, Minus, ChevronUp, ChevronDown, Gift
 } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
   AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip
@@ -44,6 +45,21 @@ const getImportanceConfig = (imp) => {
     case 'Low': return { icon: <ChevronsDown size={12} />, label: 'Low' };
     default: return { icon: <Minus size={12} />, label: 'Medium' };
   }
+};
+
+const getImportanceMultiplier = (importance) => {
+  if (!importance) return 1;
+  const imp = String(importance).toLowerCase();
+  
+  // Check if it matches any "high" translation
+  const isHigh = Object.values(TRANSLATIONS).some(lang => lang.high?.toLowerCase() === imp);
+  if (isHigh) return 1.5;
+  
+  // Check if it matches any "low" translation
+  const isLow = Object.values(TRANSLATIONS).some(lang => lang.low?.toLowerCase() === imp);
+  if (isLow) return 0.5;
+  
+  return 1;
 };
 
 const DEFAULT_DIMENSIONS = [
@@ -359,43 +375,164 @@ const TRANSLATIONS = {
     health: "健康", family: "家族", freedom: "自由", community: "コミュニティ", management: "管理", learning: "学習", creation: "創造", fun: "楽しみ",
     done: "完了", yourRoles: "あなたの役割", roleLibrary: "役割ライブラリ", createCustom: "カスタム作成", level1: "レベル 1", xp: "XP",
     roleLibraryTitle: "役割ライブラリ", allRolesActive: "利用可能なすべての役割がアクティブです。", createCustomRoleTitle: "カスタム役割を作成",
-    roleName: "役割名", roleNamePlaceholder: "例：ミュージシャン、ゲーマー、シェフ...", createRole: "役割を作成", dueToday: "今日期限",
-    weeklyGoal: "週の目標", monthlyGoal: "月の目標", money: "お金", tools: "ツール", knowledge: "知識", people: "人々", energy: "エネルギー",
-    newItem: "新しいアイテム", addTask: "新しいタスクを追加", value: "価値", deleteResourceConfirm: "このリソースを削除しますか？",
-    focusWeek: "今週のフォーカス", focusMonth: "今月のフォーカス", focusToday: "今日のフォーカス",
-    focusWeek: "今週のフォーカス", focusMonth: "今月のフォーカス", focusToday: "今日のフォーカス",
-    noWeeklyRoutines: "週次ルーチンはありません。", noMonthlyRoutines: "月次ルーチンはありません。", noDailyTasks: "今日のタスクはありません。",
-    vehicles: "乗り物", houses: "家", studio: "スタジオ", electronics: "電子機器", furniture: "家具", gym_and_sports: "ジム＆スポーツ", musical_instruments: "楽器", wishlist: "ウィッシュリスト", clothes: "服"
-  }
-};
-
-const getBrowserLanguage = () => {
-  const lang = navigator.language.split('-')[0];
-  return TRANSLATIONS[lang] ? lang : 'en';
-};
-
-const DEFAULT_DATA = {
-  appSettings: {
-    userName: "User",
-    userEmail: "user@example.com",
-    userAvatar: null,
-    theme: 'dark',
-    language: getBrowserLanguage(),
-    hasSeenTour: false,
-    loginCount: 0,
-    userRoles: [
+    roleName: "役割名", roleNamePlaceholder: "例：ミュージシャン、ゲーマー、シェフ...", createRole: "役割を�    roleLibrary: [
+      // Human / Core
       { key: "human", name: "Human", icon: "User" },
-      { key: "son", name: "Son/Daughter", icon: "Heart" },
-      { key: "citizen", name: "Citizen", icon: "Flag" }
-    ],
-    roleLibrary: [
-      { key: "human", name: "Human", icon: "User" },
-      { key: "son", name: "Son", icon: "Heart" },
       { key: "citizen", name: "Citizen", icon: "Flag" },
       { key: "friend", name: "Friend", icon: "Users" },
+
+      // Family & Relationships
+      { key: "parent", name: "Parent", icon: "Baby" },
+      { key: "father", name: "Father", icon: "UserCircle2" },
+      { key: "mother", name: "Mother", icon: "UserCircle" },
+      { key: "son", name: "Son", icon: "Heart" },
+      { key: "daughter", name: "Daughter", icon: "Heart" },
+      { key: "brother", name: "Brother", icon: "User" },
+      { key: "sister", name: "Sister", icon: "User" },
+      { key: "husband", name: "Husband", icon: "HeartHandshake" },
+      { key: "wife", name: "Wife", icon: "HeartHandshake" },
+      { key: "partner", name: "Partner", icon: "Heart" },
+      { key: "caregiver", name: "Caregiver", icon: "HeartHandshake" },
+      { key: "mentor", name: "Mentor", icon: "Lightbulb" },
+      { key: "neighbor", name: "Neighbor", icon: "Home" },
+      { key: "volunteer", name: "Volunteer", icon: "HandHeart" },
+      { key: "pet_owner", name: "Pet Owner", icon: "Dog" },
+
+      // General Types
       { key: "professional", name: "Professional", icon: "Briefcase" },
       { key: "student", name: "Student", icon: "GraduationCap" },
       { key: "athlete", name: "Athlete", icon: "Dumbbell" },
+
+      // Arts & Creativity
+      { key: "designer", name: "Designer", icon: "Palette" },
+      { key: "musician", name: "Musician", icon: "Music" },
+      { key: "music_producer", name: "Music Producer", icon: "Mic" },
+      { key: "dancer", name: "Dancer", icon: "Activity" },
+      { key: "artist", name: "Artist", icon: "Brush" },
+      { key: "animator", name: "Animator", icon: "Film" },
+      { key: "vfx_artist", name: "VFX Artist", icon: "Sparkles" },
+      { key: "photographer", name: "Photographer", icon: "Camera" },
+      { key: "videographer", name: "Videographer", icon: "Video" },
+      { key: "cinematographer", name: "Cinematographer", icon: "Video" },
+      { key: "writer", name: "Writer", icon: "PenTool" },
+      { key: "content_creator", name: "Content Creator", icon: "Clapperboard" },
+      { key: "youtuber", name: "YouTuber", icon: "Video" },
+      { key: "actor", name: "Actor", icon: "Masks" },
+      { key: "sculptor", name: "Sculptor", icon: "Hammer" },
+
+      // Professions
+      { key: "developer", name: "Developer", icon: "Code" },
+      { key: "engineer", name: "Engineer", icon: "Wrench" },
+      { key: "doctor", name: "Doctor", icon: "Stethoscope" },
+      { key: "nurse", name: "Nurse", icon: "HeartPulse" },
+      { key: "teacher", name: "Teacher", icon: "BookOpen" },
+      { key: "lawyer", name: "Lawyer", icon: "Scale" },
+      { key: "accountant", name: "Accountant", icon: "Calculator" },
+      { key: "trader", name: "Trader", icon: "TrendingUp" },
+      { key: "manager", name: "Manager", icon: "ChartBar" },
+      { key: "entrepreneur", name: "Entrepreneur", icon: "Rocket" },
+      { key: "ceo", name: "CEO", icon: "Crown" },
+      { key: "scientist", name: "Scientist", icon: "FlaskConical" },
+      { key: "researcher", name: "Researcher", icon: "Search" },
+      { key: "architect", name: "Architect", icon: "Ruler" },
+      { key: "real_estate", name: "Real Estate Agent", icon: "Home" },
+
+      // Trades / Labor
+      { key: "chef", name: "Chef", icon: "Utensils" },
+      { key: "baker", name: "Baker", icon: "Croissant" },
+      { key: "driver", name: "Driver", icon: "Car" },
+      { key: "pilot", name: "Pilot", icon: "Plane" },
+      { key: "mechanic", name: "Mechanic", icon: "Settings" },
+      { key: "electrician", name: "Electrician", icon: "Zap" },
+      { key: "builder", name: "Builder", icon: "Hammer" },
+      { key: "farmer", name: "Farmer", icon: "Tractor" },
+      { key: "gardener", name: "Gardener", icon: "Leaf" },
+      { key: "police", name: "Police Officer", icon: "Shield" },
+      { key: "firefighter", name: "Firefighter", icon: "Flame" },
+      { key: "soldier", name: "Soldier", icon: "Swords" },
+
+      // Sports & Hobbies
+      { key: "tennis_player", name: "Tennis Player", icon: "Circle" },
+      { key: "soccer_player", name: "Soccer Player", icon: "Goal" },
+      { key: "basketball_player", name: "Basketball Player", icon: "Dribbble" },
+      { key: "golfer", name: "Golfer", icon: "FlagTriangleRight" },
+      { key: "runner", name: "Runner", icon: "Footprints" },
+      { key: "swimmer", name: "Swimmer", icon: "Waves" },
+      { key: "cyclist", name: "Cyclist", icon: "Bike" },
+      { key: "racer", name: "Racer", icon: "Car" },
+      { key: "yogi", name: "Yogi", icon: "Smile" },
+      { key: "gamer", name: "Gamer", icon: "Gamepad2" },
+      { key: "reader", name: "Reader", icon: "BookMarked" },
+      { key: "traveler", name: "Traveler", icon: "Globe2" },
+      { key: "hiker", name: "Hiker", icon: "Mountain" },
+
+      // Personality / Lifestyle
+      { key: "philosopher", name: "Philosopher", icon: "Brain" },
+      { key: "innovator", name: "Innovator", icon: "Sparkles" },
+      { key: "creator", name: "Creator", icon: "Shapes" },
+      { key: "maker", name: "Maker", icon: "Wrench" },
+      { key: "thinker", name: "Thinker", icon: "BrainCircuit" },
+      { key: "coach", name: "Coach", icon: "Speech" },
+      { key: "leader", name: "Leader", icon: "Star" },
+      { key: "speaker", name: "Speaker", icon: "Mic" },
+      { key: "minimalist", name: "Minimalist", icon: "Minus" },
+      { key: "foodie", name: "Foodie", icon: "Pizza" },
+      { key: "investor", name: "Investor", icon: "PiggyBank" },
+      { key: "dj", name: "DJ", icon: "Disc" },
+      { key: "streamer", name: "Streamer", icon: "Radio" },
+      { key: "podcaster", name: "Podcaster", icon: "Headphones" },
+      { key: "collector", name: "Collector", icon: "Archive" },
+      { key: "explorer", name: "Explorer", icon: "Compass" },
+      { key: "dreamer", name: "Dreamer", icon: "Cloud" },
+      { key: "advocate", name: "Advocate", icon: "Megaphone" },
+      { key: "activist", name: "Activist", icon: "Vote" },
+      { key: "historian", name: "Historian", icon: "Landmark" },
+      { key: "comedian", name: "Comedian", icon: "Smile" },
+      { key: "astronomer", name: "Astronomer", icon: "Telescope" },
+      { key: "biologist", name: "Biologist", icon: "Microscope" },
+      { key: "detective", name: "Detective", icon: "Search" },
+      { key: "magician", name: "Magician", icon: "Wand2" },
+      { key: "sailor", name: "Sailor", icon: "Anchor" },
+      { key: "astronaut", name: "Astronaut", icon: "Rocket" },
+      { key: "ninja", name: "Ninja", icon: "Swords" },
+      { key: "samurai", name: "Samurai", icon: "Sword" },
+      { key: "bartender", name: "Bartender", icon: "Wine" },
+      { key: "barista", name: "Barista", icon: "Coffee" },
+      { key: "florist", name: "Florist", icon: "Flower2" },
+      { key: "tailor", name: "Tailor", icon: "Scissors" },
+      { key: "carpenter", name: "Carpenter", icon: "Hammer" },
+      { key: "plumber", name: "Plumber", icon: "Wrench" },
+      { key: "painter", name: "Painter", icon: "Paintbrush" },
+      { key: "makeup_artist", name: "Makeup Artist", icon: "Brush" },
+      { key: "barber", name: "Barber", icon: "ScissorsSquare" },
+    ],odcaster", icon: "Headphones" },
+      { key: "collector", name: "Collector", icon: "Archive" },
+      { key: "explorer", name: "Explorer", icon: "Compass" },
+      { key: "dreamer", name: "Dreamer", icon: "Cloud" },
+      { key: "advocate", name: "Advocate", icon: "Megaphone" },
+      { key: "activist", name: "Activist", icon: "Vote" },
+      { key: "historian", name: "Historian", icon: "Landmark" },
+      { key: "comedian", name: "Comedian", icon: "Smile" },
+      { key: "astronomer", name: "Astronomer", icon: "Telescope" },
+      { key: "biologist", name: "Biologist", icon: "Microscope" },
+      { key: "detective", name: "Detective", icon: "Search" },
+      { key: "magician", name: "Magician", icon: "Wand2" },
+      { key: "sailor", name: "Sailor", icon: "Anchor" },
+      { key: "astronaut", name: "Astronaut", icon: "Rocket" },
+      { key: "ninja", name: "Ninja", icon: "Swords" },
+      { key: "samurai", name: "Samurai", icon: "Sword" },
+      { key: "bartender", name: "Bartender", icon: "Wine" },
+      { key: "barista", name: "Barista", icon: "Coffee" },
+      { key: "florist", name: "Florist", icon: "Flower2" },
+      { key: "tailor", name: "Tailor", icon: "Scissors" },
+      { key: "carpenter", name: "Carpenter", icon: "Hammer" },
+      { key: "plumber", name: "Plumber", icon: "Wrench" },
+      { key: "painter", name: "Painter", icon: "Paintbrush" },
+      { key: "sculptor", name: "Sculptor", icon: "Hammer" },
+      { key: "makeup_artist", name: "Makeup Artist", icon: "Brush" },
+      { key: "barber", name: "Barber", icon: "ScissorsSquare" },
+      { key: "stylist", name: "Stylist", icon: "Shirt" },
+      { key: "referee", name: "Referee", icon: "Whistle" }
     ],
     dimensionConfig: [
       { key: "health", name: "Health", max: 50, color: "#4caf50", weight: 15 },
@@ -485,7 +622,7 @@ const calculateDimensionScore = (dimData, accountCreationDate) => {
         ? calculateRoutineAdherence(item, accountCreationDate, freq)
         : (item.status || 0);
 
-      let itemWeight = WEIGHTS[type] || 1;
+      let itemWeight = (WEIGHTS[type] || 1) * getImportanceMultiplier(item.importance);
 
       weightedScoreSum += itemScore * itemWeight;
       totalWeight += itemWeight;
@@ -1944,10 +2081,15 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [editingRole, setEditingRole] = useState(null);
   const [newRoleName, setNewRoleName] = useState("");
+  const [roleSearchTerm, setRoleSearchTerm] = useState("");
   const colors = THEMES[theme] || THEMES.dark;
 
   // Show all roles in library, but mark which ones are active
   const availableRoles = roleLibrary || [];
+  const filteredRoles = availableRoles.filter(role => 
+    role.name.toLowerCase().includes(roleSearchTerm.toLowerCase()) || 
+    (t(role.name) && t(role.name).toLowerCase().includes(roleSearchTerm.toLowerCase()))
+  );
 
   const toggleRole = (role, isAdding) => {
     setData(prev => {
@@ -2019,29 +2161,13 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
 
   const getRoleIcon = (iconName, className) => {
     const iconClass = className || colors.emphasisText;
-    switch (iconName) {
-      case 'Dumbbell': return <Dumbbell size={48} className={iconClass} />;
-      case 'Briefcase': return <Briefcase size={48} className={iconClass} />;
-      case 'User': return <User size={48} className={iconClass} />;
-      case 'Heart': return <Heart size={48} className={iconClass} />;
-      case 'Flag': return <Flag size={48} className={iconClass} />;
-      case 'Users': return <Users size={48} className={iconClass} />;
-      case 'GraduationCap': return <GraduationCap size={48} className={iconClass} />;
-      default: return <User size={48} className={iconClass} />;
-    }
+    const IconComponent = LucideIcons[iconName] || LucideIcons.User;
+    return <IconComponent size={48} className={iconClass} />;
   };
 
   const getSmallRoleIcon = (iconName) => {
-    switch (iconName) {
-      case 'Dumbbell': return <Dumbbell size={20} />;
-      case 'Briefcase': return <Briefcase size={20} />;
-      case 'User': return <User size={20} />;
-      case 'Heart': return <Heart size={20} />;
-      case 'Flag': return <Flag size={20} />;
-      case 'Users': return <Users size={20} />;
-      case 'GraduationCap': return <GraduationCap size={20} />;
-      default: return <User size={20} />;
-    }
+    const IconComponent = LucideIcons[iconName] || LucideIcons.User;
+    return <IconComponent size={20} />;
   };
 
   return (
@@ -2093,11 +2219,19 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
 
       {/* Library Modal */}
       <Modal isOpen={showLibrary} onClose={() => setShowLibrary(false)} title={t('roleLibraryTitle')} theme={theme}>
-        <div className="space-y-2">
-          {availableRoles.length === 0 ? (
-            <p className={`${colors.textSecondary} text-center py-8`}>{t('noRolesAvailable')}</p>
-          ) : (
-            availableRoles.map(role => {
+        <div className="flex flex-col h-full max-h-[60vh]">
+          <input
+            type="text"
+            placeholder={t('searchRoles') || "Search roles..."}
+            value={roleSearchTerm}
+            onChange={(e) => setRoleSearchTerm(e.target.value)}
+            className={`w-full p-3 mb-4 ${colors.input} border ${colors.border} rounded-lg text-sm ${colors.text} focus:outline-none focus:border-blue-500`}
+          />
+          <div className="space-y-2 overflow-y-auto custom-scrollbar flex-1 pr-1">
+            {filteredRoles.length === 0 ? (
+              <p className={`${colors.textSecondary} text-center py-8`}>{availableRoles.length === 0 ? t('noRolesAvailable') : t('noResultsFound') || "No results found"}</p>
+            ) : (
+              filteredRoles.map(role => {
               const isActive = userRoles.find(r => r.key === role.key);
               return (
                 <div key={role.key} className={`p-4 ${colors.bgSecondary} rounded-lg flex justify-between items-center border border-transparent hover:${colors.emphasisBorder} transition-all group`}>
@@ -2123,6 +2257,7 @@ const RolesPage = ({ data, setData, onSelectRole, theme, t }) => {
               );
             })
           )}
+          </div>
         </div>
       </Modal>
 
@@ -3160,6 +3295,11 @@ export default function LiviaApp() {
               visualizationImages: loadedData.visualizationImages || DEFAULT_DATA.visualizationImages,
             };
 
+            // --- ROLE LIBRARY MIGRATION ---
+            const loadedRolesF = loadedData.appSettings?.roleLibrary || [];
+            const customRolesF = loadedRolesF.filter(r => r.isCustom);
+            mergedData.appSettings.roleLibrary = [...DEFAULT_DATA.appSettings.roleLibrary, ...customRolesF];
+
             // --- LOGIN COUNT LOGIC ---
             // Check if user has content (Old User Detection)
             const hasContent = hasUserCreatedContent(mergedData);
@@ -3225,6 +3365,11 @@ export default function LiviaApp() {
               visualizationImages: parsed.visualizationImages || DEFAULT_DATA.visualizationImages,
               dimensions: parsed.dimensions || DEFAULT_DATA.dimensions
             };
+
+            // --- ROLE LIBRARY MIGRATION (GUEST) ---
+            const loadedRolesG = parsed.appSettings?.roleLibrary || [];
+            const customRolesG = loadedRolesG.filter(r => r.isCustom);
+            mergedData.appSettings.roleLibrary = [...DEFAULT_DATA.appSettings.roleLibrary, ...customRolesG];
 
             // --- LOGIN COUNT LOGIC (GUEST) ---
             const hasContent = hasUserCreatedContent(mergedData);
